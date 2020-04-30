@@ -133,9 +133,9 @@ All the Unit Tests should comply with the following requirements:
 
 1. Unit Tests should be based only in unittest and pytest modules.
 
-2. The tests that cover a module called ``data_tracer/path/to/a_module.py``
+2. The tests that cover a module called ``datatracer/path/to/a_module.py``
    should be implemented in a separated module called
-   ``tests/data_tracer/path/to/test_a_module.py``.
+   ``tests/datatracer/path/to/test_a_module.py``.
    Note that the module name has the ``test_`` prefix and is located in a path similar
    to the one of the tested module, just inside the ``tests`` folder.
 
@@ -165,7 +165,7 @@ Tips
 
 To run a subset of tests::
 
-    $ python -m pytest tests.test_data_tracer
+    $ python -m pytest tests.test_datatracer
     $ python -m pytest -k 'foo'
 
 Release Workflow
@@ -175,11 +175,11 @@ The process of releasing a new version involves several steps combining both ``g
 ``bumpversion`` which, briefly:
 
 1. Merge what is in ``master`` branch into ``stable`` branch.
-2. Update the version in ``setup.cfg``, ``data_tracer/__init__.py`` and
+2. Update the version in ``setup.cfg``, ``datatracer/__init__.py`` and
    ``HISTORY.md`` files.
 3. Create a new git tag pointing at the corresponding commit in ``stable`` branch.
 4. Merge the new commit from ``stable`` into ``master``.
-5. Update the version in ``setup.cfg`` and ``data_tracer/__init__.py``
+5. Update the version in ``setup.cfg`` and ``datatracer/__init__.py``
    to open the next development iteration.
 
 .. note:: Before starting the process, make sure that ``HISTORY.md`` has been updated with a new

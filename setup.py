@@ -31,7 +31,7 @@ development_requires = [
 
     # docs
     'm2r>=0.2.0',
-    'Sphinx>=1.7.1',
+    'Sphinx>=1.7.1,<3.0.0',
     'sphinx_rtd_theme>=0.2.4',
     'autodocsumm>=0.1.10',
 
@@ -76,9 +76,9 @@ setup(
     long_description=readme + '\n\n' + history,
     long_description_content_type='text/markdown',
     include_package_data=True,
-    keywords='data_tracer data-tracer Data Tracer',
-    name='data-tracer',
-    packages=find_packages(include=['data_tracer', 'data_tracer.*']),
+    keywords='datatracer data-tracer Data Tracer',
+    name='datatracer',
+    packages=find_packages(include=['datatracer', 'datatracer.*']),
     python_requires='>=3.5',
     setup_requires=setup_requires,
     test_suite='tests',
@@ -86,4 +86,7 @@ setup(
     url='https://github.com/HDI-Project/DataTracer',
     version='0.1.0.dev0',
     zip_safe=False,
+    entry_points={
+        'console_scripts': ['datatracer-benchmark = datatracer.benchmark:main']
+    }
 )

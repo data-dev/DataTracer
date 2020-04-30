@@ -1,0 +1,4 @@
+ID,age,draft_g,mp,draft_fg,fga,3p,3pa,draft_ft,fta,orb,draft_trb,draft_ast,draft_stl,draft_blk,draft_tov,draft_pf,draft_pts,fg_per,3p_per,ft_per,mp_per,pts_per,trb_per,ast_per,season,weight,height,position,shoots,born,draft_year,pk,amature_honor,college,raw_data,career_g,career_per,career_ws,career_ws48
+1985001,22,37,1132,220,352,0,0,102,160,0,341,48,42,135,81,109,542,0.625,0,0.638,30.6,14.6,9.2,1.3,1984-85,108,213,Center and Power Forward,Right,1962-08-05,1985,1,1,Georgetown University,1,1183,21.0,126.4,0.15
+1985002,20,37,1283,370,640,0,0,192,273,0,378,47,32,52,73,112,932,0.578,0,0.703,34.7,25.2,10.2,1.3,1984-85,108,206,Power Forward,Left,1964-06-09,1985,2,1,University of Oklahoma,1,840,15.7,45.7,0.092
+1985003,20,32,1193,258,443,0,0,172,233,0,451,68,27,162,88,100,688,0.582,0,0.738,37.3,21.5,14.1,2.1,1984-85,113,213,Center,Right,1964-11-22,1985,3,1,Creighton University,1,807,14.8,32.7,0.072

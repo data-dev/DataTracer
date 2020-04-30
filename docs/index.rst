@@ -10,7 +10,7 @@
    :caption: Resources
    :hidden:
 
-   API Reference <api/data_tracer>
+   API Reference <api/datatracer>
    contributing
    authors
    history
