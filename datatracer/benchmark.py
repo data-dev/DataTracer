@@ -1,10 +1,13 @@
-"""Metadata.JSON CLI.
+"""DataTracer Benchmark CLI.
 
 Usage:
-  datatracer-benchmark <datasets>...
+  datatracer primary <datasets>... [--out=<out>]
+  datatracer foreign <datasets>... [--out=<out>]
+  datatracer constraint <datasets>... [--out=<out>]
 
 Options:
-  -h --help              Show this screen.
+  -h --help     Show this screen.
+  --out=<out>   Path to output file.
 """
 import os
 from glob import glob
@@ -13,8 +16,8 @@ import pandas as pd
 from docopt import docopt
 
 from datatracer.column_map import BasicColumnMapSolver
-from datatracer.foreign_key import BasicForeignKeySolver
-from datatracer.primary_key import BasicPrimaryKeySolver
+from datatracer.foreign_key import ForeignKeySolver
+from datatracer.primary_key import PrimaryKeySolver
 from metadatajson import MetadataJSON
 
 
@@ -29,54 +32,102 @@ def load_dataset(path_to_dataset):
 
 
 def primary(args):
+    results = []
+
     print("Evaluating primary key detection...")
-    solver = BasicPrimaryKeySolver()
     for path_to_dataset in args["<datasets>"]:
+        print("Loading %s..." % path_to_dataset)
         metadata, tables = load_dataset(path_to_dataset)
 
-        primary_keys_truth = {}
-        for table in metadata.get_tables():
-            if isinstance(table["primary_key"], str):
-                primary_keys_truth[table["name"]] = table["primary_key"]
-            else:
-                primary_keys_truth[table["name"]] = None
+        for solver in PrimaryKeySolver.__subclasses__():
+            print("  Testing %s..." % solver.__name__)
+            primary_keys_truth = {}
+            for table in metadata.get_tables():
+                # skip composite primary keys
+                if "primary_key" in table and isinstance(table["primary_key"], str):
+                    primary_keys_truth[table["name"]] = table["primary_key"]
 
-        correct, total = 0, 0
-        primary_keys_predicted = solver.solve(tables)
-        for key, value in primary_keys_truth.items():
-            if value:
-                total += 1
-                if value == primary_keys_predicted[key]:
-                    correct += 1
-        print("%s: Identified %s / %s primary keys." % (path_to_dataset, correct, total))
+            correct, total = 0, 0
+            primary_keys_predicted = solver().solve(tables)
+            for key, value in primary_keys_truth.items():
+                if value:
+                    total += 1
+                    if value == primary_keys_predicted[key]:
+                        correct += 1
+
+            results.append({
+                "dataset": path_to_dataset,
+                "solver": solver.__name__,
+                "accuracy": correct / total
+            })
+
+    df = pd.DataFrame(results).set_index(["dataset", "solver"])
+    if args["--out"]:
+        df.to_csv(args["--out"])
+    else:
+        print(df)
 
 
 def foreign(args):
+    results = []
+
     print("Evaluating foreign key detection...")
-    solver = BasicForeignKeySolver()
     for path_to_dataset in args["<datasets>"]:
+        print("Loading %s..." % path_to_dataset)
         metadata, tables = load_dataset(path_to_dataset)
-        foreign_keys_true = metadata.get_foreign_keys()
-        foreign_keys_predicted = solver.solve(tables)
 
-        foreign_keys_true = [tuple(sorted(list(row.values()))) for row in foreign_keys_true]
-        foreign_keys_predicted = [tuple(sorted(list(row.values())))
-                                  for row in foreign_keys_predicted]
+        for solver in ForeignKeySolver.__subclasses__():
+            print("  Testing %s..." % solver.__name__)
 
-        correct = len(set(foreign_keys_predicted).intersection(foreign_keys_true))
-        total = max(len(foreign_keys_predicted), len(foreign_keys_true))
-        print("%s: Identified %s / %s foreign keys." % (path_to_dataset, correct, total))
+            foreign_keys_true = metadata.get_foreign_keys()
+            foreign_keys_predicted = solver().solve(tables)
 
-        solver2 = BasicColumnMapSolver()
-        solver2.solve(tables, metadata.get_foreign_keys())
+
+            best_f1, best_precision, best_recall = 0.0, 0.0, 0.0
+            fk_true = set()
+            for fk in foreign_keys_true:
+                fk_true.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
+                fk_true.add((fk["ref_table"], fk["ref_field"], fk["table"], fk["field"]))
+            fk_predicted = set()
+            for fk in foreign_keys_predicted:
+                fk_predicted.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
+                fk_predicted.add((fk["ref_table"], fk["ref_field"], fk["table"], fk["field"]))
+                precision = len(fk_true.intersection(fk_predicted)) / len(fk_predicted)
+
+                if len(fk_true) == 0:
+                    continue
+                recall = len(fk_true.intersection(fk_predicted)) / len(fk_true)
+
+                if precision == 0 or recall == 0:
+                    continue
+                f1 = 2.0 * precision * recall / (precision + recall)
+
+                if f1 > best_f1:
+                    best_f1 = f1
+                    best_precision = precision
+                    best_recall = recall
+
+            results.append({
+                "dataset": path_to_dataset,
+                "solver": solver.__name__,
+                "f1": best_f1,
+                "precision": best_precision,
+                "recall": best_recall
+            })
+
+    df = pd.DataFrame(results).set_index(["dataset", "solver"])
+    if args["--out"]:
+        df.to_csv(args["--out"])
+    else:
+        print(df)
 
 
 def main():
     args = docopt(__doc__)
-    print("-" * 80)
-    primary(args)
-    print("-" * 80)
-    foreign(args)
+    if args["primary"]:
+        primary(args)
+    elif args["foreign"]:
+        foreign(args)
 
 
 if __name__ == '__main__':

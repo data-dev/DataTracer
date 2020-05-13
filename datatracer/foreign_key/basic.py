@@ -16,8 +16,8 @@ class BasicForeignKeySolver(ForeignKeySolver):
                         score = self._score(tables[t1][c1], tables[t2][c2])
                         foreign_keys.append((score, t1, c1, t2, c2))
         best_foreign_keys = []
-        for score, t1, c1, t2, c2 in sorted(foreign_keys):
-            if score > 0.75:
+        for score, t1, c1, t2, c2 in sorted(foreign_keys, reverse=True):
+            if score > 0.5:
                 best_foreign_keys.append({
                     "table": t1,
                     "field": c1,
@@ -31,5 +31,5 @@ class BasicForeignKeySolver(ForeignKeySolver):
         if set_b.issubset(set_a):  # child must be subset of parent
             num = len(set_a.intersection(set_b))
             denom = max(len(set_a), len(set_b))
-            return num / denom
+            return num / (denom + 1e-5)
         return 0.0

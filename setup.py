@@ -87,6 +87,6 @@ setup(
     version='0.1.0.dev0',
     zip_safe=False,
     entry_points={
-        'console_scripts': ['datatracer-benchmark = datatracer.benchmark:main']
+        'console_scripts': ['datatracer = datatracer.benchmark:main']
     }
 )

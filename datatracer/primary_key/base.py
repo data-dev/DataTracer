@@ -1,7 +1,7 @@
 class PrimaryKeySolver():
 
-    def fit(self, list_of_tables, list_of_primary_keys):
-        for tables, primary_keys in zip(list_of_tables, list_of_primary_keys):
+    def fit(self, list_of_databases):
+        for metadata, tables in list_of_databases:
             pass  # do stuff
 
     def solve(self, tables):
