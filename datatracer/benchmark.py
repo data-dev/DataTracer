@@ -15,7 +15,7 @@ from glob import glob
 import pandas as pd
 from docopt import docopt
 
-from datatracer.column_map import BasicColumnMapSolver
+from datatracer.column_map import ColumnMapSolver
 from datatracer.foreign_key import ForeignKeySolver
 from datatracer.primary_key import PrimaryKeySolver
 from metadatajson import MetadataJSON
@@ -121,6 +121,70 @@ def foreign(args):
     else:
         print(df)
 
+def constraint(args):
+    results = []
+
+    print("Evaluating foreign key detection...")
+    for path_to_dataset in args["<datasets>"]:
+        print("Loading %s..." % path_to_dataset)
+        metadata, tables = load_dataset(path_to_dataset)
+
+        for solver in ColumnMapSolver.__subclasses__():
+            print("  Testing %s..." % solver.__name__)
+
+            # Test One-To-One Constraints
+            for constraint in metadata.data["constraints"]:
+                field = constraint["fields_under_consideration"][0]
+                related_fields = constraint["related_fields"]
+                if field["table"] == related_fields[0]["table"]:
+                    print(constraint)
+
+                    solution = solver().solve(
+                        tables, 
+                        metadata.get_foreign_keys(), 
+                        target_field=(field["table"], field["field"])
+                    )
+                    solution = sorted([(score, col) for col, score in solution.items()], reverse=True)
+
+                    best_f1, best_precision, best_recall = 0.0, 0.0, 0.0
+                    fk_true = set()
+                    for related_field in related_fields:
+                        fk_true.add(related_field["field"])
+                    fk_predicted = set()
+                    for _, column_name in solution:
+                        fk_predicted.add(column_name)
+
+                        precision = len(fk_true.intersection(fk_predicted)) / len(fk_predicted)
+
+                        if len(fk_true) == 0:
+                            continue
+                        recall = len(fk_true.intersection(fk_predicted)) / len(fk_true)
+
+                        if precision == 0 or recall == 0:
+                            continue
+                        f1 = 2.0 * precision * recall / (precision + recall)
+
+                        if f1 > best_f1:
+                            best_f1 = f1
+                            best_precision = precision
+                            best_recall = recall
+                            print(fk_true, fk_predicted, f1)
+                    results.append({
+                        "dataset": path_to_dataset,
+                        "solver": solver.__name__,
+                        "field": "%s.%s" % (field["table"], field["field"]),
+                        "f1": best_f1,
+                        "precision": best_precision,
+                        "recall": best_recall
+                    })
+                    print(results[-1])
+
+    df = pd.DataFrame(results).set_index(["dataset", "solver", "field"])
+    if args["--out"]:
+        df.to_csv(args["--out"])
+    else:
+        print(df)
+
 
 def main():
     args = docopt(__doc__)
@@ -128,6 +192,8 @@ def main():
         primary(args)
     elif args["foreign"]:
         foreign(args)
+    elif args["constraint"]:
+        constraint(args)
 
 
 if __name__ == '__main__':
