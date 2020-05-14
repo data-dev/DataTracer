@@ -3,7 +3,7 @@ class ForeignKeySolver():
 
     def fit(self, list_of_databases):
         for metadata, tables in list_of_databases:
-            pass  # do stuff
+            pass
 
     def solve(self, tables, primary_keys):
         """

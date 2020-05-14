@@ -36,7 +36,7 @@ class DataTracer():
 
         foreign_keys = self.foreign_key.solve(tables, primary_keys)
         self.check_foreign_keys(foreign_keys, tables=tables)
-        
+
         column_maps = self.column_map.solve(tables, foreign_keys)
         return {
             "primary_keys": primary_keys,
