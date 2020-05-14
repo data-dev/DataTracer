@@ -34,13 +34,20 @@ def load_dataset(path_to_dataset):
 def primary(args):
     results = []
 
+    list_of_databases = []
+    for path_to_dataset in args["<datasets>"]:
+        list_of_databases.append(load_dataset(path_to_dataset))
+
     print("Evaluating primary key detection...")
     for path_to_dataset in args["<datasets>"]:
         print("Loading %s..." % path_to_dataset)
         metadata, tables = load_dataset(path_to_dataset)
 
         for solver in PrimaryKeySolver.__subclasses__():
-            print("  Testing %s..." % solver.__name__)
+            solver = solver()
+            solver.fit(list_of_databases)
+
+            print("  Testing %s..." % solver.__class__.__name__)
             primary_keys_truth = {}
             for table in metadata.get_tables():
                 # skip composite primary keys
@@ -48,7 +55,7 @@ def primary(args):
                     primary_keys_truth[table["name"]] = table["primary_key"]
 
             correct, total = 0, 0
-            primary_keys_predicted = solver().solve(tables)
+            primary_keys_predicted = solver.solve(tables)
             for key, value in primary_keys_truth.items():
                 if value:
                     total += 1
@@ -57,7 +64,7 @@ def primary(args):
 
             results.append({
                 "dataset": path_to_dataset,
-                "solver": solver.__name__,
+                "solver": solver.__class__.__name__,
                 "accuracy": correct / total
             })
 
