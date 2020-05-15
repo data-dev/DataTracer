@@ -1,11 +1,16 @@
 from .base import ForeignKeySolver
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV
 
 
 class StandardForeignKeySolver(ForeignKeySolver):
 
     def __init__(self):
-        self.model = RandomForestClassifier()
+        self.model = RandomizedSearchCV(RandomForestClassifier(), {
+            "n_estimators": [100, 1000],
+            "criterion": ["gini", "entropy"],
+            "max_depth": [None, 1, 2, 3]
+        })
 
     def fit(self, list_of_databases):
         X, y = [], []

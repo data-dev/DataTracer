@@ -11,6 +11,7 @@ Options:
 """
 import os
 from glob import glob
+from tqdm import tqdm
 
 import pandas as pd
 from docopt import docopt
@@ -34,14 +35,16 @@ def load_dataset(path_to_dataset):
 def primary(args):
     results = []
 
-    list_of_databases = []
-    for path_to_dataset in args["<datasets>"]:
-        list_of_databases.append(load_dataset(path_to_dataset))
-
     print("Evaluating primary key detection...")
     for path_to_dataset in args["<datasets>"]:
         print("Loading %s..." % path_to_dataset)
         metadata, tables = load_dataset(path_to_dataset)
+
+        list_of_databases = []
+        for path_to_train in args["<datasets>"]:
+            if path_to_train != path_to_dataset:
+                list_of_databases.append(load_dataset(path_to_train))
+
 
         for solver in PrimaryKeySolver.__subclasses__():
             solver = solver()
@@ -78,18 +81,21 @@ def primary(args):
 def foreign(args):
     results = []
 
-    list_of_databases = []
-    for path_to_dataset in args["<datasets>"]:
-        list_of_databases.append(load_dataset(path_to_dataset))
-
     print("Evaluating foreign key detection...")
-    for solver in ForeignKeySolver.__subclasses__():
-        print("Fitting %s..." % solver.__name__)
-        solver = solver()
-        solver.fit(list_of_databases)
+    for path_to_dataset in args["<datasets>"]:
+        print("Testing %s..." % path_to_dataset)
+        list_of_databases = []
+        for path_to_train in args["<datasets>"]:
+            if path_to_train != path_to_dataset:
+                list_of_databases.append(load_dataset(path_to_train))
 
-        for path_to_dataset in args["<datasets>"]:
-            print("  Testing %s..." % path_to_dataset)
+        for solver in ForeignKeySolver.__subclasses__():
+            print("  Fitting %s..." % solver.__name__)
+
+            solver = solver()
+            
+            solver.fit(list_of_databases)
+
             metadata, tables = load_dataset(path_to_dataset)
 
             foreign_keys_true = metadata.get_foreign_keys()
@@ -138,19 +144,15 @@ def foreign(args):
 def constraint(args):
     results = []
 
-    print("Evaluating foreign key detection...")
+    print("Evaluating constraint detection...")
     for path_to_dataset in args["<datasets>"]:
         print("Loading %s..." % path_to_dataset)
         metadata, tables = load_dataset(path_to_dataset)
 
         # Test One-To-One Constraints
-        for constraint in metadata.data["constraints"]:
+        for constraint in tqdm(metadata.data["constraints"]):
             field = constraint["fields_under_consideration"][0]
             related_fields = constraint["related_fields"]
-
-            #is_one_to_one = field["table"] == related_fields[0]["table"]
-            #if False:
-            #    continue
 
             solution = ColumnMapSolver().solve(
                 tables,

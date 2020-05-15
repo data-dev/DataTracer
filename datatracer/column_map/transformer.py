@@ -50,7 +50,8 @@ class Transformer():
                 continue
             
             # Count the number of rows for each key.
-            child_table = self.tables[fk["table"]]
+            child_table = self.tables[fk["table"]].copy()
+            child_table["_dummy_"] = 0.0
             child_counts = child_table.groupby(fk["field"]).count().iloc[:,0:1]
             child_counts.columns = ["_tmp_"]
 

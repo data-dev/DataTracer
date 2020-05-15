@@ -1,25 +1,18 @@
-import os
-import pickle
 import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV
+
 from .base import PrimaryKeySolver
 
-from sklearn.ensemble import RandomForestClassifier
-
-PATH_TO_MODEL = os.path.join(os.path.dirname(__file__), "basic.pkl")
 
 class BasicPrimaryKeySolver(PrimaryKeySolver):
 
     def __init__(self):
-        self.model = RandomForestClassifier()
-        if os.path.exists(PATH_TO_MODEL):
-            with open(PATH_TO_MODEL, "rb") as fp:
-                self.model = pickle.load(fp)
-    
-    def overwrite_default(self, path_to_model=None):
-        if not path_to_model:
-            path_to_model = PATH_TO_MODEL
-        with open(path_to_model, "wb") as fp:
-            pickle.dump(self.model, fp)
+        self.model = RandomizedSearchCV(RandomForestClassifier(), {
+            "n_estimators": [100, 1000],
+            "criterion": ["gini", "entropy"],
+            "max_depth": [None, 1, 2, 3]
+        })
 
     def fit(self, list_of_databases):
         X, y = [], []
