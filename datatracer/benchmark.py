@@ -78,16 +78,22 @@ def primary(args):
 def foreign(args):
     results = []
 
-    print("Evaluating foreign key detection...")
+    list_of_databases = []
     for path_to_dataset in args["<datasets>"]:
-        print("Loading %s..." % path_to_dataset)
-        metadata, tables = load_dataset(path_to_dataset)
+        list_of_databases.append(load_dataset(path_to_dataset))
 
-        for solver in ForeignKeySolver.__subclasses__():
-            print("  Testing %s..." % solver.__name__)
+    print("Evaluating foreign key detection...")
+    for solver in ForeignKeySolver.__subclasses__():
+        print("Fitting %s..." % solver.__name__)
+        solver = solver()
+        solver.fit(list_of_databases)
+
+        for path_to_dataset in args["<datasets>"]:
+            print("  Testing %s..." % path_to_dataset)
+            metadata, tables = load_dataset(path_to_dataset)
 
             foreign_keys_true = metadata.get_foreign_keys()
-            foreign_keys_predicted = solver().solve(tables)
+            foreign_keys_predicted = solver.solve(tables)
 
             best_f1, best_precision, best_recall = 0.0, 0.0, 0.0
             fk_true = set()
@@ -115,11 +121,12 @@ def foreign(args):
 
             results.append({
                 "dataset": path_to_dataset,
-                "solver": solver.__name__,
+                "solver": solver.__class__.__name__,
                 "f1": best_f1,
                 "precision": best_precision,
                 "recall": best_recall
             })
+            print(results[-1])
 
     df = pd.DataFrame(results).set_index(["dataset", "solver"])
     if args["--out"]:
