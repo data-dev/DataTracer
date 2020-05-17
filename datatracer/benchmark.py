@@ -28,7 +28,7 @@ def load_dataset(path_to_dataset):
     for path_to_csv in glob(path_to_dataset + "/*.csv"):
         table_name = os.path.basename(path_to_csv)
         table_name = table_name.replace(".csv", "")
-        tables[table_name] = pd.read_csv(path_to_csv)
+        tables[table_name] = pd.read_csv(path_to_csv, low_memory=False)
     return metadata, tables
 
 
@@ -41,7 +41,7 @@ def primary(args):
         metadata, tables = load_dataset(path_to_dataset)
 
         list_of_databases = []
-        for path_to_train in args["<datasets>"]:
+        for path_to_train in tqdm(args["<datasets>"], "loading training set"):
             if path_to_train != path_to_dataset:
                 list_of_databases.append(load_dataset(path_to_train))
 
@@ -85,7 +85,7 @@ def foreign(args):
     for path_to_dataset in args["<datasets>"]:
         print("Testing %s..." % path_to_dataset)
         list_of_databases = []
-        for path_to_train in args["<datasets>"]:
+        for path_to_train in tqdm(args["<datasets>"], "loading training set"):
             if path_to_train != path_to_dataset:
                 list_of_databases.append(load_dataset(path_to_train))
 
@@ -99,21 +99,20 @@ def foreign(args):
             metadata, tables = load_dataset(path_to_dataset)
 
             foreign_keys_true = metadata.get_foreign_keys()
-            foreign_keys_predicted = solver.solve(tables)
+            foreign_keys_predicted = list(solver.solve(tables))
 
-            best_f1, best_precision, best_recall = 0.0, 0.0, 0.0
+            best_f1, best_precision, best_recall = -1.0, 0.0, 0.0
             fk_true = set()
             for fk in foreign_keys_true:
                 fk_true.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
-                fk_true.add((fk["ref_table"], fk["ref_field"], fk["table"], fk["field"]))
+            if len(fk_true) == 0:
+                continue
+                
             fk_predicted = set()
             for fk in foreign_keys_predicted:
                 fk_predicted.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
-                fk_predicted.add((fk["ref_table"], fk["ref_field"], fk["table"], fk["field"]))
                 precision = len(fk_true.intersection(fk_predicted)) / len(fk_predicted)
 
-                if len(fk_true) == 0:
-                    continue
                 recall = len(fk_true.intersection(fk_predicted)) / len(fk_true)
 
                 if precision == 0 or recall == 0:
@@ -124,6 +123,8 @@ def foreign(args):
                     best_f1 = f1
                     best_precision = precision
                     best_recall = recall
+            if len(fk_predicted) == 0:
+                raise ValueError("No foreign keys predicted!")
 
             results.append({
                 "dataset": path_to_dataset,
@@ -193,11 +194,11 @@ def constraint(args):
                 "recall": best_recall
             })
 
-    df = pd.DataFrame(results).set_index(["dataset", "solver", "field"])
-    if args["--out"]:
-        df.to_csv(args["--out"])
-    else:
-        print(df)
+        df = pd.DataFrame(results).set_index(["dataset", "solver", "field"])
+        if args["--out"]:
+            df.to_csv(args["--out"])
+        else:
+            print(df)
 
 
 def main():

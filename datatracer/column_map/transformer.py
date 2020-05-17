@@ -37,6 +37,10 @@ class Transformer():
         if columns_new:
             X = np.concatenate([X, X_new], axis=1)
             self.columns.extend(columns_new)
+        X_new, columns_new = self._get_aggregations(table)
+        if columns_new:
+            X = np.concatenate([X, X_new], axis=1)
+            self.columns.extend(columns_new)
 
         return X, y
 
@@ -62,6 +66,40 @@ class Transformer():
 
             X.append(parent_table["_tmp_"].fillna(0.0).values)
             columns.append((fk["table"], fk["field"]))
+        return np.array(X).transpose(), columns
+
+    def _get_aggregations(self, table):
+        """
+        Get the foreign keys where the given table is the parent.
+        """
+        X, columns = [], []
+        for fk in self.foreign_keys:
+            if fk["ref_table"] != table:
+                continue
+
+            for op, op_name in [
+                (lambda x: x.sum(), "SUM"), 
+                (lambda x: x.max(), "MAX"),
+                (lambda x: x.min(), "MIN"),
+                (lambda x: x.std(), "STD"),
+                ]:
+                # Count the number of rows for each key.
+                child_table = self.tables[fk["table"]].copy()
+                if len(child_table.columns) <= 1:
+                    continue
+                child_counts = op(child_table.groupby(fk["field"]))
+                old_column_names = list(child_counts.columns)
+                child_counts.columns = ["%s(%s)" % (op_name, col_name) for col_name in old_column_names]
+
+                # Merge the counts into the parent table
+                parent_table = self.tables[table]
+                parent_table = parent_table.set_index(fk["ref_field"])
+                parent_table = parent_table.join(child_counts).reset_index()
+
+                for old_name, col_name in zip(old_column_names, child_counts.columns):
+                    if parent_table[col_name].dtype.kind == "f":
+                        X.append(parent_table[col_name].fillna(0.0).values)
+                        columns.append((fk["table"], old_name))
         return np.array(X).transpose(), columns
 
     def backward(self, feature_importances):

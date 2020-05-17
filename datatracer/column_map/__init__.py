@@ -17,6 +17,6 @@ class ColumnMapSolver():
         transformer = Transformer(tables, foreign_keys)
         X, y = transformer.forward(table_name, column_name)
 
-        solver = Solver(depth=3, n_estimators=1000)
+        solver = Solver(depth=3, n_estimators=100)
         importances = solver.solve(X, y)
         return transformer.backward(importances)
