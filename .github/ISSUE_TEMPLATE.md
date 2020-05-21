@@ -1,4 +1,4 @@
-* Data Tracer version:
+* DataTracer version:
 * Python version:
 * Operating System:
 
