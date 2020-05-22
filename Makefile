@@ -112,7 +112,7 @@ test-readme: ## run the readme snippets
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
-	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
+	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 notebooks/*.ipynb --stdout > /dev/null
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
