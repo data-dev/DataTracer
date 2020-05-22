@@ -1,0 +1,396 @@
+{
+  "tables": [
+    {
+      "name": "authors",
+      "primary_key": "au_id",
+      "fields": [
+        {
+          "name": "au_id",
+          "data_type": "text"
+        },
+        {
+          "name": "au_lname",
+          "data_type": "text"
+        },
+        {
+          "name": "au_fname",
+          "data_type": "text"
+        },
+        {
+          "name": "phone",
+          "data_type": "text"
+        },
+        {
+          "name": "address",
+          "data_type": "text"
+        },
+        {
+          "name": "city",
+          "data_type": "text"
+        },
+        {
+          "name": "state",
+          "data_type": "text"
+        },
+        {
+          "name": "zip",
+          "data_type": "text"
+        },
+        {
+          "name": "contract",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "discounts",
+      "primary_key": [],
+      "fields": [
+        {
+          "name": "discounttype",
+          "data_type": "text"
+        },
+        {
+          "name": "stor_id",
+          "data_type": "text"
+        },
+        {
+          "name": "lowqty",
+          "data_type": "numerical"
+        },
+        {
+          "name": "highqty",
+          "data_type": "numerical"
+        },
+        {
+          "name": "discount",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "employee",
+      "primary_key": "emp_id",
+      "fields": [
+        {
+          "name": "emp_id",
+          "data_type": "text"
+        },
+        {
+          "name": "fname",
+          "data_type": "text"
+        },
+        {
+          "name": "minit",
+          "data_type": "text"
+        },
+        {
+          "name": "lname",
+          "data_type": "text"
+        },
+        {
+          "name": "job_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "job_lvl",
+          "data_type": "numerical"
+        },
+        {
+          "name": "pub_id",
+          "data_type": "text"
+        },
+        {
+          "name": "hire_date",
+          "data_type": "datetime"
+        }
+      ]
+    },
+    {
+      "name": "jobs",
+      "primary_key": "job_id",
+      "fields": [
+        {
+          "name": "job_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "job_desc",
+          "data_type": "text"
+        },
+        {
+          "name": "min_lvl",
+          "data_type": "numerical"
+        },
+        {
+          "name": "max_lvl",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "pub_info",
+      "primary_key": "pub_id",
+      "fields": [
+        {
+          "name": "pub_id",
+          "data_type": "text"
+        },
+        {
+          "name": "logo",
+          "data_type": "other"
+        },
+        {
+          "name": "pr_info",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "publishers",
+      "primary_key": "pub_id",
+      "fields": [
+        {
+          "name": "pub_id",
+          "data_type": "text"
+        },
+        {
+          "name": "pub_name",
+          "data_type": "text"
+        },
+        {
+          "name": "city",
+          "data_type": "text"
+        },
+        {
+          "name": "state",
+          "data_type": "text"
+        },
+        {
+          "name": "country",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "roysched",
+      "primary_key": [],
+      "fields": [
+        {
+          "name": "title_id",
+          "data_type": "text"
+        },
+        {
+          "name": "lorange",
+          "data_type": "numerical"
+        },
+        {
+          "name": "hirange",
+          "data_type": "numerical"
+        },
+        {
+          "name": "royalty",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "sales",
+      "primary_key": [
+        "stor_id",
+        "ord_num",
+        "title_id"
+      ],
+      "fields": [
+        {
+          "name": "stor_id",
+          "data_type": "text"
+        },
+        {
+          "name": "ord_num",
+          "data_type": "text"
+        },
+        {
+          "name": "ord_date",
+          "data_type": "datetime"
+        },
+        {
+          "name": "qty",
+          "data_type": "numerical"
+        },
+        {
+          "name": "payterms",
+          "data_type": "text"
+        },
+        {
+          "name": "title_id",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "stores",
+      "primary_key": "stor_id",
+      "fields": [
+        {
+          "name": "stor_id",
+          "data_type": "text"
+        },
+        {
+          "name": "stor_name",
+          "data_type": "text"
+        },
+        {
+          "name": "stor_address",
+          "data_type": "text"
+        },
+        {
+          "name": "city",
+          "data_type": "text"
+        },
+        {
+          "name": "state",
+          "data_type": "text"
+        },
+        {
+          "name": "zip",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "titleauthor",
+      "primary_key": [
+        "au_id",
+        "title_id"
+      ],
+      "fields": [
+        {
+          "name": "au_id",
+          "data_type": "text"
+        },
+        {
+          "name": "title_id",
+          "data_type": "text"
+        },
+        {
+          "name": "au_ord",
+          "data_type": "numerical"
+        },
+        {
+          "name": "royaltyper",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "titles",
+      "primary_key": "title_id",
+      "fields": [
+        {
+          "name": "title_id",
+          "data_type": "text"
+        },
+        {
+          "name": "title",
+          "data_type": "text"
+        },
+        {
+          "name": "type",
+          "data_type": "text"
+        },
+        {
+          "name": "pub_id",
+          "data_type": "text"
+        },
+        {
+          "name": "price",
+          "data_type": "numerical"
+        },
+        {
+          "name": "advance",
+          "data_type": "numerical"
+        },
+        {
+          "name": "royalty",
+          "data_type": "numerical"
+        },
+        {
+          "name": "ytd_sales",
+          "data_type": "numerical"
+        },
+        {
+          "name": "notes",
+          "data_type": "text"
+        },
+        {
+          "name": "pubdate",
+          "data_type": "datetime"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "discounts",
+      "field": "stor_id",
+      "ref_table": "stores",
+      "ref_field": "stor_id"
+    },
+    {
+      "table": "employee",
+      "field": "job_id",
+      "ref_table": "jobs",
+      "ref_field": "job_id"
+    },
+    {
+      "table": "employee",
+      "field": "pub_id",
+      "ref_table": "publishers",
+      "ref_field": "pub_id"
+    },
+    {
+      "table": "pub_info",
+      "field": "pub_id",
+      "ref_table": "publishers",
+      "ref_field": "pub_id"
+    },
+    {
+      "table": "roysched",
+      "field": "title_id",
+      "ref_table": "titles",
+      "ref_field": "title_id"
+    },
+    {
+      "table": "sales",
+      "field": "stor_id",
+      "ref_table": "stores",
+      "ref_field": "stor_id"
+    },
+    {
+      "table": "sales",
+      "field": "title_id",
+      "ref_table": "titles",
+      "ref_field": "title_id"
+    },
+    {
+      "table": "titleauthor",
+      "field": "title_id",
+      "ref_table": "titles",
+      "ref_field": "title_id"
+    },
+    {
+      "table": "titleauthor",
+      "field": "au_id",
+      "ref_table": "authors",
+      "ref_field": "au_id"
+    },
+    {
+      "table": "titles",
+      "field": "pub_id",
+      "ref_table": "publishers",
+      "ref_field": "pub_id"
+    }
+  ],
+  "constraints": []
+}

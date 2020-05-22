@@ -1,0 +1,173 @@
+{
+  "tables": [
+    {
+      "name": "alkphos",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "bupa",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "bupa_name",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "bupa_type",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "drinks",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "gammagt",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "mcv",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "sgot",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "sgpt",
+      "primary_key": "arg1",
+      "fields": [
+        {
+          "name": "arg1",
+          "data_type": "text"
+        },
+        {
+          "name": "arg2",
+          "data_type": "numerical"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "alkphos",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "bupa",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "bupa",
+      "field": "arg2",
+      "ref_table": "bupa_type",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "drinks",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "gammagt",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "mcv",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "sgot",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    },
+    {
+      "table": "sgpt",
+      "field": "arg1",
+      "ref_table": "bupa_name",
+      "ref_field": "arg1"
+    }
+  ],
+  "constraints": []
+}

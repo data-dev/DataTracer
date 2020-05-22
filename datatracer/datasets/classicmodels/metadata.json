@@ -6,7 +6,7 @@
       "fields": [
         {
           "name": "customerNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "customerName",
@@ -50,11 +50,11 @@
         },
         {
           "name": "salesRepEmployeeNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "creditLimit",
-          "data_type": "number"
+          "data_type": "numerical"
         }
       ]
     },
@@ -64,7 +64,7 @@
       "fields": [
         {
           "name": "employeeNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "lastName",
@@ -88,7 +88,7 @@
         },
         {
           "name": "reportsTo",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "jobTitle",
@@ -147,7 +147,7 @@
       "fields": [
         {
           "name": "orderNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "productCode",
@@ -155,15 +155,15 @@
         },
         {
           "name": "quantityOrdered",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "priceEach",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "orderLineNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         }
       ]
     },
@@ -173,7 +173,7 @@
       "fields": [
         {
           "name": "orderNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "orderDate",
@@ -197,7 +197,7 @@
         },
         {
           "name": "customerNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         }
       ]
     },
@@ -210,7 +210,7 @@
       "fields": [
         {
           "name": "customerNumber",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "checkNumber",
@@ -222,7 +222,7 @@
         },
         {
           "name": "amount",
-          "data_type": "number"
+          "data_type": "numerical"
         }
       ]
     },
@@ -278,15 +278,15 @@
         },
         {
           "name": "quantityInStock",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "buyPrice",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "MSRP",
-          "data_type": "number"
+          "data_type": "numerical"
         }
       ]
     }
@@ -340,5 +340,6 @@
       "ref_table": "productlines",
       "ref_field": "productLine"
     }
-  ]
+  ],
+  "constraints": []
 }
