@@ -1,0 +1,102 @@
+{
+  "tables": [
+    {
+      "name": "atom",
+      "primary_key": "atom_id",
+      "fields": [
+        {
+          "name": "atom_id",
+          "data_type": "text"
+        },
+        {
+          "name": "molecule_id",
+          "data_type": "text"
+        },
+        {
+          "name": "element",
+          "data_type": "text"
+        },
+        {
+          "name": "type",
+          "data_type": "numerical"
+        },
+        {
+          "name": "charge",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "bond",
+      "primary_key": [
+        "atom1_id",
+        "atom2_id"
+      ],
+      "fields": [
+        {
+          "name": "atom1_id",
+          "data_type": "text"
+        },
+        {
+          "name": "atom2_id",
+          "data_type": "text"
+        },
+        {
+          "name": "type",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "molecule",
+      "primary_key": "molecule_id",
+      "fields": [
+        {
+          "name": "molecule_id",
+          "data_type": "text"
+        },
+        {
+          "name": "ind1",
+          "data_type": "numerical"
+        },
+        {
+          "name": "inda",
+          "data_type": "numerical"
+        },
+        {
+          "name": "logp",
+          "data_type": "numerical"
+        },
+        {
+          "name": "lumo",
+          "data_type": "numerical"
+        },
+        {
+          "name": "mutagenic",
+          "data_type": "text"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "atom",
+      "field": "molecule_id",
+      "ref_table": "molecule",
+      "ref_field": "molecule_id"
+    },
+    {
+      "table": "bond",
+      "field": "atom1_id",
+      "ref_table": "atom",
+      "ref_field": "atom_id"
+    },
+    {
+      "table": "bond",
+      "field": "atom2_id",
+      "ref_table": "atom",
+      "ref_field": "atom_id"
+    }
+  ],
+  "constraints": []
+}

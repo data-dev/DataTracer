@@ -1,0 +1,44 @@
+{
+  "tables": [
+    {
+      "name": "krk",
+      "primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "white_king_file",
+          "data_type": "numerical"
+        },
+        {
+          "name": "white_king_rank",
+          "data_type": "numerical"
+        },
+        {
+          "name": "white_rook_file",
+          "data_type": "numerical"
+        },
+        {
+          "name": "white_rook_rank",
+          "data_type": "numerical"
+        },
+        {
+          "name": "black_king_file",
+          "data_type": "numerical"
+        },
+        {
+          "name": "black_king_rank",
+          "data_type": "numerical"
+        },
+        {
+          "name": "class",
+          "data_type": "text"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [],
+  "constraints": []
+}
