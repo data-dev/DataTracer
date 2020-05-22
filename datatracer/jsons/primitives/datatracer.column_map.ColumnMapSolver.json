@@ -1,16 +1,7 @@
 {
-    "name": "datatracer.foreign_key.StandardForeignKeySolver",
+    "name": "datatracer.column_map.ColumnMapSolver",
     "description": "Detect the foreign keys of a Table.",
-    "primitive": "datatracer.foreign_key.StandardForeignKeySolver",
-    "fit": {
-        "method": "fit",
-        "args": [
-            {
-                "name": "list_of_databases",
-                "type": "list"
-            }
-        ]
-    },
+    "primitive": "datatracer.column_map.ColumnMapSolver",
     "produce": {
         "method": "solve",
         "args": [
@@ -19,14 +10,22 @@
                 "type": "dict"
             },
             {
-                "name": "primary_keys",
+                "name": "foreign_keys",
                 "type": "dict"
+            },
+            {
+                "name": "target_table",
+                "type": "str"
+            },
+            {
+                "name": "target_field",
+                "type": "str"
             }
         ],
         "output": [
             {
-                "name": "foreign_keys",
-                "type": "list"
+                "name": "column_map",
+                "type": "dict"
             }
         ]
     },
@@ -38,31 +37,18 @@
             },
             "verbose": {
                 "type": "int",
-                "default": 0
+                "default": 0,
+                "range": [
+                    0,
+                    100
+                ]
             },
             "warm_start": {
                 "type": "bool",
                 "default": false
-            },
-            "class_weight": {
-                "type": "iterable",
-                "default": null
-            },
-            "add_details": {
-                "type": "bool",
-                "description": "whether to add the foreign details such as the score obtained",
-                "default": false
             }
         },
         "tunable": {
-            "threshold": {
-                "type": "float",
-                "default": 0.9,
-                "range": [
-                    0.0,
-                    1.0
-                ]
-            },
             "n_estimators": {
                 "type": "int",
                 "default": 10,
@@ -73,16 +59,16 @@
             },
             "criterion": {
                 "type": "str",
-                "default": "gini",
+                "default": "mse",
                 "values": [
-                    "entropy",
-                    "gini"
+                    "mse",
+                    "mae"
                 ]
             },
             "max_features": {
                 "type": "str",
-                "default": null,
-                "values": [
+                "default": "auto",
+                "range": [
                     null,
                     "auto",
                     "log2",
@@ -102,7 +88,7 @@
                 "default": 2,
                 "range": [
                     2,
-                    100
+                    1000
                 ]
             },
             "min_samples_leaf": {
@@ -110,7 +96,7 @@
                 "default": 1,
                 "range": [
                     1,
-                    100
+                    1000
                 ]
             },
             "min_weight_fraction_leaf": {
@@ -118,23 +104,19 @@
                 "default": 0.0,
                 "range": [
                     0.0,
-                    0.5
+                    100.0
                 ]
             },
             "max_leaf_nodes": {
                 "type": "int",
-                "default": null,
-                "range": [
-                    2,
-                    1000
-                ]
+                "default": null
             },
             "min_impurity_decrease": {
                 "type": "float",
                 "default": 0.0,
                 "range": [
                     0.0,
-                    1000.0
+                    10.0
                 ]
             },
             "bootstrap": {

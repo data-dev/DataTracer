@@ -1,0 +1,5 @@
+{
+    "primitives": [
+        "datatracer.primary_key.BasicPrimaryKeySolver"
+    ]
+}

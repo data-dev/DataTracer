@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Transformer():
+class Transformer:
 
     def __init__(self, tables, foreign_keys):
         """
@@ -38,6 +38,7 @@ class Transformer():
         if columns_new:
             X = np.concatenate([X, X_new], axis=1)
             self.columns.extend(columns_new)
+
         X_new, columns_new = self._get_aggregations(table)
         if columns_new:
             X = np.concatenate([X, X_new], axis=1)
@@ -67,6 +68,7 @@ class Transformer():
 
             X.append(parent_table["_tmp_"].fillna(0.0).values)
             columns.append((fk["table"], fk["field"]))
+
         return np.array(X).transpose(), columns
 
     def _get_aggregations(self, table):
@@ -88,6 +90,7 @@ class Transformer():
                 child_table = self.tables[fk["table"]].copy()
                 if len(child_table.columns) <= 1:
                     continue
+
                 child_counts = op(child_table.groupby(fk["field"]))
                 old_column_names = list(child_counts.columns)
                 child_counts.columns = ["%s(%s)" % (op_name, col_name)
@@ -102,6 +105,7 @@ class Transformer():
                     if parent_table[col_name].dtype.kind == "f":
                         X.append(parent_table[col_name].fillna(0.0).values)
                         columns.append((fk["table"], old_name))
+
         return np.array(X).transpose(), columns
 
     def backward(self, feature_importances):
@@ -113,4 +117,5 @@ class Transformer():
         obj = {}
         for column, importance in zip(self.columns, feature_importances):
             obj[column] = importance
+
         return obj

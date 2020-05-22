@@ -9,7 +9,9 @@ from datatracer.foreign_key.base import ForeignKeySolver
 
 class StandardForeignKeySolver(ForeignKeySolver):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, threshold=0.9, add_details=False, *args, **kwargs):
+        self._threshold = threshold
+        self._add_details = add_details
         self._model_args = args
         self._model_kwargs = kwargs
 
@@ -56,14 +58,20 @@ class StandardForeignKeySolver(ForeignKeySolver):
 
         best_foreign_keys = []
         for score, (t1, c1, t2, c2) in sorted(zip(scores, foreign_keys), reverse=True):
-            best_foreign_keys.append({
-                "table": t1,
-                "field": c1,
-                "ref_table": t2,
-                "ref_field": c2,
-                "score": score,
-                "features": self._feature_vector(tables[t2][c2], tables[t1][c1])
-            })
+            if self._threshold is None or score >= self._threshold:
+                foreign_key = {
+                    "table": t1,
+                    "field": c1,
+                    "ref_table": t2,
+                    "ref_field": c2,
+                }
+                if self._add_details:
+                    foreign_key.update({
+                        "score": score,
+                        "features": self._feature_vector(tables[t2][c2], tables[t1][c1])
+                    })
+
+                best_foreign_keys.append(foreign_key)
 
         return best_foreign_keys
 

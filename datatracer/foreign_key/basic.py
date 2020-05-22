@@ -7,6 +7,10 @@ from datatracer.foreign_key.base import ForeignKeySolver
 
 class BasicForeignKeySolver(ForeignKeySolver):
 
+    def __init__(self, threshold=0.9, add_details=False):
+        self._threshold = threshold
+        self._add_details = add_details
+
     def solve(self, tables, primary_keys=None):
         foreign_keys = []
         for t1, t2 in tqdm(list(permutations(tables.keys(), r=2))):
@@ -20,12 +24,17 @@ class BasicForeignKeySolver(ForeignKeySolver):
 
         best_foreign_keys = []
         for score, t1, c1, t2, c2 in sorted(foreign_keys, reverse=True):
-            best_foreign_keys.append({
-                "table": t1,
-                "field": c1,
-                "ref_table": t2,
-                "ref_field": c2
-            })
+            if self._threshold is None or score >= self._threshold:
+                foreign_key = {
+                    "table": t1,
+                    "field": c1,
+                    "ref_table": t2,
+                    "ref_field": c2,
+                }
+                if self._add_details:
+                    foreign_key['score'] = score
+
+                best_foreign_keys.append(foreign_key)
 
         return best_foreign_keys
 

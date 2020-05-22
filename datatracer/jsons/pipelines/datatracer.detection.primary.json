@@ -1,0 +1,8 @@
+{
+    "primitives": [
+        "datatracer.analysis.count_rows",
+        "datatracer.analysis.infer_dtypes",
+        "datatracer.analysis.count_uniques",
+        "datatracer.detection.primary.BasicPrimaryKeyDetector"
+    ]
+}
