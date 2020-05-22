@@ -2,7 +2,7 @@ from itertools import permutations
 
 from tqdm import tqdm
 
-from .base import ForeignKeySolver
+from datatracer.foreign_key.base import ForeignKeySolver
 
 
 class BasicForeignKeySolver(ForeignKeySolver):
@@ -14,8 +14,10 @@ class BasicForeignKeySolver(ForeignKeySolver):
                 for c2 in tables[t2].columns:
                     if tables[t1][c1].dtype.kind != tables[t2][c2].dtype.kind:
                         continue
+
                     score = self._score(tables[t1][c1], tables[t2][c2])
                     foreign_keys.append((score, t1, c1, t2, c2))
+
         best_foreign_keys = []
         for score, t1, c1, t2, c2 in sorted(foreign_keys, reverse=True):
             best_foreign_keys.append({
@@ -24,6 +26,7 @@ class BasicForeignKeySolver(ForeignKeySolver):
                 "ref_table": t2,
                 "ref_field": c2
             })
+
         return best_foreign_keys
 
     def _score(self, col_a, col_b):
@@ -32,4 +35,5 @@ class BasicForeignKeySolver(ForeignKeySolver):
             num = len(set_a.intersection(set_b))
             denom = max(len(set_a), len(set_b))
             return num / (denom + 1e-5)
+
         return 0.0

@@ -1,5 +1,5 @@
-from .base import PrimaryKeySolver
-from .basic import BasicPrimaryKeySolver
+from datatracer.primary_key.base import PrimaryKeySolver
+from datatracer.primary_key.basic import BasicPrimaryKeySolver
 
 __all__ = [
     "PrimaryKeySolver",

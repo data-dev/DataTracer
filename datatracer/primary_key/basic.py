@@ -1,18 +1,14 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV
 
-from .base import PrimaryKeySolver
+from datatracer.primary_key.base import PrimaryKeySolver
 
 
 class BasicPrimaryKeySolver(PrimaryKeySolver):
 
-    def __init__(self):
-        self.model = RandomizedSearchCV(RandomForestClassifier(), {
-            "n_estimators": [100, 1000],
-            "criterion": ["gini", "entropy"],
-            "max_depth": [None, 1, 2, 3]
-        })
+    def __init__(self, *args, **kwargs):
+        self._model_args = args
+        self._model_kwargs = kwargs
 
     def fit(self, list_of_databases):
         X, y = [], []
@@ -27,13 +23,17 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
                 for column in tables[table["name"]].columns:
                     X.append(self._feature_vector(tables[table["name"]], column))
                     y.append(1.0 if primary_key == column else 0.0)
+
         X, y = np.array(X), np.array(y)
+
+        self.model = RandomForestClassifier(*self._model_args, **self._model_kwargs)
         self.model.fit(X, y)
 
     def solve(self, tables):
         primary_keys = {}
         for table in tables:
             primary_keys[table] = self._find_primary_key(tables[table])
+
         return primary_keys
 
     def _find_primary_key(self, table):
@@ -43,6 +43,7 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
             if score > best_score:
                 best_column = column
                 best_score = score
+
         return best_column
 
     def _feature_vector(self, table, column_name):
