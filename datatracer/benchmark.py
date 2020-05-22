@@ -11,24 +11,25 @@ Options:
 """
 import os
 from glob import glob
-from tqdm import tqdm
 
 import pandas as pd
 from docopt import docopt
+from metad import MetaData
+from tqdm import tqdm
 
 from datatracer.column_map import ColumnMapSolver
 from datatracer.foreign_key import ForeignKeySolver
 from datatracer.primary_key import PrimaryKeySolver
-from metadatajson import MetadataJSON
 
 
 def load_dataset(path_to_dataset):
-    metadata = MetadataJSON.from_json(path_to_dataset + "/metadata.json")
+    metadata = MetaData.from_json(path_to_dataset + "/metadata.json")
     tables = {}
     for path_to_csv in glob(path_to_dataset + "/*.csv"):
         table_name = os.path.basename(path_to_csv)
         table_name = table_name.replace(".csv", "")
         tables[table_name] = pd.read_csv(path_to_csv, low_memory=False)
+
     return metadata, tables
 
 
@@ -44,7 +45,6 @@ def primary(args):
         for path_to_train in tqdm(args["<datasets>"], "loading training set"):
             if path_to_train != path_to_dataset:
                 list_of_databases.append(load_dataset(path_to_train))
-
 
         for solver in PrimaryKeySolver.__subclasses__():
             solver = solver()
@@ -93,7 +93,7 @@ def foreign(args):
             print("  Fitting %s..." % solver.__name__)
 
             solver = solver()
-            
+
             solver.fit(list_of_databases)
 
             metadata, tables = load_dataset(path_to_dataset)
@@ -107,7 +107,7 @@ def foreign(args):
                 fk_true.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
             if len(fk_true) == 0:
                 continue
-                
+
             fk_predicted = set()
             for fk in foreign_keys_predicted:
                 fk_predicted.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
@@ -160,8 +160,10 @@ def constraint(args):
                 metadata.get_foreign_keys(),
                 target_field=(field["table"], field["field"])
             )
-            solution = sorted([(score, col)
-                                for col, score in solution.items()], reverse=True)
+            solution = sorted([
+                (score, col)
+                for col, score in solution.items()
+            ], reverse=True)
 
             best_f1, best_precision, best_recall = 0.0, 0.0, 0.0
             fk_true = set()

@@ -1,6 +1,8 @@
-from .base import ForeignKeySolver
-from tqdm import tqdm
 from itertools import permutations
+
+from tqdm import tqdm
+
+from .base import ForeignKeySolver
 
 
 class BasicForeignKeySolver(ForeignKeySolver):

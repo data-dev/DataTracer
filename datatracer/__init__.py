@@ -4,9 +4,37 @@
 
 __author__ = 'MIT Data To AI Lab'
 __email__ = 'dailabmit@gmail.com'
-__version__ = '0.1.0.dev0'
+__version__ = '0.0.1.dev0'
+
+import os
 
 import pandas as pd
+from mlblocks import discovery
+
+_BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+_JSONS_PATH = os.path.join(_BASE_PATH, 'jsons')
+MLBLOCKS_PRIMITIVES = os.path.join(_JSONS_PATH, 'primitives')
+MLBLOCKS_PIPELINES = os.path.join(_JSONS_PATH, 'pipelines')
+
+
+def get_pipelines():
+    """Get a list of the available datatracer pipelines.
+
+    Returns:
+        list:
+            List of the names of the available datatracer pipelines.
+    """
+    return discovery.find_pipelines('datatracer')
+
+
+def get_primitives():
+    """Get a list of the available datatracer primitives.
+
+    Returns:
+        list:
+            List of the names of the available datatracer primitives.
+    """
+    return discovery.find_primitives('datatracer')
 
 
 class DataTracer():

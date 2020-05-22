@@ -1,9 +1,12 @@
-from .base import ForeignKeySolver
-from tqdm import tqdm
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV
 from collections import Counter
 from itertools import permutations
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RandomizedSearchCV
+from tqdm import tqdm
+
+from .base import ForeignKeySolver
+
 
 class StandardForeignKeySolver(ForeignKeySolver):
 
@@ -61,9 +64,10 @@ class StandardForeignKeySolver(ForeignKeySolver):
     def _feature_vector(self, parent_col, child_col):
         parent_set, child_set = set(parent_col), set(child_col)
         return [
-            len(parent_set.intersection(child_set)) / (len(child_set)+1e-5),
-            len(parent_set.intersection(child_set)) / (len(parent_set)+1e-5),
-            len(parent_set.intersection(child_set)) / (max(len(child_set), len(parent_set))+1e-5),
+            len(parent_set.intersection(child_set)) / (len(child_set) + 1e-5),
+            len(parent_set.intersection(child_set)) / (len(parent_set) + 1e-5),
+            len(parent_set.intersection(child_set)) /
+            (max(len(child_set), len(parent_set)) + 1e-5),
             1.0 if parent_col.name == child_col.name else 0.0,
             self._diff(parent_col.name, child_col.name),
             1.0 if child_set.issubset(parent_set) else 0.0,

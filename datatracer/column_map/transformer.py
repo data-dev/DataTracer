@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Transformer():
 
     def __init__(self, tables, foreign_keys):
@@ -52,11 +53,11 @@ class Transformer():
         for fk in self.foreign_keys:
             if fk["ref_table"] != table:
                 continue
-            
+
             # Count the number of rows for each key.
             child_table = self.tables[fk["table"]].copy()
             child_table["_dummy_"] = 0.0
-            child_counts = child_table.groupby(fk["field"]).count().iloc[:,0:1]
+            child_counts = child_table.groupby(fk["field"]).count().iloc[:, 0:1]
             child_counts.columns = ["_tmp_"]
 
             # Merge the counts into the parent table
@@ -78,18 +79,19 @@ class Transformer():
                 continue
 
             for op, op_name in [
-                (lambda x: x.sum(), "SUM"), 
+                (lambda x: x.sum(), "SUM"),
                 (lambda x: x.max(), "MAX"),
                 (lambda x: x.min(), "MIN"),
                 (lambda x: x.std(), "STD"),
-                ]:
+            ]:
                 # Count the number of rows for each key.
                 child_table = self.tables[fk["table"]].copy()
                 if len(child_table.columns) <= 1:
                     continue
                 child_counts = op(child_table.groupby(fk["field"]))
                 old_column_names = list(child_counts.columns)
-                child_counts.columns = ["%s(%s)" % (op_name, col_name) for col_name in old_column_names]
+                child_counts.columns = ["%s(%s)" % (op_name, col_name)
+                                        for col_name in old_column_names]
 
                 # Merge the counts into the parent table
                 parent_table = self.tables[table]
