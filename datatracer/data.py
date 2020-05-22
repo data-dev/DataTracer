@@ -46,17 +46,6 @@ def load_datasets(datasets_path):
     ]
 
 
-def get_demo_data(path):
-    """Generate a folder with demo datasets in the indicated path.
-
-    If no path is given, the datasets are stored in the a folder named
-    ``datatracer_demo`` inside the current working directory.
-
-    Args:
-        path (str):
-            Path to the folder where the datasets will be stored.
-    """
-
 def get_demo_data(path='datatracer_demo', force=False):
     """Get a folder with demo data inside it.
 
