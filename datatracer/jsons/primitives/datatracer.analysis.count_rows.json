@@ -1,0 +1,24 @@
+{
+    "name": "datatracer.analysis.count_rows",
+    "contributors": [
+        "Carles Sala <csala@csail.mit.edu>"
+    ],
+    "description": "Count rows in a table.",
+    "primitive": "datatracer.primitives.analysis.count_rows",
+    "produce": {
+        "args": [
+            {
+                "name": "data",
+                "type": "list"
+            }
+        ],
+        "output": [
+            {
+                "name": "data",
+                "type": "list"
+            }
+        ]
+    },
+    "hyperparameters": {
+    }
+}

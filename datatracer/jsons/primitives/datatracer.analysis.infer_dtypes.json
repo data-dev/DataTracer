@@ -1,0 +1,24 @@
+{
+    "name": "datatracer.analysis.infer_dtypes",
+    "contributors": [
+        "Carles Sala <csala@csail.mit.edu>"
+    ],
+    "description": "Infer data type and subtype of a field.",
+    "primitive": "datatracer.primitives.analysis.infer_dtypes",
+    "produce": {
+        "args": [
+            {
+                "name": "data",
+                "type": "list"
+            }
+        ],
+        "output": [
+            {
+                "name": "data",
+                "type": "list"
+            }
+        ]
+    },
+    "hyperparameters": {
+    }
+}

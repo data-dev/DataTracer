@@ -12,6 +12,10 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
+    'mlprimitives>=0.2.3,<0.3',
+    'mlblocks>=0.3.4,<0.4',
+    'pandas>=0.23.4,<0.25',
+    'scikit-learn>=0.20.0,<0.21',
 ]
 
 setup_requires = [
@@ -70,6 +74,12 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     description='Data Lineage Tracing Library',
+    entry_points = {
+        'mlblocks': [
+            'primitives=datatracer:MLBLOCKS_PRIMITIVES',
+            'pipelines=datatracer:MLBLOCKS_PIPELINES'
+        ],
+    },
     extras_require={
         'test': tests_require,
         'dev': development_requires + tests_require,

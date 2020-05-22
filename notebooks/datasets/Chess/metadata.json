@@ -1,0 +1,204 @@
+{
+  "tables": [
+    {
+      "name": "game",
+      "primary_key": "game_id",
+      "fields": [
+        {
+          "name": "game_id",
+          "data_type": "number"
+        },
+        {
+          "name": "opening_id",
+          "data_type": "number"
+        },
+        {
+          "name": "event",
+          "data_type": "text"
+        },
+        {
+          "name": "site",
+          "data_type": "text"
+        },
+        {
+          "name": "event_date",
+          "data_type": "datetime"
+        },
+        {
+          "name": "round",
+          "data_type": "text"
+        },
+        {
+          "name": "white",
+          "data_type": "text"
+        },
+        {
+          "name": "black",
+          "data_type": "text"
+        },
+        {
+          "name": "game_result",
+          "data_type": "text"
+        },
+        {
+          "name": "ECO",
+          "data_type": "text"
+        },
+        {
+          "name": "whiteElo",
+          "data_type": "number"
+        },
+        {
+          "name": "BlackElo",
+          "data_type": "number"
+        },
+        {
+          "name": "opening",
+          "data_type": "text"
+        },
+        {
+          "name": "w1",
+          "data_type": "text"
+        },
+        {
+          "name": "b1",
+          "data_type": "text"
+        },
+        {
+          "name": "w2",
+          "data_type": "text"
+        },
+        {
+          "name": "b2",
+          "data_type": "text"
+        },
+        {
+          "name": "w3",
+          "data_type": "text"
+        },
+        {
+          "name": "b3",
+          "data_type": "text"
+        },
+        {
+          "name": "w4",
+          "data_type": "text"
+        },
+        {
+          "name": "b4",
+          "data_type": "text"
+        },
+        {
+          "name": "w5",
+          "data_type": "text"
+        },
+        {
+          "name": "b5",
+          "data_type": "text"
+        },
+        {
+          "name": "w6",
+          "data_type": "text"
+        },
+        {
+          "name": "b6",
+          "data_type": "text"
+        },
+        {
+          "name": "w7",
+          "data_type": "text"
+        },
+        {
+          "name": "b7",
+          "data_type": "text"
+        },
+        {
+          "name": "w8",
+          "data_type": "text"
+        },
+        {
+          "name": "b8",
+          "data_type": "text"
+        },
+        {
+          "name": "w9",
+          "data_type": "text"
+        },
+        {
+          "name": "b9",
+          "data_type": "text"
+        },
+        {
+          "name": "w10",
+          "data_type": "text"
+        },
+        {
+          "name": "b10",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "opening",
+      "primary_key": "opening_id",
+      "fields": [
+        {
+          "name": "opening_id",
+          "data_type": "number"
+        },
+        {
+          "name": "name",
+          "data_type": "text"
+        },
+        {
+          "name": "code",
+          "data_type": "text"
+        },
+        {
+          "name": "w1",
+          "data_type": "text"
+        },
+        {
+          "name": "b1",
+          "data_type": "text"
+        },
+        {
+          "name": "w2",
+          "data_type": "text"
+        },
+        {
+          "name": "b2",
+          "data_type": "text"
+        },
+        {
+          "name": "w3",
+          "data_type": "text"
+        },
+        {
+          "name": "b3",
+          "data_type": "text"
+        },
+        {
+          "name": "w4",
+          "data_type": "text"
+        },
+        {
+          "name": "b4",
+          "data_type": "text"
+        },
+        {
+          "name": "variation",
+          "data_type": "text"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "game",
+      "field": "opening_id",
+      "ref_table": "opening",
+      "ref_field": "opening_id"
+    }
+  ]
+}

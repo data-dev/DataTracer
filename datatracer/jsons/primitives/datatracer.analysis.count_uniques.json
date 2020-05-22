@@ -1,0 +1,24 @@
+{
+    "name": "datatracer.analysis.count_uniques",
+    "contributors": [
+        "Carles Sala <csala@csail.mit.edu>"
+    ],
+    "description": "Count unique values in a field.",
+    "primitive": "datatracer.primitives.analysis.count_uniques",
+    "produce": {
+        "args": [
+            {
+                "name": "data",
+                "type": "list"
+            }
+        ],
+        "output": [
+            {
+                "name": "data",
+                "type": "list"
+            }
+        ]
+    },
+    "hyperparameters": {
+    }
+}

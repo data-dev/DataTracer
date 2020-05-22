@@ -1,0 +1,357 @@
+{
+  "tables": [
+    {
+      "name": "Actions",
+      "primary_key": [
+        "GameId",
+        "PlayerId"
+      ],
+      "fields": [
+        {
+          "name": "GameId",
+          "data_type": "number"
+        },
+        {
+          "name": "TeamId",
+          "data_type": "number"
+        },
+        {
+          "name": "PlayerId",
+          "data_type": "number"
+        },
+        {
+          "name": "Minutes",
+          "data_type": "number"
+        },
+        {
+          "name": "FieldGoalsMade",
+          "data_type": "number"
+        },
+        {
+          "name": "FieldGoalAttempts",
+          "data_type": "number"
+        },
+        {
+          "name": "3PointsMade",
+          "data_type": "number"
+        },
+        {
+          "name": "3PointAttempts",
+          "data_type": "number"
+        },
+        {
+          "name": "FreeThrowsMade",
+          "data_type": "number"
+        },
+        {
+          "name": "FreeThrowAttempts",
+          "data_type": "number"
+        },
+        {
+          "name": "PlusMinus",
+          "data_type": "number"
+        },
+        {
+          "name": "OffensiveRebounds",
+          "data_type": "number"
+        },
+        {
+          "name": "DefensiveRebounds",
+          "data_type": "number"
+        },
+        {
+          "name": "TotalRebounds",
+          "data_type": "number"
+        },
+        {
+          "name": "Assists",
+          "data_type": "number"
+        },
+        {
+          "name": "PersonalFouls",
+          "data_type": "number"
+        },
+        {
+          "name": "Steals",
+          "data_type": "number"
+        },
+        {
+          "name": "Turnovers",
+          "data_type": "number"
+        },
+        {
+          "name": "BlockedShots",
+          "data_type": "number"
+        },
+        {
+          "name": "BlocksAgainst",
+          "data_type": "number"
+        },
+        {
+          "name": "Points",
+          "data_type": "number"
+        },
+        {
+          "name": "Starter",
+          "data_type": "number"
+        }
+      ]
+    },
+    {
+      "name": "Game",
+      "primary_key": "GameId",
+      "fields": [
+        {
+          "name": "GameId",
+          "data_type": "number"
+        },
+        {
+          "name": "Team1Id",
+          "data_type": "number"
+        },
+        {
+          "name": "Team2Id",
+          "data_type": "number"
+        },
+        {
+          "name": "ResultOfTeam1",
+          "data_type": "number"
+        },
+        {
+          "name": "URL",
+          "data_type": "text"
+        },
+        {
+          "name": "Date",
+          "data_type": "datetime"
+        }
+      ]
+    },
+    {
+      "name": "Player",
+      "primary_key": "PlayerId",
+      "fields": [
+        {
+          "name": "PlayerId",
+          "data_type": "number"
+        },
+        {
+          "name": "PlayerName",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "Team",
+      "primary_key": "TeamId",
+      "fields": [
+        {
+          "name": "TeamId",
+          "data_type": "number"
+        },
+        {
+          "name": "TeamName",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "joined_drafted_all_players_original",
+      "primary_key": [],
+      "fields": [
+        {
+          "name": "ID",
+          "data_type": "number"
+        },
+        {
+          "name": "age",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_g",
+          "data_type": "number"
+        },
+        {
+          "name": "mp",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_fg",
+          "data_type": "number"
+        },
+        {
+          "name": "fga",
+          "data_type": "number"
+        },
+        {
+          "name": "3p",
+          "data_type": "number"
+        },
+        {
+          "name": "3pa",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_ft",
+          "data_type": "number"
+        },
+        {
+          "name": "fta",
+          "data_type": "number"
+        },
+        {
+          "name": "orb",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_trb",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_ast",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_stl",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_blk",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_tov",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_pf",
+          "data_type": "number"
+        },
+        {
+          "name": "draft_pts",
+          "data_type": "number"
+        },
+        {
+          "name": "fg_per",
+          "data_type": "number"
+        },
+        {
+          "name": "3p_per",
+          "data_type": "number"
+        },
+        {
+          "name": "ft_per",
+          "data_type": "number"
+        },
+        {
+          "name": "mp_per",
+          "data_type": "number"
+        },
+        {
+          "name": "pts_per",
+          "data_type": "number"
+        },
+        {
+          "name": "trb_per",
+          "data_type": "number"
+        },
+        {
+          "name": "ast_per",
+          "data_type": "number"
+        },
+        {
+          "name": "season",
+          "data_type": "text"
+        },
+        {
+          "name": "weight",
+          "data_type": "number"
+        },
+        {
+          "name": "height",
+          "data_type": "number"
+        },
+        {
+          "name": "position",
+          "data_type": "text"
+        },
+        {
+          "name": "shoots",
+          "data_type": "text"
+        },
+        {
+          "name": "born",
+          "data_type": "text"
+        },
+        {
+          "name": "draft_year",
+          "data_type": "number"
+        },
+        {
+          "name": "pk",
+          "data_type": "number"
+        },
+        {
+          "name": "amature_honor",
+          "data_type": "number"
+        },
+        {
+          "name": "college",
+          "data_type": "text"
+        },
+        {
+          "name": "raw_data",
+          "data_type": "number"
+        },
+        {
+          "name": "career_g",
+          "data_type": "number"
+        },
+        {
+          "name": "career_per",
+          "data_type": "number"
+        },
+        {
+          "name": "career_ws",
+          "data_type": "number"
+        },
+        {
+          "name": "career_ws48",
+          "data_type": "number"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "Actions",
+      "field": "GameId",
+      "ref_table": "Game",
+      "ref_field": "GameId"
+    },
+    {
+      "table": "Actions",
+      "field": "PlayerId",
+      "ref_table": "Player",
+      "ref_field": "PlayerId"
+    },
+    {
+      "table": "Actions",
+      "field": "TeamId",
+      "ref_table": "Team",
+      "ref_field": "TeamId"
+    },
+    {
+      "table": "Game",
+      "field": "Team1Id",
+      "ref_table": "Team",
+      "ref_field": "TeamId"
+    },
+    {
+      "table": "Game",
+      "field": "Team2Id",
+      "ref_table": "Team",
+      "ref_field": "TeamId"
+    }
+  ]
+}
