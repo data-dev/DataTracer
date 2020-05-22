@@ -71,7 +71,6 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
     ],
     description='Data Lineage Tracing Library',
     entry_points = {
@@ -93,7 +92,7 @@ setup(
     keywords='datatracer data-tracer Data Tracer',
     name='datatracer',
     packages=find_packages(include=['datatracer', 'datatracer.*']),
-    python_requires='>=3.5',
+    python_requires='>=3.5,<3.8',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
