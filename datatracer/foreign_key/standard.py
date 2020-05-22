@@ -63,11 +63,11 @@ class StandardForeignKeySolver(ForeignKeySolver):
 
     def _feature_vector(self, parent_col, child_col):
         parent_set, child_set = set(parent_col), set(child_col)
+        len_intersect = len(parent_set.intersection(child_set))
         return [
-            len(parent_set.intersection(child_set)) / (len(child_set) + 1e-5),
-            len(parent_set.intersection(child_set)) / (len(parent_set) + 1e-5),
-            len(parent_set.intersection(child_set)) /
-            (max(len(child_set), len(parent_set)) + 1e-5),
+            len_intersect / (len(child_set) + 1e-5),
+            len_intersect / (len(parent_set) + 1e-5),
+            len_intersect / (max(len(child_set), len(parent_set)) + 1e-5),
             1.0 if parent_col.name == child_col.name else 0.0,
             self._diff(parent_col.name, child_col.name),
             1.0 if child_set.issubset(parent_set) else 0.0,
