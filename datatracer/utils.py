@@ -3,7 +3,7 @@ from datatracer.dataset import Dataset, Field, Table
 
 def get_tables_list(data):
     if isinstance(data, Table):
-        return [table]
+        return [data]
     elif isinstance(data, Dataset):
         return list(data.tables.values())
     else:

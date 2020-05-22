@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 import pandas as pd
 
@@ -45,7 +45,7 @@ class Dataset:
                 metadata = json.load(metadata_file)
 
         elif not root_path:
-            root_path = ps.getcwd()
+            root_path = os.getcwd()
 
         self.metadata = metadata
         self.root_path = root_path

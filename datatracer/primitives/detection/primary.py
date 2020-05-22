@@ -1,6 +1,5 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV
 
 from datatracer.utils import get_tables_list
 
@@ -9,11 +8,6 @@ class BasicPrimaryKeyDetector:
 
     def __init__(self, *args, **kwargs):
         self.model = RandomForestClassifier(*args, **kwargs)
-        # self.model = RandomizedSearchCV(RandomForestClassifier(), {
-        #     "n_estimators": [100, 1000],
-        #     "criterion": ["gini", "entropy"],
-        #     "max_depth": [None, 1, 2, 3]
-        # })
 
     def _extract_features(self, field):
         table = field.table
