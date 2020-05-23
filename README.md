@@ -92,7 +92,7 @@ For example, if we are using the demo datasets, we can load them using:
 ```python3
 from datatracer import load_datasets
 
-datasets = load_datasets()
+datasets = load_datasets('datatracer_demo')
 ```
 
 This will return a dictionary of dataset names and tuples, each one of them containing:
@@ -145,7 +145,7 @@ from datatracer import DataTracer
 dtr = DataTracer('datatracer.foreign_key.standard')
 
 # Fit it to our training datasets
-dtr.fit(training_datasets)
+dtr.fit(datasets)
 
 # Solve the Data Lineage problem
 foreign_keys = dtr.solve(tables)

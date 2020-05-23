@@ -108,6 +108,7 @@ test-all: ## run tests on every Python version with tox
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
+	@rm -rf datatracer_demo
 	@rundoc run --single-session python3 -t python3 README.md
 
 .PHONY: test-tutorials
