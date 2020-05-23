@@ -108,3 +108,4 @@ ENV/
 # OS files
 .DS_Store
 
+datatracer_demo
