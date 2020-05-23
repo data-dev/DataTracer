@@ -5,7 +5,7 @@
 
 import unittest
 
-# from data_tracer import data_tracer
+# from datatracer import data_tracer
 
 
 class TestData_tracer(unittest.TestCase):
@@ -13,11 +13,9 @@ class TestData_tracer(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures, if any."""
-        pass
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
-        pass
 
     def test_000_something(self):
         """Test something."""

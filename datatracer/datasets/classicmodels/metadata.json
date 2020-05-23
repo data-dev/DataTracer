@@ -1,0 +1,345 @@
+{
+  "tables": [
+    {
+      "name": "customers",
+      "primary_key": "customerNumber",
+      "fields": [
+        {
+          "name": "customerNumber",
+          "data_type": "numerical"
+        },
+        {
+          "name": "customerName",
+          "data_type": "text"
+        },
+        {
+          "name": "contactLastName",
+          "data_type": "text"
+        },
+        {
+          "name": "contactFirstName",
+          "data_type": "text"
+        },
+        {
+          "name": "phone",
+          "data_type": "text"
+        },
+        {
+          "name": "addressLine1",
+          "data_type": "text"
+        },
+        {
+          "name": "addressLine2",
+          "data_type": "text"
+        },
+        {
+          "name": "city",
+          "data_type": "text"
+        },
+        {
+          "name": "state",
+          "data_type": "text"
+        },
+        {
+          "name": "postalCode",
+          "data_type": "text"
+        },
+        {
+          "name": "country",
+          "data_type": "text"
+        },
+        {
+          "name": "salesRepEmployeeNumber",
+          "data_type": "numerical"
+        },
+        {
+          "name": "creditLimit",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "employees",
+      "primary_key": "employeeNumber",
+      "fields": [
+        {
+          "name": "employeeNumber",
+          "data_type": "numerical"
+        },
+        {
+          "name": "lastName",
+          "data_type": "text"
+        },
+        {
+          "name": "firstName",
+          "data_type": "text"
+        },
+        {
+          "name": "extension",
+          "data_type": "text"
+        },
+        {
+          "name": "email",
+          "data_type": "text"
+        },
+        {
+          "name": "officeCode",
+          "data_type": "text"
+        },
+        {
+          "name": "reportsTo",
+          "data_type": "numerical"
+        },
+        {
+          "name": "jobTitle",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "offices",
+      "primary_key": "officeCode",
+      "fields": [
+        {
+          "name": "officeCode",
+          "data_type": "text"
+        },
+        {
+          "name": "city",
+          "data_type": "text"
+        },
+        {
+          "name": "phone",
+          "data_type": "text"
+        },
+        {
+          "name": "addressLine1",
+          "data_type": "text"
+        },
+        {
+          "name": "addressLine2",
+          "data_type": "text"
+        },
+        {
+          "name": "state",
+          "data_type": "text"
+        },
+        {
+          "name": "country",
+          "data_type": "text"
+        },
+        {
+          "name": "postalCode",
+          "data_type": "text"
+        },
+        {
+          "name": "territory",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "orderdetails",
+      "primary_key": [
+        "orderNumber",
+        "productCode"
+      ],
+      "fields": [
+        {
+          "name": "orderNumber",
+          "data_type": "numerical"
+        },
+        {
+          "name": "productCode",
+          "data_type": "text"
+        },
+        {
+          "name": "quantityOrdered",
+          "data_type": "numerical"
+        },
+        {
+          "name": "priceEach",
+          "data_type": "numerical"
+        },
+        {
+          "name": "orderLineNumber",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "primary_key": "orderNumber",
+      "fields": [
+        {
+          "name": "orderNumber",
+          "data_type": "numerical"
+        },
+        {
+          "name": "orderDate",
+          "data_type": "datetime"
+        },
+        {
+          "name": "requiredDate",
+          "data_type": "datetime"
+        },
+        {
+          "name": "shippedDate",
+          "data_type": "datetime"
+        },
+        {
+          "name": "status",
+          "data_type": "text"
+        },
+        {
+          "name": "comments",
+          "data_type": "text"
+        },
+        {
+          "name": "customerNumber",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "primary_key": [
+        "customerNumber",
+        "checkNumber"
+      ],
+      "fields": [
+        {
+          "name": "customerNumber",
+          "data_type": "numerical"
+        },
+        {
+          "name": "checkNumber",
+          "data_type": "text"
+        },
+        {
+          "name": "paymentDate",
+          "data_type": "datetime"
+        },
+        {
+          "name": "amount",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "productlines",
+      "primary_key": "productLine",
+      "fields": [
+        {
+          "name": "productLine",
+          "data_type": "text"
+        },
+        {
+          "name": "textDescription",
+          "data_type": "text"
+        },
+        {
+          "name": "htmlDescription",
+          "data_type": "text"
+        },
+        {
+          "name": "image",
+          "data_type": "other"
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "primary_key": "productCode",
+      "fields": [
+        {
+          "name": "productCode",
+          "data_type": "text"
+        },
+        {
+          "name": "productName",
+          "data_type": "text"
+        },
+        {
+          "name": "productLine",
+          "data_type": "text"
+        },
+        {
+          "name": "productScale",
+          "data_type": "text"
+        },
+        {
+          "name": "productVendor",
+          "data_type": "text"
+        },
+        {
+          "name": "productDescription",
+          "data_type": "text"
+        },
+        {
+          "name": "quantityInStock",
+          "data_type": "numerical"
+        },
+        {
+          "name": "buyPrice",
+          "data_type": "numerical"
+        },
+        {
+          "name": "MSRP",
+          "data_type": "numerical"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "customers",
+      "field": "salesRepEmployeeNumber",
+      "ref_table": "employees",
+      "ref_field": "employeeNumber"
+    },
+    {
+      "table": "employees",
+      "field": "reportsTo",
+      "ref_table": "employees",
+      "ref_field": "employeeNumber"
+    },
+    {
+      "table": "employees",
+      "field": "officeCode",
+      "ref_table": "offices",
+      "ref_field": "officeCode"
+    },
+    {
+      "table": "orderdetails",
+      "field": "orderNumber",
+      "ref_table": "orders",
+      "ref_field": "orderNumber"
+    },
+    {
+      "table": "orderdetails",
+      "field": "productCode",
+      "ref_table": "products",
+      "ref_field": "productCode"
+    },
+    {
+      "table": "orders",
+      "field": "customerNumber",
+      "ref_table": "customers",
+      "ref_field": "customerNumber"
+    },
+    {
+      "table": "payments",
+      "field": "customerNumber",
+      "ref_table": "customers",
+      "ref_field": "customerNumber"
+    },
+    {
+      "table": "products",
+      "field": "productLine",
+      "ref_table": "productlines",
+      "ref_field": "productLine"
+    }
+  ],
+  "constraints": []
+}

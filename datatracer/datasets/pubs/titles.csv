@@ -1,0 +1,19 @@
+title_id,title,type,pub_id,price,advance,royalty,ytd_sales,notes,pubdate
+BU1032,The Busy Executive's Database Guide,business,1389,19.9900,5000.0000,10.0,4095.0,An overview of available database systems with emphasis on common business applications. Illustrated.,1991-06-12 00:00:00
+BU1111,Cooking with Computers: Surreptitious Balance Sheets,business,1389,11.9500,5000.0000,10.0,3876.0,Helpful hints on how to use your electronic resources to the best advantage.,1991-06-09 00:00:00
+BU2075,You Can Combat Computer Stress!,business,0736,2.9900,10125.0000,24.0,18722.0,The latest medical and psychological techniques for living with the electronic office. Easy-to-understand explanations.,1991-06-30 00:00:00
+BU7832,Straight Talk About Computers,business,1389,19.9900,5000.0000,10.0,4095.0,Annotated analysis of what computers can do for you: a no-hype guide for the critical user.,1991-06-22 00:00:00
+MC2222,Silicon Valley Gastronomic Treats,mod_cook,0877,19.9900,0.0000,12.0,2032.0,"Favorite recipes for quick, easy, and elegant meals.",1991-06-09 00:00:00
+MC3021,The Gourmet Microwave,mod_cook,0877,2.9900,15000.0000,24.0,22246.0,Traditional French gourmet recipes adapted for modern microwave cooking.,1991-06-18 00:00:00
+MC3026,The Psychology of Computer Cooking,UNDECIDED,0877,,,,,,2014-11-07 10:39:37
+PC1035,But Is It User Friendly?,popular_comp,1389,22.9500,7000.0000,16.0,8780.0,"A survey of software for the naive user, focusing on the 'friendliness' of each.",1991-06-30 00:00:00
+PC8888,Secrets of Silicon Valley,popular_comp,1389,20.0000,8000.0000,10.0,4095.0,Muckraking reporting on the world's largest computer hardware and software manufacturers.,1994-06-12 00:00:00
+PC9999,Net Etiquette,popular_comp,1389,,,,,A must-read for computer conferencing.,2014-11-07 10:39:37
+PS1372,Computer Phobic AND Non-Phobic Individuals: Behavior Variations,psychology,0877,21.5900,7000.0000,10.0,375.0,"A must for the specialist, this book examines the difference between those who hate and fear computers and those who don't.",1991-10-21 00:00:00
+PS2091,Is Anger the Enemy?,psychology,0736,10.9500,2275.0000,12.0,2045.0,Carefully researched study of the effects of strong emotions on the body. Metabolic charts included.,1991-06-15 00:00:00
+PS2106,Life Without Fear,psychology,0736,7.0000,6000.0000,10.0,111.0,"New exercise, meditation, and nutritional techniques that can reduce the shock of daily interactions. Popular audience. Sample menus included, exercise video available separately.",1991-10-05 00:00:00
+PS3333,Prolonged Data Deprivation: Four Case Studies,psychology,0736,19.9900,2000.0000,10.0,4072.0,What happens when the data runs dry?  Searching evaluations of information-shortage effects.,1991-06-12 00:00:00
+PS7777,Emotional Security: A New Algorithm,psychology,0736,7.9900,4000.0000,10.0,3336.0,Protecting yourself and your loved ones from undue emotional stress in the modern world. Use of computer and nutritional aids emphasized.,1991-06-12 00:00:00
+TC3218,"Onions, Leeks, and Garlic: Cooking Secrets of the Mediterranean",trad_cook,0877,20.9500,7000.0000,10.0,375.0,"Profusely illustrated in color, this makes a wonderful gift book for a cuisine-oriented friend.",1991-10-21 00:00:00
+TC4203,Fifty Years in Buckingham Palace Kitchens,trad_cook,0877,11.9500,4000.0000,14.0,15096.0,"More anecdotes from the Queen's favorite cook describing life among English royalty. Recipes, techniques, tender vignettes.",1991-06-12 00:00:00
+TC7777,"Sushi, Anyone?",trad_cook,0877,14.9900,8000.0000,10.0,4095.0,Detailed instructions on how to make authentic Japanese sushi in your spare time.,1991-06-12 00:00:00

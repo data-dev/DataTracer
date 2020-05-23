@@ -1,0 +1,108 @@
+{
+  "tables": [
+    {
+      "name": "parent",
+      "primary_key": [
+        "name1",
+        "name2"
+      ],
+      "fields": [
+        {
+          "name": "name1",
+          "data_type": "text"
+        },
+        {
+          "name": "name2",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "person",
+      "primary_key": "name",
+      "fields": [
+        {
+          "name": "name",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "same_gen",
+      "primary_key": [
+        "name1",
+        "name2"
+      ],
+      "fields": [
+        {
+          "name": "name1",
+          "data_type": "text"
+        },
+        {
+          "name": "name2",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "target",
+      "primary_key": [
+        "name1",
+        "name2"
+      ],
+      "fields": [
+        {
+          "name": "name1",
+          "data_type": "text"
+        },
+        {
+          "name": "name2",
+          "data_type": "text"
+        },
+        {
+          "name": "target",
+          "data_type": "numerical"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "parent",
+      "field": "name1",
+      "ref_table": "person",
+      "ref_field": "name"
+    },
+    {
+      "table": "parent",
+      "field": "name2",
+      "ref_table": "person",
+      "ref_field": "name"
+    },
+    {
+      "table": "same_gen",
+      "field": "name1",
+      "ref_table": "person",
+      "ref_field": "name"
+    },
+    {
+      "table": "same_gen",
+      "field": "name2",
+      "ref_table": "person",
+      "ref_field": "name"
+    },
+    {
+      "table": "target",
+      "field": "name1",
+      "ref_table": "person",
+      "ref_field": "name"
+    },
+    {
+      "table": "target",
+      "field": "name2",
+      "ref_table": "person",
+      "ref_field": "name"
+    }
+  ],
+  "constraints": []
+}

@@ -1,0 +1,135 @@
+{
+  "tables": [
+    {
+      "name": "RA",
+      "primary_key": [
+        "prof_id",
+        "student_id"
+      ],
+      "fields": [
+        {
+          "name": "capability",
+          "data_type": "text"
+        },
+        {
+          "name": "prof_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "student_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "salary",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "course",
+      "primary_key": "course_id",
+      "fields": [
+        {
+          "name": "course_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "rating",
+          "data_type": "text"
+        },
+        {
+          "name": "diff",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "prof",
+      "primary_key": "prof_id",
+      "fields": [
+        {
+          "name": "prof_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "popularity",
+          "data_type": "text"
+        },
+        {
+          "name": "teachingability",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "registration",
+      "primary_key": [
+        "course_id",
+        "student_id"
+      ],
+      "fields": [
+        {
+          "name": "course_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "student_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "grade",
+          "data_type": "text"
+        },
+        {
+          "name": "sat",
+          "data_type": "text"
+        }
+      ]
+    },
+    {
+      "name": "student",
+      "primary_key": "student_id",
+      "fields": [
+        {
+          "name": "student_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "intelligence",
+          "data_type": "text"
+        },
+        {
+          "name": "ranking",
+          "data_type": "text"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "RA",
+      "field": "student_id",
+      "ref_table": "student",
+      "ref_field": "student_id"
+    },
+    {
+      "table": "RA",
+      "field": "prof_id",
+      "ref_table": "prof",
+      "ref_field": "prof_id"
+    },
+    {
+      "table": "registration",
+      "field": "student_id",
+      "ref_table": "student",
+      "ref_field": "student_id"
+    },
+    {
+      "table": "registration",
+      "field": "course_id",
+      "ref_table": "course",
+      "ref_field": "course_id"
+    }
+  ],
+  "constraints": []
+}

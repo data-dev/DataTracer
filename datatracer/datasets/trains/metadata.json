@@ -1,0 +1,73 @@
+{
+  "tables": [
+    {
+      "name": "cars",
+      "primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "train_id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "position",
+          "data_type": "numerical"
+        },
+        {
+          "name": "shape",
+          "data_type": "text"
+        },
+        {
+          "name": "len",
+          "data_type": "text"
+        },
+        {
+          "name": "sides",
+          "data_type": "text"
+        },
+        {
+          "name": "roof",
+          "data_type": "text"
+        },
+        {
+          "name": "wheels",
+          "data_type": "numerical"
+        },
+        {
+          "name": "load_shape",
+          "data_type": "text"
+        },
+        {
+          "name": "load_num",
+          "data_type": "numerical"
+        }
+      ]
+    },
+    {
+      "name": "trains",
+      "primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "data_type": "numerical"
+        },
+        {
+          "name": "direction",
+          "data_type": "text"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "cars",
+      "field": "train_id",
+      "ref_table": "trains",
+      "ref_field": "id"
+    }
+  ],
+  "constraints": []
+}

@@ -1,0 +1,132 @@
+{
+    "name": "datatracer.column_map.ColumnMapSolver",
+    "description": "Detect the foreign keys of a Table.",
+    "primitive": "datatracer.column_map.ColumnMapSolver",
+    "produce": {
+        "method": "solve",
+        "args": [
+            {
+                "name": "tables",
+                "type": "dict"
+            },
+            {
+                "name": "foreign_keys",
+                "type": "dict"
+            },
+            {
+                "name": "target_table",
+                "type": "str"
+            },
+            {
+                "name": "target_field",
+                "type": "str"
+            }
+        ],
+        "output": [
+            {
+                "name": "column_map",
+                "type": "dict"
+            }
+        ]
+    },
+    "hyperparameters": {
+        "fixed": {
+            "n_jobs": {
+                "type": "int",
+                "default": null
+            },
+            "verbose": {
+                "type": "int",
+                "default": 0,
+                "range": [
+                    0,
+                    100
+                ]
+            },
+            "warm_start": {
+                "type": "bool",
+                "default": false
+            }
+        },
+        "tunable": {
+            "n_estimators": {
+                "type": "int",
+                "default": 10,
+                "range": [
+                    1,
+                    500
+                ]
+            },
+            "criterion": {
+                "type": "str",
+                "default": "mse",
+                "values": [
+                    "mse",
+                    "mae"
+                ]
+            },
+            "max_features": {
+                "type": "str",
+                "default": "auto",
+                "range": [
+                    null,
+                    "auto",
+                    "log2",
+                    "sqrt"
+                ]
+            },
+            "max_depth": {
+                "type": "int",
+                "default": null,
+                "range": [
+                    1,
+                    30
+                ]
+            },
+            "min_samples_split": {
+                "type": "int",
+                "default": 2,
+                "range": [
+                    2,
+                    1000
+                ]
+            },
+            "min_samples_leaf": {
+                "type": "int",
+                "default": 1,
+                "range": [
+                    1,
+                    1000
+                ]
+            },
+            "min_weight_fraction_leaf": {
+                "type": "float",
+                "default": 0.0,
+                "range": [
+                    0.0,
+                    100.0
+                ]
+            },
+            "max_leaf_nodes": {
+                "type": "int",
+                "default": null
+            },
+            "min_impurity_decrease": {
+                "type": "float",
+                "default": 0.0,
+                "range": [
+                    0.0,
+                    10.0
+                ]
+            },
+            "bootstrap": {
+                "type": "bool",
+                "default": true
+            },
+            "oob_score": {
+                "type": "bool",
+                "default": false
+            }
+        }
+    }
+}

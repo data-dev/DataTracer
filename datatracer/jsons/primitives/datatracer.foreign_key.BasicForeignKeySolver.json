@@ -1,0 +1,44 @@
+{
+    "name": "datatracer.foreign_key.BasicForeignKeySolver",
+    "description": "Detect the foreign keys of a Table.",
+    "primitive": "datatracer.foreign_key.BasicForeignKeySolver",
+    "produce": {
+        "method": "solve",
+        "args": [
+            {
+                "name": "tables",
+                "type": "dict"
+            },
+            {
+                "name": "primary_keys",
+                "type": "dict"
+            }
+        ],
+        "output": [
+            {
+                "name": "foreign_keys",
+                "type": "list"
+            }
+        ]
+    },
+    "hyperparameters": {
+        "fixed": {
+            "add_details": {
+                "type": "bool",
+                "description": "whether to add the foreign details such as the score obtained",
+                "default": false
+            }
+        },
+        "tunable": {
+            "threshold": {
+                "type": "float",
+                "default": 0.9,
+                "range": [
+                    0.0,
+                    1.0
+                ]
+            }
+        }
+    }
+}
+

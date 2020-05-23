@@ -81,33 +81,43 @@ install-test: clean-build clean-pyc ## install the package and test dependencies
 install-develop: clean-build clean-pyc ## install the package in editable mode and dependencies for development
 	pip install -e .[dev]
 
+
 # LINT TARGETS
 
 .PHONY: lint
 lint: ## check style with flake8 and isort
-	flake8 data_tracer tests
-	isort -c --recursive data_tracer tests
+	flake8 datatracer tests
+	isort -c --recursive datatracer tests
 
 .PHONY: fix-lint
 fix-lint: ## fix lint issues using autoflake, autopep8, and isort
-	find data_tracer tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
-	autopep8 --in-place --recursive --aggressive data_tracer tests
-	isort --apply --atomic --recursive data_tracer tests
+	find datatracer tests -name '*.py' | xargs autoflake --in-place --remove-all-unused-imports --remove-unused-variables
+	autopep8 --in-place --recursive --aggressive datatracer tests
+	isort --apply --atomic --recursive datatracer tests
 
 
 # TEST TARGETS
 
 .PHONY: test
 test: ## run tests quickly with the default Python
-	python -m pytest --basetemp=${ENVTMPDIR} --cov=data_tracer
+	python -m pytest --basetemp=${ENVTMPDIR} --cov=datatracer
 
 .PHONY: test-all
 test-all: ## run tests on every Python version with tox
-	tox -r
+	tox -r -p auto
+
+.PHONY: test-readme
+test-readme: ## run the readme snippets
+	@rm -rf datatracer_demo
+	@rundoc run --single-session python3 -t python3 README.md
+
+.PHONY: test-tutorials
+test-tutorials: ## run the tutorial notebooks
+	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source data_tracer -m pytest
+	coverage run --source datatracer -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
@@ -117,7 +127,7 @@ coverage: ## check code coverage quickly with the default Python
 
 .PHONY: docs
 docs: clean-docs ## generate Sphinx HTML documentation, including API docs
-	sphinx-apidoc --separate --no-toc -o docs/api/ data_tracer
+	sphinx-apidoc --module-first --separate -T -o docs/api/ datatracer
 	$(MAKE) -C docs html
 
 .PHONY: view-docs
@@ -137,12 +147,19 @@ dist: clean ## builds source and wheel package
 	python setup.py bdist_wheel
 	ls -l dist
 
-.PHONY: test-publish
-test-publish: dist ## package and upload a release on TestPyPI
+.PHONY: publish-confirm
+publish-confirm:
+	@echo "WARNING: This will irreversibly upload a new version to PyPI!"
+	@echo -n "Please type 'confirm' to proceed: " \
+		&& read answer \
+		&& [ "$${answer}" = "confirm" ]
+
+.PHONY: publish-test
+publish-test: dist publish-confirm ## package and upload a release on TestPyPI
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 .PHONY: publish
-publish: dist ## package and upload a release
+publish: dist publish-confirm ## package and upload a release
 	twine upload dist/*
 
 .PHONY: bumpversion-release
@@ -151,6 +168,13 @@ bumpversion-release: ## Merge master to stable and bumpversion release
 	git merge --no-ff master -m"make release-tag: Merge branch 'master' into stable"
 	bumpversion release
 	git push --tags origin stable
+
+.PHONY: bumpversion-release-test
+bumpversion-release-test: ## Merge master to stable and bumpversion release
+	git checkout stable || git checkout -b stable
+	git merge --no-ff master -m"make release-tag: Merge branch 'master' into stable"
+	bumpversion release --no-tag
+	@echo git push --tags origin stable
 
 .PHONY: bumpversion-patch
 bumpversion-patch: ## Merge stable to master and bumpversion patch
@@ -171,8 +195,20 @@ bumpversion-minor: ## Bump the version the next minor skipping the release
 bumpversion-major: ## Bump the version the next major skipping the release
 	bumpversion --no-tag major
 
+.PHONY: bumpversion-revert
+bumpversion-revert: ## Undo a previous bumpversion-release
+	git checkout master
+	git branch -D stable
+
+CLEAN_DIR := $(shell git status --short | grep -v ??)
 CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
 CHANGELOG_LINES := $(shell git diff HEAD..origin/stable HISTORY.md 2>&1 | wc -l)
+
+.PHONY: check-clean
+check-clean: ## Check if the directory has uncommitted changes
+ifneq ($(CLEAN_DIR),)
+	$(error There are uncommitted changes)
+endif
 
 .PHONY: check-master
 check-master: ## Check if we are in master branch
@@ -193,8 +229,14 @@ check-release: check-master check-history ## Check if the release can be made
 .PHONY: release
 release: check-release bumpversion-release publish bumpversion-patch
 
+.PHONY: release-test
+release-test: check-release bumpversion-release-test publish-test bumpversion-revert
+
 .PHONY: release-candidate
 release-candidate: check-master publish bumpversion-candidate
+
+.PHONY: release-candidate-test
+release-candidate-test: check-clean check-master publish-test
 
 .PHONY: release-minor
 release-minor: check-release bumpversion-minor release
