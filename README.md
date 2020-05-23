@@ -4,10 +4,9 @@
 </p>
 
 [![Development Status](https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow)](https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha)
-[![PyPI Shield](https://img.shields.io/pypi/v/data-tracer.svg)](https://pypi.python.org/pypi/data-tracer)
-[![Downloads](https://pepy.tech/badge/data-tracer)](https://pepy.tech/project/data-tracer)
-[![Travis CI Shield](https://travis-ci.org/data-dev/DataTracer.svg?branch=master)](https://travis-ci.org/data-dev/DataTracer)
-[![Coverage Status](https://codecov.io/gh/data-dev/DataTracer/branch/master/graph/badge.svg)](https://codecov.io/gh/data-dev/DataTracer)
+[![PyPI Shield](https://img.shields.io/pypi/v/datatracer.svg)](https://pypi.python.org/pypi/datatracer)
+[![Downloads](https://pepy.tech/badge/datatracer)](https://pepy.tech/project/datatracer)
+[![Run Tests](https://github.com/data-dev/DataTracer/workflows/Run%20Tests/badge.svg)](https://github.com/data-dev/DataTracer/actions)
 
 # DataTracer
 
