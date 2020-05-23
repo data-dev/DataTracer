@@ -10,6 +10,7 @@ import os
 
 from mlblocks import discovery
 
+from datatracer.core import DataTracer
 from datatracer.data import get_demo_data, load_dataset, load_datasets
 
 _BASE_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -19,6 +20,7 @@ MLBLOCKS_PIPELINES = os.path.join(_JSONS_PATH, 'pipelines')
 
 
 __all__ = (
+    'DataTracer',
     'get_demo_data',
     'get_pipelines',
     'get_primitives',

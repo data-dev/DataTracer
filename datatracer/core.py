@@ -5,77 +5,110 @@
 This module defines the DataTracer class.
 """
 
-import pandas as pd
+import json
+import os
+import pickle
+
+from mlblocks import MLPipeline
 
 
-class DataTracer():
+class DataTracer:
+    """DataTracer Class.
 
-    def __init__(self, primary_key, foreign_key, column_map):
-        self.primary_key = primary_key
-        self.foreign_key = foreign_key
-        self.column_map = column_map
+    The DataTracer Class provides a unified and standardized access to
+    all the Data Lineage functionalities of the project.
 
-    def fit(self, list_of_databases):
+    Args:
+        pipeline (str, dict or MLPipeline):
+            Pipeline to use. It can be passed as:
+                * An ``str`` with a path to a JSON file.
+                * An ``str`` with the name of a registered pipeline.
+                * An ``MLPipeline`` instance.
+                * A ``dict`` with an ``MLPipeline`` specification.
+        hyperparameters (dict):
+            Additional hyperparameters to set to the Pipeline.
+    """
+
+    def _get_mlpipeline(self):
+        pipeline = self._pipeline
+        if isinstance(pipeline, str) and os.path.isfile(pipeline):
+            with open(pipeline) as json_file:
+                pipeline = json.load(json_file)
+
+        mlpipeline = MLPipeline(pipeline)
+        if self._hyperparameters:
+            mlpipeline.set_hyperparameters(self._hyperparameters)
+
+        return mlpipeline
+
+    def __init__(self, pipeline, hyperparameters=None):
+        self._pipeline = pipeline
+        self._hyperparameters = hyperparameters
+        self._mlpipeline = self._get_mlpipeline()
+
+    def fit(self, datasets):
+        """Fit the pipeline to the given data.
+
+        Args:
+            datasets (list or dict):
+                List or dict of tuples containing a MetaData instance and a dict
+                with the tables of the dataset loaded as DataFrames.
         """
-        Trains the underlying models on the list of databases where each
-        database is a tuple containing the metadata and tables.
+        if isinstance(datasets, dict):
+            datasets = list(datasets.values())
+
+        self._mlpipeline = self._get_mlpipeline()
+        self._mlpipeline.fit(list_of_databases=datasets, tables={})
+
+    def solve(self, tables, **kwargs):
+        """Solve the data lineage problem.
+
+        The underlaying pipeline is executed and the outputs are returned.
+
+        Args:
+            tables (dict):
+                Dictionary of tables from a dataset loaded as DataFrames.
+            **kwargs:
+                Any additional keyword arguments are passed down to the
+                pipeline.
+
+        Returns:
+            object:
+                This method returns the outputs returned by the pipeline.
         """
-        self.primary_key.fit(list_of_databases)
-        self.foreign_key.fit(list_of_databases)
-        self.column_map.fit(list_of_databases)
+        return self._mlpipeline.predict(tables=tables, **kwargs)
 
-    def solve(self, tables):
+    def save(self, path: str):
+        """Save this object using pickle for later usage.
+
+        Args:
+            path (str):
+                Path to the file where the serialization of
+                this object will be stored.
         """
-        TODO: This should return a metadata object.
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, 'wb') as pickle_file:
+            pickle.dump(self, pickle_file)
+
+    @classmethod
+    def load(cls, path: str):
+        """Load a DataTracer instance from a pickle file.
+
+        Args:
+            path (str):
+                Path to the file where the instance has been
+                previously serialized.
+
+        Returns:
+            DataTracer
+
+        Raises:
+            ValueError:
+                If the serialized object is not a DataTracer instance.
         """
-        self.check_tables(tables)
+        with open(path, 'rb') as pickle_file:
+            datatracer = pickle.load(pickle_file)
+            if not isinstance(datatracer, cls):
+                raise ValueError('Serialized object is not a DataTracer instance')
 
-        primary_keys = self.primary_key.solve(tables)
-        self.check_primary_keys(primary_keys, tables=tables)
-
-        foreign_keys = self.foreign_key.solve(tables, primary_keys)
-        self.check_foreign_keys(foreign_keys, tables=tables)
-
-        column_maps = self.column_map.solve(tables, foreign_keys)
-        return {
-            "primary_keys": primary_keys,
-            "foreign_keys": foreign_keys,
-            "column_maps": column_maps
-        }
-
-    @staticmethod
-    def check_tables(tables):
-        assert isinstance(tables, dict)
-        for key, value in tables.items():
-            assert isinstance(key, str)
-            assert isinstance(value, pd.DataFrame)
-
-    @staticmethod
-    def check_primary_keys(primary_keys, tables=None):
-        assert isinstance(primary_keys, dict)
-        for key, value in primary_keys.items():
-            assert isinstance(key, str)
-            assert isinstance(value, str)
-
-        if tables:
-            assert set(primary_keys.keys()) == set(tables.keys())
-            for key, value in primary_keys.items():
-                assert key in tables
-                assert value in tables[key].columns
-
-    @staticmethod
-    def check_foreign_keys(foreign_keys, tables=None):
-        assert isinstance(foreign_keys, dict)
-        for table, (field, ref_table, ref_field) in foreign_keys.items():
-            assert isinstance(table, str)
-            assert isinstance(field, str)
-            assert isinstance(ref_table, str)
-            assert isinstance(ref_field, str)
-
-        if tables:
-            assert set(foreign_keys.keys()) == set(tables.keys())
-            for table, (field, ref_table, ref_field) in foreign_keys.items():
-                assert table in tables
-                assert field in tables[table]
-                assert ref_table in tables
-                assert ref_field in tables[ref_table]
+            return datatracer
