@@ -37,13 +37,13 @@ def load_datasets(datasets_path):
             Path to the folder where the dataset can be found.
 
     Returns:
-        list:
-            List of dataset tuples.
+        dict:
+            Dict of (metadata, tables) tubles, one for each dataset.
     """
-    return [
-        load_dataset(os.path.join(datasets_path, dataset))
+    return {
+        dataset: load_dataset(os.path.join(datasets_path, dataset))
         for dataset in os.listdir(datasets_path)
-    ]
+    }
 
 
 def get_demo_data(path='datatracer_demo', force=False):

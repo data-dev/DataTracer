@@ -100,7 +100,7 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 
 .PHONY: test
 test: ## run tests quickly with the default Python
-	python -m pytest --basetemp=${ENVTMPDIR} --cov=datatracer --cov-report xml
+	python -m pytest --basetemp=${ENVTMPDIR} --cov=datatracer
 
 .PHONY: test-all
 test-all: ## run tests on every Python version with tox
@@ -112,7 +112,7 @@ test-readme: ## run the readme snippets
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
-	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 notebooks/*.ipynb --stdout > /dev/null
+	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
