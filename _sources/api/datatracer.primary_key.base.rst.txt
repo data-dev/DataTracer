@@ -1,0 +1,7 @@
+datatracer.primary\_key.base module
+===================================
+
+.. automodule:: datatracer.primary_key.base
+   :members:
+   :undoc-members:
+   :show-inheritance:

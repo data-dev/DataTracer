@@ -1,0 +1,16 @@
+datatracer.foreign\_key package
+===============================
+
+.. automodule:: datatracer.foreign_key
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   datatracer.foreign_key.base
+   datatracer.foreign_key.basic
+   datatracer.foreign_key.standard

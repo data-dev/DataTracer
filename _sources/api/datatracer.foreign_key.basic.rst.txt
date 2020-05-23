@@ -1,0 +1,7 @@
+datatracer.foreign\_key.basic module
+====================================
+
+.. automodule:: datatracer.foreign_key.basic
+   :members:
+   :undoc-members:
+   :show-inheritance:

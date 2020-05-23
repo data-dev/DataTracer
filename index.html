@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DataTracer &mdash; Data Tracer 0.0.1.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DataTracer" href="readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Data Tracer
+          
+
+          
+            
+            <img src="_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">DataTracer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#install-with-pip">Install with pip</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#load-data">Load data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/datatracer.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/datatracer.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.column_map.html">datatracer.column_map package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/datatracer.column_map.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.foreign_key.html">datatracer.foreign_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/datatracer.foreign_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.primary_key.html">datatracer.primary_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/datatracer.primary_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/datatracer.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.benchmark.html">datatracer.benchmark module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.core.html">datatracer.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.data.html">datatracer.data module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#release-candidates">Release Candidates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Data Tracer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>DataTracer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p align="left">
+<img width=15% src="https://dai.lids.mit.edu/wp-content/uploads/2018/06/Logo_DAI_highres.png" alt=“DAI-Lab” />
+<i>An open source project from Data to AI Lab at MIT.</i>
+</p><a class="reference external image-reference" href="https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha"><img alt="Development Status" src="https://img.shields.io/badge/Development%20Status-2%20--%20Pre--Alpha-yellow" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/data-tracer"><img alt="PyPI Shield" src="https://img.shields.io/pypi/v/data-tracer.svg" /></a>
+<a class="reference external image-reference" href="https://pepy.tech/project/data-tracer"><img alt="Downloads" src="https://pepy.tech/badge/data-tracer" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/data-dev/DataTracer"><img alt="Travis CI Shield" src="https://travis-ci.org/data-dev/DataTracer.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://codecov.io/gh/data-dev/DataTracer"><img alt="Coverage Status" src="https://codecov.io/gh/data-dev/DataTracer/branch/master/graph/badge.svg" /></a>
+<div class="section" id="datatracer">
+<h1>DataTracer<a class="headerlink" href="#datatracer" title="Permalink to this headline">¶</a></h1>
+<p>Data Lineage Tracing Library</p>
+<ul class="simple">
+<li><p>License: <a class="reference external" href="https://github.com/data-dev/DataTracer/blob/master/LICENSE">MIT</a></p></li>
+<li><p>Development Status: <a class="reference external" href="https://pypi.org/search/?c=Development+Status+%3A%3A+2+-+Pre-Alpha">Pre-Alpha</a></p></li>
+<li><p>Homepage: <a class="reference external" href="https://github.com/data-dev/DataTracer">https://github.com/data-dev/DataTracer</a></p></li>
+</ul>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>DataTracer is a Python library for solving Data Lineage problems using  statistical
+methods, machine learning techniques, and hand-crafted heuristics.</p>
+<p>Currently the Data Tracer library implements discovery of the following properties:</p>
+<ul class="simple">
+<li><p><strong>Primary Key</strong>: Identify which column is the primary key in each table.</p></li>
+<li><p><strong>Foreign Key</strong>: Find which relationships exist between the tables.</p></li>
+<li><p><strong>Column Mapping</strong>: Given a field in a table, deduce which other fields, from the same table
+or other tables, are more related or contributed the most in generating the given field.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="install">
+<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p><strong>DataTracer</strong> has been developed and tested on <a class="reference external" href="https://www.python.org/downloads/">Python 3.5 and 3.6, 3.7</a></p>
+<p>Also, although it is not strictly required, the usage of a <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a> is highly recommended in order to avoid
+interfering with other software installed in the system where <strong>DataTracer</strong> is run.</p>
+</div>
+<div class="section" id="install-with-pip">
+<h2>Install with pip<a class="headerlink" href="#install-with-pip" title="Permalink to this headline">¶</a></h2>
+<p>The easiest and recommended way to install <strong>DataTracer</strong> is using <a class="reference external" href="https://pip.pypa.io/en/stable/">pip</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install datatracer
+</pre></div>
+</div>
+<p>This will pull and install the latest stable release from <a class="reference external" href="https://pypi.org/">PyPi</a>.</p>
+<p>If you want to install from source or contribute to the project please read the
+<a class="reference external" href="https://hdi-project.github.io/DataTracer/contributing.html#get-started">Contributing Guide</a>.</p>
+</div>
+</div>
+<div class="section" id="data-format-datasets-and-metadata">
+<h1>Data Format: Datasets and Metadata<a class="headerlink" href="#data-format-datasets-and-metadata" title="Permalink to this headline">¶</a></h1>
+<p>The DataTracer library is prepared to work using datasets, which are a collection of tables
+loaded as <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code> and a MetaData JSON which provides information about the
+dataset structure.</p>
+<p>You can find more information about the MetaData format in the <a class="reference external" href="https://github.com/signals-dev/MetaData">MetaData repository</a>.</p>
+<p>The DataTracer also includes a few <a class="reference external" href="datatracer/datasets">demo datasets</a> which you can easily
+download to your computer using the <code class="docutils literal notranslate"><span class="pre">datatracer.get_demo_data</span></code> function:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">get_demo_data</span>
+
+<span class="n">get_demo_data</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will create a folder called <code class="docutils literal notranslate"><span class="pre">datatracer_demo</span></code> in your working directory with a few
+datasets ready to use inside it.</p>
+</div>
+<div class="section" id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>In this short tutorial we will guide you through a series of steps that will help you
+getting started with <strong>Data Tracer</strong>.</p>
+<div class="section" id="load-data">
+<h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
+<p>The first step will be to load the data in the format expected by DataTracer.</p>
+<p>For this, we can use the <code class="docutils literal notranslate"><span class="pre">datatracer.load_datasets</span></code>  function passing the path to
+where we have our datasets.</p>
+<p>For example, if we are using the demo datasets, we can load them using:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">load_datasets</span>
+
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">load_datasets</span><span class="p">(</span><span class="s1">&#39;datatracer_demo&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will return a dictionary of dataset names and tuples, each one of them containing:</p>
+<ul class="simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> instance with details about the dataset.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">dict</span></code> with all the tables of the dataset loaded as a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p></li>
+</ul>
+<p>For the rest of the tutorial, we will use the dataset called <code class="docutils literal notranslate"><span class="pre">classicalmodels</span></code>
+for our testing, and use the rest of the datasets to train the DataTracer.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span><span class="p">,</span> <span class="n">tables</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;classicmodels&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="select-a-pipeline">
+<h2>Select a Pipeline<a class="headerlink" href="#select-a-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>In the DataTracer project, the different Data Lineage problems are solved using what we
+call <em>pipelines</em>.</p>
+<p>We can see the list of available pipelines using the <code class="docutils literal notranslate"><span class="pre">get_pipelines</span></code> function:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">get_pipelines</span>
+
+<span class="n">get_pipelines</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will return a list with the names of the available pipelines:</p>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>[&#39;datatracer.column_map&#39;,
+ &#39;datatracer.detection.primary&#39;,
+ &#39;datatracer.foreign_key.basic&#39;,
+ &#39;datatracer.foreign_key.standard&#39;,
+ &#39;datatracer.primary_key.basic&#39;]
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-a-datatracer-instance-to-find-table-relationships">
+<h2>Use a DataTracer instance to find table relationships<a class="headerlink" href="#use-a-datatracer-instance-to-find-table-relationships" title="Permalink to this headline">¶</a></h2>
+<p>In order to use a pipeline you will need to create a <code class="docutils literal notranslate"><span class="pre">DataTracer</span></code> instance passing the name of
+the pipeline that we want to use.</p>
+<p>In this example, we will try to figure out the relationships between the tables in our dataset
+by using the pipeline <code class="docutils literal notranslate"><span class="pre">datatracer.foreign_key.standard</span></code>.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">DataTracer</span>
+
+<span class="c1"># Create the DataTrace instance</span>
+<span class="n">dtr</span> <span class="o">=</span> <span class="n">DataTracer</span><span class="p">(</span><span class="s1">&#39;datatracer.foreign_key.standard&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fit it to our training datasets</span>
+<span class="n">dtr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+
+<span class="c1"># Solve the Data Lineage problem</span>
+<span class="n">foreign_keys</span> <span class="o">=</span> <span class="n">dtr</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result will be a dictionary containing the foreign key candidates:</p>
+<div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>[{&#39;table&#39;: &#39;products&#39;,
+  &#39;field&#39;: &#39;productLine&#39;,
+  &#39;ref_table&#39;: &#39;productlines&#39;,
+  &#39;ref_field&#39;: &#39;productLine&#39;},
+ {&#39;table&#39;: &#39;payments&#39;,
+  &#39;field&#39;: &#39;customerNumber&#39;,
+  &#39;ref_table&#39;: &#39;customers&#39;,
+  &#39;ref_field&#39;: &#39;customerNumber&#39;},
+ {&#39;table&#39;: &#39;orders&#39;,
+  &#39;field&#39;: &#39;customerNumber&#39;,
+  &#39;ref_table&#39;: &#39;customers&#39;,
+  &#39;ref_field&#39;: &#39;customerNumber&#39;},
+ {&#39;table&#39;: &#39;orderdetails&#39;,
+  &#39;field&#39;: &#39;productCode&#39;,
+  &#39;ref_table&#39;: &#39;products&#39;,
+  &#39;ref_field&#39;: &#39;productCode&#39;},
+ {&#39;table&#39;: &#39;orderdetails&#39;,
+  &#39;field&#39;: &#39;orderNumber&#39;,
+  &#39;ref_table&#39;: &#39;orders&#39;,
+  &#39;ref_field&#39;: &#39;orderNumber&#39;},
+ {&#39;table&#39;: &#39;employees&#39;,
+  &#39;field&#39;: &#39;officeCode&#39;,
+  &#39;ref_table&#39;: &#39;offices&#39;,
+  &#39;ref_field&#39;: &#39;officeCode&#39;}]
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="readme.html" class="btn btn-neutral float-right" title="DataTracer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

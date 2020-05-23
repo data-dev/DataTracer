@@ -1,0 +1,25 @@
+datatracer package
+==================
+
+.. automodule:: datatracer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   datatracer.column_map
+   datatracer.foreign_key
+   datatracer.primary_key
+
+Submodules
+----------
+
+.. toctree::
+
+   datatracer.benchmark
+   datatracer.core
+   datatracer.data

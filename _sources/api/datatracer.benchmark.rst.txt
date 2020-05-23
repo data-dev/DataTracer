@@ -1,0 +1,7 @@
+datatracer.benchmark module
+===========================
+
+.. automodule:: datatracer.benchmark
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,532 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Index &mdash; Data Tracer 0.0.1.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Data Tracer
+          
+
+          
+            
+            <img src="_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">DataTracer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#install-with-pip">Install with pip</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#load-data">Load data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/datatracer.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/datatracer.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.column_map.html">datatracer.column_map package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/datatracer.column_map.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.foreign_key.html">datatracer.foreign_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/datatracer.foreign_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.primary_key.html">datatracer.primary_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/datatracer.primary_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/datatracer.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.benchmark.html">datatracer.benchmark module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.core.html">datatracer.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.data.html">datatracer.data module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#release-workflow">Release Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="contributing.html#release-candidates">Release Candidates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Data Tracer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Index</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/genindex" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ 
+</div>
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.column_map.html#datatracer.column_map.Transformer.backward">backward() (datatracer.column_map.Transformer method)</a>
+
+      <ul>
+        <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.backward">(datatracer.column_map.transformer.Transformer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.BasicForeignKeySolver">BasicForeignKeySolver (class in datatracer.foreign_key)</a>
+
+      <ul>
+        <li><a href="api/datatracer.foreign_key.basic.html#datatracer.foreign_key.basic.BasicForeignKeySolver">(class in datatracer.foreign_key.basic)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.BasicPrimaryKeySolver">BasicPrimaryKeySolver (class in datatracer.primary_key)</a>
+
+      <ul>
+        <li><a href="api/datatracer.primary_key.basic.html#datatracer.primary_key.basic.BasicPrimaryKeySolver">(class in datatracer.primary_key.basic)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver">ColumnMapSolver (class in datatracer.column_map)</a>
+
+      <ul>
+        <li><a href="api/datatracer.column_map.solver.html#datatracer.column_map.solver.ColumnMapSolver">(class in datatracer.column_map.solver)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.constraint">constraint() (in module datatracer.benchmark)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.html#datatracer.DataTracer">DataTracer (class in datatracer)</a>
+
+      <ul>
+        <li><a href="api/datatracer.core.html#datatracer.core.DataTracer">(class in datatracer.core)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datatracer.html#module-datatracer">datatracer (module)</a>
+</li>
+      <li><a href="api/datatracer.benchmark.html#module-datatracer.benchmark">datatracer.benchmark (module)</a>
+</li>
+      <li><a href="api/datatracer.column_map.html#module-datatracer.column_map">datatracer.column_map (module)</a>
+</li>
+      <li><a href="api/datatracer.column_map.solver.html#module-datatracer.column_map.solver">datatracer.column_map.solver (module)</a>
+</li>
+      <li><a href="api/datatracer.column_map.transformer.html#module-datatracer.column_map.transformer">datatracer.column_map.transformer (module)</a>
+</li>
+      <li><a href="api/datatracer.core.html#module-datatracer.core">datatracer.core (module)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.data.html#module-datatracer.data">datatracer.data (module)</a>
+</li>
+      <li><a href="api/datatracer.foreign_key.html#module-datatracer.foreign_key">datatracer.foreign_key (module)</a>
+</li>
+      <li><a href="api/datatracer.foreign_key.base.html#module-datatracer.foreign_key.base">datatracer.foreign_key.base (module)</a>
+</li>
+      <li><a href="api/datatracer.foreign_key.basic.html#module-datatracer.foreign_key.basic">datatracer.foreign_key.basic (module)</a>
+</li>
+      <li><a href="api/datatracer.foreign_key.standard.html#module-datatracer.foreign_key.standard">datatracer.foreign_key.standard (module)</a>
+</li>
+      <li><a href="api/datatracer.primary_key.html#module-datatracer.primary_key">datatracer.primary_key (module)</a>
+</li>
+      <li><a href="api/datatracer.primary_key.base.html#module-datatracer.primary_key.base">datatracer.primary_key.base (module)</a>
+</li>
+      <li><a href="api/datatracer.primary_key.basic.html#module-datatracer.primary_key.basic">datatracer.primary_key.basic (module)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.fit">fit() (datatracer.core.DataTracer method)</a>
+
+      <ul>
+        <li><a href="api/datatracer.html#datatracer.DataTracer.fit">(datatracer.DataTracer method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.base.html#datatracer.foreign_key.base.ForeignKeySolver.fit">(datatracer.foreign_key.base.ForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.ForeignKeySolver.fit">(datatracer.foreign_key.ForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.standard.html#datatracer.foreign_key.standard.StandardForeignKeySolver.fit">(datatracer.foreign_key.standard.StandardForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.StandardForeignKeySolver.fit">(datatracer.foreign_key.StandardForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.base.html#datatracer.primary_key.base.PrimaryKeySolver.fit">(datatracer.primary_key.base.PrimaryKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.basic.html#datatracer.primary_key.basic.BasicPrimaryKeySolver.fit">(datatracer.primary_key.basic.BasicPrimaryKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.BasicPrimaryKeySolver.fit">(datatracer.primary_key.BasicPrimaryKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.PrimaryKeySolver.fit">(datatracer.primary_key.PrimaryKeySolver method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.foreign">foreign() (in module datatracer.benchmark)</a>
+</li>
+      <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.ForeignKeySolver">ForeignKeySolver (class in datatracer.foreign_key)</a>
+
+      <ul>
+        <li><a href="api/datatracer.foreign_key.base.html#datatracer.foreign_key.base.ForeignKeySolver">(class in datatracer.foreign_key.base)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datatracer.column_map.html#datatracer.column_map.Transformer.forward">forward() (datatracer.column_map.Transformer method)</a>
+
+      <ul>
+        <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.forward">(datatracer.column_map.transformer.Transformer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.html#datatracer.get_demo_data">get_demo_data() (in module datatracer)</a>
+
+      <ul>
+        <li><a href="api/datatracer.data.html#datatracer.data.get_demo_data">(in module datatracer.data)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.html#datatracer.get_pipelines">get_pipelines() (in module datatracer)</a>
+</li>
+      <li><a href="api/datatracer.html#datatracer.get_primitives">get_primitives() (in module datatracer)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.load">load() (datatracer.core.DataTracer class method)</a>
+
+      <ul>
+        <li><a href="api/datatracer.html#datatracer.DataTracer.load">(datatracer.DataTracer class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datatracer.html#datatracer.load_dataset">load_dataset() (in module datatracer)</a>
+
+      <ul>
+        <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.load_dataset">(in module datatracer.benchmark)</a>
+</li>
+        <li><a href="api/datatracer.data.html#datatracer.data.load_dataset">(in module datatracer.data)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.html#datatracer.load_datasets">load_datasets() (in module datatracer)</a>
+
+      <ul>
+        <li><a href="api/datatracer.data.html#datatracer.data.load_datasets">(in module datatracer.data)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.main">main() (in module datatracer.benchmark)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.primary">primary() (in module datatracer.benchmark)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.PrimaryKeySolver">PrimaryKeySolver (class in datatracer.primary_key)</a>
+
+      <ul>
+        <li><a href="api/datatracer.primary_key.base.html#datatracer.primary_key.base.PrimaryKeySolver">(class in datatracer.primary_key.base)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.save">save() (datatracer.core.DataTracer method)</a>
+
+      <ul>
+        <li><a href="api/datatracer.html#datatracer.DataTracer.save">(datatracer.DataTracer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver.solve">solve() (datatracer.column_map.ColumnMapSolver method)</a>
+
+      <ul>
+        <li><a href="api/datatracer.column_map.solver.html#datatracer.column_map.solver.ColumnMapSolver.solve">(datatracer.column_map.solver.ColumnMapSolver method)</a>
+</li>
+        <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.solve">(datatracer.core.DataTracer method)</a>
+</li>
+        <li><a href="api/datatracer.html#datatracer.DataTracer.solve">(datatracer.DataTracer method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.base.html#datatracer.foreign_key.base.ForeignKeySolver.solve">(datatracer.foreign_key.base.ForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.basic.html#datatracer.foreign_key.basic.BasicForeignKeySolver.solve">(datatracer.foreign_key.basic.BasicForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.BasicForeignKeySolver.solve">(datatracer.foreign_key.BasicForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.ForeignKeySolver.solve">(datatracer.foreign_key.ForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.standard.html#datatracer.foreign_key.standard.StandardForeignKeySolver.solve">(datatracer.foreign_key.standard.StandardForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.StandardForeignKeySolver.solve">(datatracer.foreign_key.StandardForeignKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.base.html#datatracer.primary_key.base.PrimaryKeySolver.solve">(datatracer.primary_key.base.PrimaryKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.basic.html#datatracer.primary_key.basic.BasicPrimaryKeySolver.solve">(datatracer.primary_key.basic.BasicPrimaryKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.BasicPrimaryKeySolver.solve">(datatracer.primary_key.BasicPrimaryKeySolver method)</a>
+</li>
+        <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.PrimaryKeySolver.solve">(datatracer.primary_key.PrimaryKeySolver method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.StandardForeignKeySolver">StandardForeignKeySolver (class in datatracer.foreign_key)</a>
+
+      <ul>
+        <li><a href="api/datatracer.foreign_key.standard.html#datatracer.foreign_key.standard.StandardForeignKeySolver">(class in datatracer.foreign_key.standard)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.column_map.html#datatracer.column_map.Transformer">Transformer (class in datatracer.column_map)</a>
+
+      <ul>
+        <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer">(class in datatracer.column_map.transformer)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

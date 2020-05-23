@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datatracer.core &mdash; Data Tracer 0.0.1.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Data Tracer
+          
+
+          
+            
+            <img src="../../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">DataTracer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#install-with-pip">Install with pip</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#load-data">Load data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/datatracer.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/datatracer.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.column_map.html">datatracer.column_map package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/datatracer.column_map.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.foreign_key.html">datatracer.foreign_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/datatracer.foreign_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.primary_key.html">datatracer.primary_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/datatracer.primary_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/datatracer.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.benchmark.html">datatracer.benchmark module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.core.html">datatracer.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.data.html">datatracer.data module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#release-workflow">Release Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#release-candidates">Release Candidates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Data Tracer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../datatracer.html">datatracer</a> &raquo;</li>
+        
+      <li>datatracer.core</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datatracer.core</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;DataTracer core module.</span>
+
+<span class="sd">This module defines the DataTracer class.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">mlblocks</span> <span class="kn">import</span> <span class="n">MLPipeline</span>
+
+
+<div class="viewcode-block" id="DataTracer"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer">[docs]</a><span class="k">class</span> <span class="nc">DataTracer</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;DataTracer Class.</span>
+
+<span class="sd">    The DataTracer Class provides a unified and standardized access to</span>
+<span class="sd">    all the Data Lineage functionalities of the project.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pipeline (str, dict or MLPipeline):</span>
+<span class="sd">            Pipeline to use. It can be passed as:</span>
+<span class="sd">                * An ``str`` with a path to a JSON file.</span>
+<span class="sd">                * An ``str`` with the name of a registered pipeline.</span>
+<span class="sd">                * An ``MLPipeline`` instance.</span>
+<span class="sd">                * A ``dict`` with an ``MLPipeline`` specification.</span>
+<span class="sd">        hyperparameters (dict):</span>
+<span class="sd">            Additional hyperparameters to set to the Pipeline.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_get_mlpipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">pipeline</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+                <span class="n">pipeline</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+        <span class="n">mlpipeline</span> <span class="o">=</span> <span class="n">MLPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hyperparameters</span><span class="p">:</span>
+            <span class="n">mlpipeline</span><span class="o">.</span><span class="n">set_hyperparameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hyperparameters</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mlpipeline</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">hyperparameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pipeline</span> <span class="o">=</span> <span class="n">pipeline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hyperparameters</span> <span class="o">=</span> <span class="n">hyperparameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mlpipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mlpipeline</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataTracer.fit"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datasets</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the pipeline to the given data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            datasets (list or dict):</span>
+<span class="sd">                List or dict of tuples containing a MetaData instance and a dict</span>
+<span class="sd">                with the tables of the dataset loaded as DataFrames.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">datasets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">datasets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mlpipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mlpipeline</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mlpipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">list_of_databases</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">tables</span><span class="o">=</span><span class="p">{})</span></div>
+
+<div class="viewcode-block" id="DataTracer.solve"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Solve the data lineage problem.</span>
+
+<span class="sd">        The underlaying pipeline is executed and the outputs are returned.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tables (dict):</span>
+<span class="sd">                Dictionary of tables from a dataset loaded as DataFrames.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Any additional keyword arguments are passed down to the</span>
+<span class="sd">                pipeline.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object:</span>
+<span class="sd">                This method returns the outputs returned by the pipeline.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mlpipeline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tables</span><span class="o">=</span><span class="n">tables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataTracer.save"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save this object using pickle for later usage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str):</span>
+<span class="sd">                Path to the file where the serialization of</span>
+<span class="sd">                this object will be stored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pickle_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataTracer.load"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a DataTracer instance from a pickle file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str):</span>
+<span class="sd">                Path to the file where the instance has been</span>
+<span class="sd">                previously serialized.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataTracer</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError:</span>
+<span class="sd">                If the serialized object is not a DataTracer instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pickle_file</span><span class="p">:</span>
+            <span class="n">datatracer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pickle_file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datatracer</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Serialized object is not a DataTracer instance&#39;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">datatracer</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

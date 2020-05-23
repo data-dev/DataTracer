@@ -1,0 +1,15 @@
+datatracer.primary\_key package
+===============================
+
+.. automodule:: datatracer.primary_key
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   datatracer.primary_key.base
+   datatracer.primary_key.basic

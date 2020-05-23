@@ -1,0 +1,7 @@
+datatracer.core module
+======================
+
+.. automodule:: datatracer.core
+   :members:
+   :undoc-members:
+   :show-inheritance:

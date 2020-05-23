@@ -1,0 +1,7 @@
+datatracer.column\_map.solver module
+====================================
+
+.. automodule:: datatracer.column_map.solver
+   :members:
+   :undoc-members:
+   :show-inheritance:
