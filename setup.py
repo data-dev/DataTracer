@@ -18,6 +18,7 @@ install_requires = [
     'scikit-learn>=0.20.0,<0.21',
     'docopt>=0.6.2,<1',
     'metad>=0.0.1,<0.2',
+    'numpy<1.17,>=1.15.2',
 ]
 
 setup_requires = [
@@ -99,6 +100,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/HDI-Project/DataTracer',
-    version='0.0.1',
+    version='0.0.2.dev1',
     zip_safe=False,
 )
