@@ -18,6 +18,7 @@ install_requires = [
     'scikit-learn>=0.20.0,<0.21',
     'docopt>=0.6.2,<1',
     'metad>=0.0.1,<0.2',
+    'numpy<1.17,>=1.15.2',
 ]
 
 setup_requires = [
