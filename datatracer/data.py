@@ -1,3 +1,9 @@
+"""Data module.
+
+This module provides data to load datasets as tuples of
+metadata and tables, as well as a helper function to
+generate a folder with demo datasets inside it.
+"""
 import os
 import shutil
 
