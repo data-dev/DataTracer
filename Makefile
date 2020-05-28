@@ -98,22 +98,29 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 
 # TEST TARGETS
 
-.PHONY: test
-test: ## run tests quickly with the default Python
+.PHONY: test-unit
+test-unit: ## run tests quickly with the default Python
 	python -m pytest --basetemp=${ENVTMPDIR} --cov=datatracer
-
-.PHONY: test-all
-test-all: ## run tests on every Python version with tox
-	tox -r -p auto
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
-	@rm -rf datatracer_demo
-	@rundoc run --single-session python3 -t python3 README.md
+	rm -rf tests/readme_test && mkdir tests/readme_test
+	cd tests/readme_test && rundoc run --single-session python3 -t python3 ../../README.md
+	rm -rf tests/readme_test
 
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
 	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
+
+.PHONY: test
+test: test-unit test-readme test-tutorials ## test everything that needs test dependencies
+
+.PHONY: test-devel
+test-devel: lint docs ## test everything that needs development dependencies
+
+.PHONY: test-all
+test-all: ## test using tox
+	tox -r -p auto
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python
