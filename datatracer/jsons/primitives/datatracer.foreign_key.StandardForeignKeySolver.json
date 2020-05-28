@@ -20,6 +20,7 @@
             },
             {
                 "name": "primary_keys",
+                "default": null,
                 "type": "dict"
             }
         ],
