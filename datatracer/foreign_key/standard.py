@@ -15,7 +15,49 @@ class StandardForeignKeySolver(ForeignKeySolver):
         self._model_args = args
         self._model_kwargs = kwargs
 
+    def _diff(self, a, b):
+        diff = 0
+        a, b = Counter(a), Counter(b)
+        for k in set(a.keys()).union(set(b.keys())):
+            diff += abs(a[k] - b[k])
+
+        return diff
+
+    def _feature_vector(self, parent_col, child_col):
+        parent_set, child_set = set(parent_col), set(child_col)
+        len_intersect = len(parent_set.intersection(child_set))
+        return [
+            len_intersect / (len(child_set) + 1e-5),
+            len_intersect / (len(parent_set) + 1e-5),
+            len_intersect / (max(len(child_set), len(parent_set)) + 1e-5),
+            1.0 if parent_col.name == child_col.name else 0.0,
+            self._diff(parent_col.name, child_col.name),
+            1.0 if child_set.issubset(parent_set) else 0.0,
+            1.0 if parent_set.issubset(child_set) else 0.0,
+            len(parent_set) / (len(parent_col) + 1e-5),
+            1.0 if "key" in parent_col.name else 0.0,
+            1.0 if "id" in parent_col.name else 0.0,
+            1.0 if "_key" in parent_col.name else 0.0,
+            1.0 if "_id" in parent_col.name else 0.0,
+            1.0 if parent_col.dtype == "int64" else 0.0,
+            1.0 if parent_col.dtype == "object" else 0.0,
+            len(child_set) / (len(child_col) + 1e-5),
+            1.0 if "key" in child_col.name else 0.0,
+            1.0 if "id" in child_col.name else 0.0,
+            1.0 if "_key" in child_col.name else 0.0,
+            1.0 if "_id" in child_col.name else 0.0,
+            1.0 if child_col.dtype == "int64" else 0.0,
+            1.0 if child_col.dtype == "object" else 0.0,
+        ]
+
     def fit(self, list_of_databases):
+        """Fit this solver.
+
+        Args:
+            list_of_databases (list):
+                List of tuples containing ``MetaData`` instnces and table dictinaries,
+                which contain table names as input and ``pandas.DataFrames`` as values.
+        """
         X, y = [], []
         for metadata, tables in tqdm(list_of_databases, "extracting features"):
             fks = metadata.get_foreign_keys()
@@ -41,6 +83,22 @@ class StandardForeignKeySolver(ForeignKeySolver):
         self.model.fit(X, y)
 
     def solve(self, tables, primary_keys=None):
+        """Solve the foreign key detection problem.
+
+        The output is a list of foreign key specifications, in order from the most likely
+        to the least likely.
+
+        Args:
+            tables (dict):
+                Dict containing table names as input and ``pandas.DataFrames``
+                as values.
+            primary_keys (dict):
+                (Ignored). This particular implementation does not use this argument.
+
+        Returns:
+            dict:
+                List of foreign key specifications, sorted by likelyhood.
+        """
         X, foreign_keys = [], []
         for t1, t2 in permutations(tables.keys(), r=2):
             for c1 in tables[t1].columns:
@@ -74,38 +132,3 @@ class StandardForeignKeySolver(ForeignKeySolver):
                 best_foreign_keys.append(foreign_key)
 
         return best_foreign_keys
-
-    def _feature_vector(self, parent_col, child_col):
-        parent_set, child_set = set(parent_col), set(child_col)
-        len_intersect = len(parent_set.intersection(child_set))
-        return [
-            len_intersect / (len(child_set) + 1e-5),
-            len_intersect / (len(parent_set) + 1e-5),
-            len_intersect / (max(len(child_set), len(parent_set)) + 1e-5),
-            1.0 if parent_col.name == child_col.name else 0.0,
-            self._diff(parent_col.name, child_col.name),
-            1.0 if child_set.issubset(parent_set) else 0.0,
-            1.0 if parent_set.issubset(child_set) else 0.0,
-            len(parent_set) / (len(parent_col) + 1e-5),
-            1.0 if "key" in parent_col.name else 0.0,
-            1.0 if "id" in parent_col.name else 0.0,
-            1.0 if "_key" in parent_col.name else 0.0,
-            1.0 if "_id" in parent_col.name else 0.0,
-            1.0 if parent_col.dtype == "int64" else 0.0,
-            1.0 if parent_col.dtype == "object" else 0.0,
-            len(child_set) / (len(child_col) + 1e-5),
-            1.0 if "key" in child_col.name else 0.0,
-            1.0 if "id" in child_col.name else 0.0,
-            1.0 if "_key" in child_col.name else 0.0,
-            1.0 if "_id" in child_col.name else 0.0,
-            1.0 if child_col.dtype == "int64" else 0.0,
-            1.0 if child_col.dtype == "object" else 0.0,
-        ]
-
-    def _diff(self, a, b):
-        diff = 0
-        a, b = Counter(a), Counter(b)
-        for k in set(a.keys()).union(set(b.keys())):
-            diff += abs(a[k] - b[k])
-
-        return diff

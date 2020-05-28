@@ -1,3 +1,5 @@
+"""Basic Foreign Key Solver module."""
+
 from itertools import permutations
 
 from tqdm import tqdm
@@ -11,7 +13,32 @@ class BasicForeignKeySolver(ForeignKeySolver):
         self._threshold = threshold
         self._add_details = add_details
 
+    def _score(self, col_a, col_b):
+        set_a, set_b = set(col_a), set(col_b)
+        if set_b.issubset(set_a):  # child must be subset of parent
+            num = len(set_a.intersection(set_b))
+            denom = max(len(set_a), len(set_b))
+            return num / (denom + 1e-5)
+
+        return 0.0
+
     def solve(self, tables, primary_keys=None):
+        """Solve the foreign key detection problem.
+
+        The output is a list of foreign key specifications, in order from the most likely
+        to the least likely.
+
+        Args:
+            tables (dict):
+                Dict containing table names as input and ``pandas.DataFrames``
+                as values.
+            primary_keys (dict):
+                (Ignored). This particular implementation does not use this argument.
+
+        Returns:
+            dict:
+                List of foreign key specifications, sorted by likelyhood.
+        """
         foreign_keys = []
         for t1, t2 in tqdm(list(permutations(tables.keys(), r=2))):
             for c1 in tables[t1].columns:
@@ -37,12 +64,3 @@ class BasicForeignKeySolver(ForeignKeySolver):
                 best_foreign_keys.append(foreign_key)
 
         return best_foreign_keys
-
-    def _score(self, col_a, col_b):
-        set_a, set_b = set(col_a), set(col_b)
-        if set_b.issubset(set_a):  # child must be subset of parent
-            num = len(set_a.intersection(set_b))
-            denom = max(len(set_a), len(set_b))
-            return num / (denom + 1e-5)
-
-        return 0.0
