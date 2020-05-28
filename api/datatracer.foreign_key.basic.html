@@ -223,6 +223,7 @@
             
   <div class="section" id="module-datatracer.foreign_key.basic">
 <span id="datatracer-foreign-key-basic-module"></span><h1>datatracer.foreign_key.basic module<a class="headerlink" href="#module-datatracer.foreign_key.basic" title="Permalink to this headline">¶</a></h1>
+<p>Basic Foreign Key Solver module.</p>
 <p><strong>Classes</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -247,14 +248,31 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.foreign_key.basic.BasicForeignKeySolver.solve" title="datatracer.foreign_key.basic.BasicForeignKeySolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables[, primary_keys])</p></td>
-<td><p>Return a list of foreign keys in order from most likely to least likely.</p></td>
+<td><p>Solve the foreign key detection problem.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="datatracer.foreign_key.basic.BasicForeignKeySolver.solve">
 <code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">primary_keys=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/foreign_key/basic.html#BasicForeignKeySolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.foreign_key.basic.BasicForeignKeySolver.solve" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of foreign keys in order from most likely to least likely.</p>
+<dd><p>Solve the foreign key detection problem.</p>
+<p>The output is a list of foreign key specifications, in order from the most likely
+to the least likely.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tables</strong> (<em>dict</em>) – Dict containing table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code>
+as values.</p></li>
+<li><p><strong>primary_keys</strong> (<em>dict</em>) – (Ignored). This particular implementation does not use this argument.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of foreign key specifications, sorted by likelyhood.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

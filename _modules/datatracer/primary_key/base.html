@@ -214,12 +214,36 @@
            <div itemprop="articleBody">
             
   <h1>Source code for datatracer.primary_key.base</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="PrimaryKeySolver"><a class="viewcode-back" href="../../../api/datatracer.primary_key.base.html#datatracer.primary_key.PrimaryKeySolver">[docs]</a><span></span><span class="k">class</span> <span class="nc">PrimaryKeySolver</span><span class="p">():</span>
+<span></span><span class="sd">&quot;&quot;&quot;Primary Key Solving base class.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="PrimaryKeySolver"><a class="viewcode-back" href="../../../api/datatracer.primary_key.base.html#datatracer.primary_key.PrimaryKeySolver">[docs]</a><span class="k">class</span> <span class="nc">PrimaryKeySolver</span><span class="p">():</span>
 
 <div class="viewcode-block" id="PrimaryKeySolver.fit"><a class="viewcode-back" href="../../../api/datatracer.primary_key.base.html#datatracer.primary_key.PrimaryKeySolver.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_of_databases</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit this solver.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            list_of_databases (list):</span>
+<span class="sd">                List of tuples containing ``MetaData`` instnces and table dictinaries,</span>
+<span class="sd">                which contain table names as input and ``pandas.DataFrames`` as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="PrimaryKeySolver.solve"><a class="viewcode-back" href="../../../api/datatracer.primary_key.base.html#datatracer.primary_key.PrimaryKeySolver.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Solve the primary key detection problem.</span>
+
+<span class="sd">        The output is a dictionary contiaining table names as keys, and the</span>
+<span class="sd">        name of the field that is most likely to be the primary key as values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tables (dict):</span>
+<span class="sd">                Dict containing table names as input and ``pandas.DataFrames``</span>
+<span class="sd">                as values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict:</span>
+<span class="sd">                Dict containing table names as keys and field names as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
 </pre></div>
 

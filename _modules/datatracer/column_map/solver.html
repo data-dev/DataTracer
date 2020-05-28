@@ -220,27 +220,40 @@
 
 
 <div class="viewcode-block" id="ColumnMapSolver"><a class="viewcode-back" href="../../../api/datatracer.column_map.solver.html#datatracer.column_map.ColumnMapSolver">[docs]</a><span class="k">class</span> <span class="nc">ColumnMapSolver</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Solves the data lineage problem for the column dependency case using random forest regressor.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Solver for the data lineage problem of column dependency.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model_args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
     <span class="k">def</span> <span class="nf">_get_importances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Predicts which columns of the input table generated the output column, using</span>
-<span class="sd">        random forest regressor.</span>
-<span class="sd">        Returns these columns as a list of column names, chosen from y.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_kwargs</span><span class="p">)</span>
         <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span>
 
 <div class="viewcode-block" id="ColumnMapSolver.solve"><a class="viewcode-back" href="../../../api/datatracer.column_map.solver.html#datatracer.column_map.ColumnMapSolver.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Find the fields which contributed to the target_field.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Find the fields which contributed to the target_field the most.</span>
+
+<span class="sd">        The output is a dictionary containing the fields that contributed the</span>
+<span class="sd">        most to the given target field as keys, specified as a tuple containing</span>
+<span class="sd">        both table name and field name, and the score obtained as values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tables (dict):</span>
+<span class="sd">                Dict containing table names as input and ``pandas.DataFrames``</span>
+<span class="sd">                as values.</span>
+<span class="sd">            foreign_keys (list):</span>
+<span class="sd">                List of foreign key specifications.</span>
+<span class="sd">            target_table (str):</span>
+<span class="sd">                Name of the table that contains the target field.</span>
+<span class="sd">            target_field (str):</span>
+<span class="sd">                Name of the target field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict:</span>
+<span class="sd">                Dictionary of field specification tuples and scores.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">)</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">)</span>
 
