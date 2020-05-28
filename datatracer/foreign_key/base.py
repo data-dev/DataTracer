@@ -1,5 +1,6 @@
 """Foreign Key Solving base class."""
 
+
 class ForeignKeySolver():
 
     def fit(self, list_of_databases):
