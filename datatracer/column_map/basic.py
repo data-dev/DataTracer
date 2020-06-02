@@ -39,10 +39,15 @@ class BasicColumnMapSolver(ColumnMapSolver):
                 apply on all the tables.
             target_field (str):
                 Name of the target field. If not given, apply on all the fields.
+                Accepted only if target_table is also passed.
 
         Returns:
             dict:
                 Dictionary of field specification tuples and scores.
+
+        Raises:
+            TypeError:
+                If target_field is passed but target_table is not.
         """
         transformer = Transformer(tables, foreign_keys)
 
