@@ -109,3 +109,5 @@ ENV/
 .DS_Store
 
 datatracer_demo
+*.bak
++.disabled

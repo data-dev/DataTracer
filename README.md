@@ -83,47 +83,40 @@ getting started with **Data Tracer**.
 
 The first step will be to load the data in the format expected by DataTracer.
 
-For this, we can use the `datatracer.load_datasets`  function passing the path to
-where we have our datasets.
+For this, we can use the `datatracer.load_dataset`  function passing the path to
+the dataset folder.
 
-For example, if we are using the demo datasets, we can load them using:
+For example, if we want to use the `classicmodels` dataset included in the demo folder
+that we just created we can load it using:
 
 ```python3
-from datatracer import load_datasets
+from datatracer import load_dataset
 
-datasets = load_datasets('datatracer_demo')
+metadata, tables = load_dataset('datatracer_demo/classicmodels')
 ```
 
-This will return a dictionary of dataset names and tuples, each one of them containing:
+This will return a tuple which contains:
 
 * A `MetaData` instance with details about the dataset.
 * A `dict` with all the tables of the dataset loaded as a `pandas.DataFrame`.
 
-For the rest of the tutorial, we will use the dataset called `classicalmodels`
-for our testing, and use the rest of the datasets to train the DataTracer.
-
-```python3
-metadata, tables = datasets.pop('classicmodels')
-```
-
-## Select a Pipeline
+## Select a Solver
 
 In the DataTracer project, the different Data Lineage problems are solved using what we
-call _pipelines_.
+call _solvers_.
 
-We can see the list of available pipelines using the `get_pipelines` function:
+We can see the list of available solvers using the `get_solvers` function:
 
 ```python3
-from datatracer import get_pipelines
+from datatracer import get_solvers
 
-get_pipelines()
+get_solvers()
 ```
 
-This will return a list with the names of the available pipelines:
+which will return a list with their names:
 
 ```
 ['datatracer.column_map',
- 'datatracer.detection.primary',
  'datatracer.foreign_key.basic',
  'datatracer.foreign_key.standard',
  'datatracer.primary_key.basic']
@@ -131,23 +124,19 @@ This will return a list with the names of the available pipelines:
 
 ## Use a DataTracer instance to find table relationships
 
-In order to use a pipeline you will need to create a `DataTracer` instance passing the name of
-the pipeline that we want to use.
+In order to use the selected solver you will need to load it using the `DataTracer` class.
 
 In this example, we will try to figure out the relationships between the tables in our dataset
-by using the pipeline `datatracer.foreign_key.standard`.
+by using the solver `datatracer.foreign_key.standard`.
 
 ```python3
 from datatracer import DataTracer
 
-# Create the DataTrace instance
-dtr = DataTracer('datatracer.foreign_key.standard')
-
-# Fit it to our training datasets
-dtr.fit(datasets)
+# Load the Solver
+solver = DataTracer.load('datatracer.foreign_key.standard')
 
 # Solve the Data Lineage problem
-foreign_keys = dtr.solve(tables)
+foreign_keys = solver.solve(tables)
 ```
 
 The result will be a dictionary containing the foreign key candidates:
