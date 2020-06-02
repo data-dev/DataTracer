@@ -11,6 +11,8 @@ import pickle
 
 from mlblocks import MLPipeline
 
+PRETRAINED_DIR = os.path.join(os.path.dirname(__file__), 'pretrained')
+
 
 class DataTracer:
     """DataTracer Class.
@@ -91,13 +93,13 @@ class DataTracer:
             pickle.dump(self, pickle_file)
 
     @classmethod
-    def load(cls, path: str):
+    def load(cls, datatracer: str):
         """Load a DataTracer instance from a pickle file.
 
         Args:
-            path (str):
-                Path to the file where the instance has been
-                previously serialized.
+            datatracer (str):
+                Name of the datatracer to load, or path to a previously saved
+                instance.
 
         Returns:
             DataTracer
@@ -106,6 +108,13 @@ class DataTracer:
             ValueError:
                 If the serialized object is not a DataTracer instance.
         """
+        if os.path.isfile(datatracer):
+            path = datatracer
+        else:
+            path = os.path.join(PRETRAINED_DIR, datatracer + '.dt')
+            if not os.path.isfile(path):
+                raise ValueError('Unknown datatracer: {}'.format(datatracer))
+
         with open(path, 'rb') as pickle_file:
             datatracer = pickle.load(pickle_file)
             if not isinstance(datatracer, cls):
