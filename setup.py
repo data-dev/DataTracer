@@ -12,6 +12,7 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
+    'boto3>=1.13,<2',
     'pandas>=0.23.4,<0.25',
     'scikit-learn>=0.20.0,<0.21',
     'numpy<1.17,>=1.15.2',
@@ -100,7 +101,7 @@ setup(
     keywords='datatracer data-tracer Data Tracer',
     name='datatracer',
     packages=find_packages(include=['datatracer', 'datatracer.*']),
-    python_requires='>=3.5,<3.8',
+    python_requires='>=3.5,<=3.8',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
