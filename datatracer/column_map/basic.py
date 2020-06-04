@@ -1,10 +1,15 @@
+import logging
+
 from sklearn.ensemble import RandomForestRegressor
 
+from datatracer.column_map.base import ColumnMapSolver
 from datatracer.column_map.transformer import Transformer
 
+LOGGER = logging.getLogger(__name__)
 
-class ColumnMapSolver:
-    """Solver for the data lineage problem of column dependency."""
+
+class BasicColumnMapSolver(ColumnMapSolver):
+    """Basic Solver for the data lineage problem of column dependency."""
 
     def __init__(self, *args, **kwargs):
         self._model_args = args
@@ -39,6 +44,7 @@ class ColumnMapSolver:
                 Dictionary of field specification tuples and scores.
         """
         transformer = Transformer(tables, foreign_keys)
+
         X, y = transformer.forward(target_table, target_field)
 
         importances = self._get_importances(X, y)

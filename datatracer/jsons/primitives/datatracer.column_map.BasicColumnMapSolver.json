@@ -1,7 +1,7 @@
 {
-    "name": "datatracer.column_map.ColumnMapSolver",
+    "name": "datatracer.column_map.BasicColumnMapSolver",
     "description": "Detect the foreign keys of a Table.",
-    "primitive": "datatracer.column_map.ColumnMapSolver",
+    "primitive": "datatracer.column_map.BasicColumnMapSolver",
     "produce": {
         "method": "solve",
         "args": [
@@ -15,10 +15,12 @@
             },
             {
                 "name": "target_table",
+                "default": null,
                 "type": "str"
             },
             {
                 "name": "target_field",
+                "default": null,
                 "type": "str"
             }
         ],

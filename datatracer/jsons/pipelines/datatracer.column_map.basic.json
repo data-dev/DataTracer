@@ -1,6 +1,6 @@
 {
     "primitives": [
         "datatracer.foreign_key.StandardForeignKeySolver",
-        "datatracer.column_map.ColumnMapSolver"
+        "datatracer.column_map.BasicColumnMapSolver"
     ]
 }

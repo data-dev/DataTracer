@@ -230,7 +230,7 @@ ifeq ($(CHANGELOG_LINES),0)
 endif
 
 .PHONY: check-release
-check-release: check-master check-history ## Check if the release can be made
+check-release: check-clean check-master check-history ## Check if the release can be made
 	@echo "A new release can be made"
 
 .PHONY: release

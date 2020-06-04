@@ -4,7 +4,7 @@ include HISTORY.md
 include LICENSE
 include README.md
 
-recursive-include datatracer *.json
+recursive-include datatracer *.json *.dt
 recursive-include datatracer/datasets *
 recursive-include tests *
 recursive-exclude * __pycache__
