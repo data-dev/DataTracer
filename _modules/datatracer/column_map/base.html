@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datatracer.foreign_key.basic &mdash; Data Tracer 0.0.4.dev0 documentation</title>
+  <title>datatracer.column_map.base &mdash; Data Tracer 0.0.4.dev0 documentation</title>
   
 
   
@@ -199,7 +199,7 @@
         
           <li><a href="../../datatracer.html">datatracer</a> &raquo;</li>
         
-      <li>datatracer.foreign_key.basic</li>
+      <li>datatracer.column_map.base</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -214,73 +214,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datatracer.foreign_key.basic</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Basic Foreign Key Solver module.&quot;&quot;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">permutations</span>
-
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-
-<span class="kn">from</span> <span class="nn">datatracer.foreign_key.base</span> <span class="kn">import</span> <span class="n">ForeignKeySolver</span>
+  <h1>Source code for datatracer.column_map.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Column Mapping base class.&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="BasicForeignKeySolver"><a class="viewcode-back" href="../../../api/datatracer.foreign_key.basic.html#datatracer.foreign_key.BasicForeignKeySolver">[docs]</a><span class="k">class</span> <span class="nc">BasicForeignKeySolver</span><span class="p">(</span><span class="n">ForeignKeySolver</span><span class="p">):</span>
+<div class="viewcode-block" id="ColumnMapSolver"><a class="viewcode-back" href="../../../api/datatracer.column_map.base.html#datatracer.column_map.ColumnMapSolver">[docs]</a><span class="k">class</span> <span class="nc">ColumnMapSolver</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base Solver for the data lineage problem of column dependency.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">add_details</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_threshold</span> <span class="o">=</span> <span class="n">threshold</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_add_details</span> <span class="o">=</span> <span class="n">add_details</span>
+<div class="viewcode-block" id="ColumnMapSolver.fit"><a class="viewcode-back" href="../../../api/datatracer.column_map.base.html#datatracer.column_map.ColumnMapSolver.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_of_databases</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit this solver.</span>
 
-    <span class="k">def</span> <span class="nf">_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_a</span><span class="p">,</span> <span class="n">col_b</span><span class="p">):</span>
-        <span class="n">set_a</span><span class="p">,</span> <span class="n">set_b</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">col_a</span><span class="p">),</span> <span class="nb">set</span><span class="p">(</span><span class="n">col_b</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">set_b</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">set_a</span><span class="p">):</span>  <span class="c1"># child must be subset of parent</span>
-            <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">set_a</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">set_b</span><span class="p">))</span>
-            <span class="n">denom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">set_a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">set_b</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">num</span> <span class="o">/</span> <span class="p">(</span><span class="n">denom</span> <span class="o">+</span> <span class="mf">1e-5</span><span class="p">)</span>
+<span class="sd">        Args:</span>
+<span class="sd">            list_of_databases (list):</span>
+<span class="sd">                List of tuples containing ``MetaData`` instnces and table dictinaries,</span>
+<span class="sd">                which contain table names as input and ``pandas.DataFrames`` as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
-        <span class="k">return</span> <span class="mf">0.0</span>
+<div class="viewcode-block" id="ColumnMapSolver.solve"><a class="viewcode-back" href="../../../api/datatracer.column_map.base.html#datatracer.column_map.ColumnMapSolver.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the fields which contributed to the target_field the most.</span>
 
-<div class="viewcode-block" id="BasicForeignKeySolver.solve"><a class="viewcode-back" href="../../../api/datatracer.foreign_key.basic.html#datatracer.foreign_key.BasicForeignKeySolver.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">primary_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Solve the foreign key detection problem.</span>
-
-<span class="sd">        The output is a list of foreign key specifications, in order from the most likely</span>
-<span class="sd">        to the least likely.</span>
+<span class="sd">        The output is a dictionary containing the fields that contributed the</span>
+<span class="sd">        most to the given target field as keys, specified as a tuple containing</span>
+<span class="sd">        both table name and field name, and the score obtained as values.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            tables (dict):</span>
 <span class="sd">                Dict containing table names as input and ``pandas.DataFrames``</span>
 <span class="sd">                as values.</span>
-<span class="sd">            primary_keys (dict):</span>
-<span class="sd">                (Ignored). This particular implementation does not use this argument.</span>
+<span class="sd">            foreign_keys (list):</span>
+<span class="sd">                List of foreign key specifications.</span>
+<span class="sd">            target_table (str):</span>
+<span class="sd">                Name of the table that contains the target field.</span>
+<span class="sd">            target_field (str):</span>
+<span class="sd">                Name of the target field.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict:</span>
-<span class="sd">                List of foreign key specifications, sorted by likelyhood.</span>
+<span class="sd">                Dictionary of field specification tuples and scores.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">foreign_keys</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">t1</span><span class="p">,</span> <span class="n">t2</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">permutations</span><span class="p">(</span><span class="n">tables</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">))):</span>
-            <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">[</span><span class="n">t1</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">[</span><span class="n">t2</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">tables</span><span class="p">[</span><span class="n">t1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="n">tables</span><span class="p">[</span><span class="n">t2</span><span class="p">][</span><span class="n">c2</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span><span class="p">:</span>
-                        <span class="k">continue</span>
-
-                    <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="n">t1</span><span class="p">][</span><span class="n">c1</span><span class="p">],</span> <span class="n">tables</span><span class="p">[</span><span class="n">t2</span><span class="p">][</span><span class="n">c2</span><span class="p">])</span>
-                    <span class="n">foreign_keys</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">score</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">c2</span><span class="p">))</span>
-
-        <span class="n">best_foreign_keys</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">score</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">foreign_keys</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold</span><span class="p">:</span>
-                <span class="n">foreign_key</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;table&quot;</span><span class="p">:</span> <span class="n">t1</span><span class="p">,</span>
-                    <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="n">c1</span><span class="p">,</span>
-                    <span class="s2">&quot;ref_table&quot;</span><span class="p">:</span> <span class="n">t2</span><span class="p">,</span>
-                    <span class="s2">&quot;ref_field&quot;</span><span class="p">:</span> <span class="n">c2</span><span class="p">,</span>
-                <span class="p">}</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_details</span><span class="p">:</span>
-                    <span class="n">foreign_key</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
-
-                <span class="n">best_foreign_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">foreign_key</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">best_foreign_keys</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>

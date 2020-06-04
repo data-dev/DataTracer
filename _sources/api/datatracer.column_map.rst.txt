@@ -11,5 +11,6 @@ Submodules
 
 .. toctree::
 
-   datatracer.column_map.solver
+   datatracer.column_map.base
+   datatracer.column_map.basic
    datatracer.column_map.transformer

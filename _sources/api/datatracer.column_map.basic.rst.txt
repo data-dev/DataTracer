@@ -1,0 +1,7 @@
+datatracer.column\_map.basic module
+===================================
+
+.. automodule:: datatracer.column_map.basic
+   :members:
+   :undoc-members:
+   :show-inheritance:

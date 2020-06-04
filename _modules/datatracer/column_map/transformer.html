@@ -93,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -218,7 +218,7 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../../api/datatracer.column_map.transformer.html#datatracer.column_map.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
+<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../../api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -237,7 +237,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tables</span> <span class="o">=</span> <span class="n">tables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">foreign_keys</span> <span class="o">=</span> <span class="n">foreign_keys</span>
 
-<div class="viewcode-block" id="Transformer.forward"><a class="viewcode-back" href="../../../api/datatracer.column_map.transformer.html#datatracer.column_map.Transformer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+<div class="viewcode-block" id="Transformer.forward"><a class="viewcode-back" href="../../../api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function returns a (X, y) tuple containing numerical values which</span>
 <span class="sd">        is suitable for machine learning libraries. The `X` array contains</span>
@@ -325,7 +325,7 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">columns</span>
 
-<div class="viewcode-block" id="Transformer.backward"><a class="viewcode-back" href="../../../api/datatracer.column_map.transformer.html#datatracer.column_map.Transformer.backward">[docs]</a>    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_importances</span><span class="p">):</span>
+<div class="viewcode-block" id="Transformer.backward"><a class="viewcode-back" href="../../../api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.backward">[docs]</a>    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_importances</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This function takes an array of `feature_importances` which corresponds</span>
 <span class="sd">        to the `X` matrix produced by the last call to `forward`. It returns a</span>

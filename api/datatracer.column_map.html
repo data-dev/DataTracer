@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="datatracer.column_map.solver module" href="datatracer.column_map.solver.html" />
+    <link rel="next" title="datatracer.column_map.base module" href="datatracer.column_map.base.html" />
     <link rel="prev" title="datatracer package" href="datatracer.html" /> 
 </head>
 
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -229,19 +229,19 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.ColumnMapSolver" title="datatracer.column_map.ColumnMapSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnMapSolver</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Solver for the data lineage problem of column dependency.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.ColumnMapSolver" title="datatracer.column_map.ColumnMapSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnMapSolver</span></code></a></p></td>
+<td><p>Base Solver for the data lineage problem of column dependency.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.column_map.Transformer" title="datatracer.column_map.Transformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Transformer</span></code></a>(tables, foreign_keys)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.column_map.BasicColumnMapSolver" title="datatracer.column_map.BasicColumnMapSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicColumnMapSolver</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Basic Solver for the data lineage problem of column dependency.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="class">
 <dt id="datatracer.column_map.ColumnMapSolver">
-<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.</code><code class="sig-name descname">ColumnMapSolver</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/solver.html#ColumnMapSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.ColumnMapSolver" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.</code><code class="sig-name descname">ColumnMapSolver</code><a class="reference internal" href="../_modules/datatracer/column_map/base.html#ColumnMapSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.ColumnMapSolver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Solver for the data lineage problem of column dependency.</p>
+<p>Base Solver for the data lineage problem of column dependency.</p>
 <p><strong>Methods</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -249,14 +249,29 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.ColumnMapSolver.solve" title="datatracer.column_map.ColumnMapSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, foreign_keys, target_table, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.ColumnMapSolver.fit" title="datatracer.column_map.ColumnMapSolver.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(list_of_databases)</p></td>
+<td><p>Fit this solver.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.column_map.ColumnMapSolver.solve" title="datatracer.column_map.ColumnMapSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, foreign_keys, target_table, …)</p></td>
 <td><p>Find the fields which contributed to the target_field the most.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
+<dt id="datatracer.column_map.ColumnMapSolver.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">list_of_databases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/base.html#ColumnMapSolver.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.ColumnMapSolver.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit this solver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_databases</strong> (<em>list</em>) – List of tuples containing <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> instnces and table dictinaries,
+which contain table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code> as values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="datatracer.column_map.ColumnMapSolver.solve">
-<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em>, <em class="sig-param">target_table</em>, <em class="sig-param">target_field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/solver.html#ColumnMapSolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.ColumnMapSolver.solve" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em>, <em class="sig-param">target_table</em>, <em class="sig-param">target_field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/base.html#ColumnMapSolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.ColumnMapSolver.solve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the fields which contributed to the target_field the most.</p>
 <p>The output is a dictionary containing the fields that contributed the
 most to the given target field as keys, specified as a tuple containing
@@ -283,9 +298,10 @@ as values.</p></li>
 </dd></dl>
 
 <dl class="class">
-<dt id="datatracer.column_map.Transformer">
-<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.</code><code class="sig-name descname">Transformer</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/transformer.html#Transformer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.Transformer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dt id="datatracer.column_map.BasicColumnMapSolver">
+<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.</code><code class="sig-name descname">BasicColumnMapSolver</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/basic.html#BasicColumnMapSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.BasicColumnMapSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="datatracer.column_map.base.html#datatracer.column_map.base.ColumnMapSolver" title="datatracer.column_map.base.ColumnMapSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatracer.column_map.base.ColumnMapSolver</span></code></a></p>
+<p>Basic Solver for the data lineage problem of column dependency.</p>
 <p><strong>Methods</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -293,29 +309,35 @@ as values.</p></li>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.Transformer.backward" title="datatracer.column_map.Transformer.backward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backward</span></code></a>(feature_importances)</p></td>
-<td><p>This function takes an array of <cite>feature_importances</cite> which corresponds to the <cite>X</cite> matrix produced by the last call to <cite>forward</cite>.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.column_map.Transformer.forward" title="datatracer.column_map.Transformer.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(table, field)</p></td>
-<td><p>This function returns a (X, y) tuple containing numerical values which is suitable for machine learning libraries.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.BasicColumnMapSolver.solve" title="datatracer.column_map.BasicColumnMapSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, foreign_keys, target_table, …)</p></td>
+<td><p>Find the fields which contributed to the target_field the most.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="datatracer.column_map.Transformer.backward">
-<code class="sig-name descname">backward</code><span class="sig-paren">(</span><em class="sig-param">feature_importances</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/transformer.html#Transformer.backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.Transformer.backward" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function takes an array of <cite>feature_importances</cite> which corresponds
-to the <cite>X</cite> matrix produced by the last call to <cite>forward</cite>. It returns a
-mapping from fields to importance scores.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="datatracer.column_map.Transformer.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">table</em>, <em class="sig-param">field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/transformer.html#Transformer.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.Transformer.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function returns a (X, y) tuple containing numerical values which
-is suitable for machine learning libraries. The <cite>X</cite> array contains
-data from columns that are potentially related to the target field. The
-<cite>y</cite> array contains the values of the target field.</p>
+<dt id="datatracer.column_map.BasicColumnMapSolver.solve">
+<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em>, <em class="sig-param">target_table</em>, <em class="sig-param">target_field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/basic.html#BasicColumnMapSolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.BasicColumnMapSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the fields which contributed to the target_field the most.</p>
+<p>The output is a dictionary containing the fields that contributed the
+most to the given target field as keys, specified as a tuple containing
+both table name and field name, and the score obtained as values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tables</strong> (<em>dict</em>) – Dict containing table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code>
+as values.</p></li>
+<li><p><strong>foreign_keys</strong> (<em>list</em>) – List of foreign key specifications.</p></li>
+<li><p><strong>target_table</strong> (<em>str</em>) – Name of the table that contains the target field.</p></li>
+<li><p><strong>target_field</strong> (<em>str</em>) – Name of the target field.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of field specification tuples and scores.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -324,7 +346,8 @@ data from columns that are potentially related to the target field. The
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="datatracer.column_map.solver.html">datatracer.column_map.solver module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datatracer.column_map.base.html">datatracer.column_map.base module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datatracer.column_map.basic.html">datatracer.column_map.basic module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datatracer.column_map.transformer.html">datatracer.column_map.transformer module</a></li>
 </ul>
 </div>
@@ -339,7 +362,7 @@ data from columns that are potentially related to the target field. The
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="datatracer.column_map.solver.html" class="btn btn-neutral float-right" title="datatracer.column_map.solver module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datatracer.column_map.base.html" class="btn btn-neutral float-right" title="datatracer.column_map.base module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="datatracer.html" class="btn btn-neutral float-left" title="datatracer package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

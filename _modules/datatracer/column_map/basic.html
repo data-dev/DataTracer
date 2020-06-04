@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datatracer.column_map.solver &mdash; Data Tracer 0.0.4.dev0 documentation</title>
+  <title>datatracer.column_map.basic &mdash; Data Tracer 0.0.4.dev0 documentation</title>
   
 
   
@@ -93,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -199,7 +199,7 @@
         
           <li><a href="../../datatracer.html">datatracer</a> &raquo;</li>
         
-      <li>datatracer.column_map.solver</li>
+      <li>datatracer.column_map.basic</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -214,14 +214,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for datatracer.column_map.solver</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+  <h1>Source code for datatracer.column_map.basic</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
 
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+
+<span class="kn">from</span> <span class="nn">datatracer.column_map.base</span> <span class="kn">import</span> <span class="n">ColumnMapSolver</span>
 <span class="kn">from</span> <span class="nn">datatracer.column_map.transformer</span> <span class="kn">import</span> <span class="n">Transformer</span>
 
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ColumnMapSolver"><a class="viewcode-back" href="../../../api/datatracer.column_map.solver.html#datatracer.column_map.ColumnMapSolver">[docs]</a><span class="k">class</span> <span class="nc">ColumnMapSolver</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Solver for the data lineage problem of column dependency.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BasicColumnMapSolver"><a class="viewcode-back" href="../../../api/datatracer.column_map.basic.html#datatracer.column_map.BasicColumnMapSolver">[docs]</a><span class="k">class</span> <span class="nc">BasicColumnMapSolver</span><span class="p">(</span><span class="n">ColumnMapSolver</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Basic Solver for the data lineage problem of column dependency.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_model_args</span> <span class="o">=</span> <span class="n">args</span>
@@ -233,7 +238,7 @@
 
         <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span>
 
-<div class="viewcode-block" id="ColumnMapSolver.solve"><a class="viewcode-back" href="../../../api/datatracer.column_map.solver.html#datatracer.column_map.ColumnMapSolver.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">):</span>
+<div class="viewcode-block" id="BasicColumnMapSolver.solve"><a class="viewcode-back" href="../../../api/datatracer.column_map.basic.html#datatracer.column_map.BasicColumnMapSolver.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Find the fields which contributed to the target_field the most.</span>
 
 <span class="sd">        The output is a dictionary containing the fields that contributed the</span>
@@ -256,6 +261,7 @@
 <span class="sd">                Dictionary of field specification tuples and scores.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">)</span>
+
         <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">)</span>
 
         <span class="n">importances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_importances</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>

@@ -93,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -225,7 +225,7 @@
 
 <span class="kn">from</span> <span class="nn">mlblocks</span> <span class="kn">import</span> <span class="n">discovery</span>
 
-<span class="kn">from</span> <span class="nn">datatracer.core</span> <span class="kn">import</span> <span class="n">DataTracer</span>
+<span class="kn">from</span> <span class="nn">datatracer.core</span> <span class="kn">import</span> <span class="n">PRETRAINED_DIR</span><span class="p">,</span> <span class="n">DataTracer</span>
 <span class="kn">from</span> <span class="nn">datatracer.data</span> <span class="kn">import</span> <span class="n">get_demo_data</span><span class="p">,</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">load_datasets</span>
 
 <span class="n">_BASE_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
@@ -262,6 +262,20 @@
 <span class="sd">            List of the names of the available datatracer primitives.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">discovery</span><span class="o">.</span><span class="n">find_primitives</span><span class="p">(</span><span class="s1">&#39;datatracer&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_solvers</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of the available datatracer solvers.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list:</span>
+<span class="sd">            List of the names of the available datatracer solvers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">pretrained_solver</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">pretrained_solver</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">PRETRAINED_DIR</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pretrained_solver</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.dt&#39;</span><span class="p">)</span>
+    <span class="p">]</span>
 </pre></div>
 
            </div>

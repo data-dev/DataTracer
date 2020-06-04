@@ -94,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -287,38 +287,33 @@ getting started with <strong>Data Tracer</strong>.</p>
 <div class="section" id="load-data">
 <h2>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h2>
 <p>The first step will be to load the data in the format expected by DataTracer.</p>
-<p>For this, we can use the <code class="docutils literal notranslate"><span class="pre">datatracer.load_datasets</span></code>  function passing the path to
-where we have our datasets.</p>
-<p>For example, if we are using the demo datasets, we can load them using:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">load_datasets</span>
+<p>For this, we can use the <code class="docutils literal notranslate"><span class="pre">datatracer.load_dataset</span></code>  function passing the path to
+the dataset folder.</p>
+<p>For example, if we want to use the <code class="docutils literal notranslate"><span class="pre">classicmodels</span></code> dataset included in the demo folder
+that we just created we can load it using:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">load_dataset</span>
 
-<span class="n">datasets</span> <span class="o">=</span> <span class="n">load_datasets</span><span class="p">(</span><span class="s1">&#39;datatracer_demo&#39;</span><span class="p">)</span>
+<span class="n">metadata</span><span class="p">,</span> <span class="n">tables</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;datatracer_demo/classicmodels&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This will return a dictionary of dataset names and tuples, each one of them containing:</p>
+<p>This will return a tuple which contains:</p>
 <ul class="simple">
 <li><p>A <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> instance with details about the dataset.</p></li>
 <li><p>A <code class="docutils literal notranslate"><span class="pre">dict</span></code> with all the tables of the dataset loaded as a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p></li>
 </ul>
-<p>For the rest of the tutorial, we will use the dataset called <code class="docutils literal notranslate"><span class="pre">classicalmodels</span></code>
-for our testing, and use the rest of the datasets to train the DataTracer.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span><span class="p">,</span> <span class="n">tables</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;classicmodels&#39;</span><span class="p">)</span>
-</pre></div>
 </div>
-</div>
-<div class="section" id="select-a-pipeline">
-<h2>Select a Pipeline<a class="headerlink" href="#select-a-pipeline" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="select-a-solver">
+<h2>Select a Solver<a class="headerlink" href="#select-a-solver" title="Permalink to this headline">¶</a></h2>
 <p>In the DataTracer project, the different Data Lineage problems are solved using what we
-call <em>pipelines</em>.</p>
-<p>We can see the list of available pipelines using the <code class="docutils literal notranslate"><span class="pre">get_pipelines</span></code> function:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">get_pipelines</span>
+call <em>solvers</em>.</p>
+<p>We can see the list of available solvers using the <code class="docutils literal notranslate"><span class="pre">get_solvers</span></code> function:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">get_solvers</span>
 
-<span class="n">get_pipelines</span><span class="p">()</span>
+<span class="n">get_solvers</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>This will return a list with the names of the available pipelines:</p>
+<p>which will return a list with their names:</p>
 <div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>[&#39;datatracer.column_map&#39;,
- &#39;datatracer.detection.primary&#39;,
  &#39;datatracer.foreign_key.basic&#39;,
  &#39;datatracer.foreign_key.standard&#39;,
  &#39;datatracer.primary_key.basic&#39;]
@@ -327,20 +322,16 @@ call <em>pipelines</em>.</p>
 </div>
 <div class="section" id="use-a-datatracer-instance-to-find-table-relationships">
 <h2>Use a DataTracer instance to find table relationships<a class="headerlink" href="#use-a-datatracer-instance-to-find-table-relationships" title="Permalink to this headline">¶</a></h2>
-<p>In order to use a pipeline you will need to create a <code class="docutils literal notranslate"><span class="pre">DataTracer</span></code> instance passing the name of
-the pipeline that we want to use.</p>
+<p>In order to use the selected solver you will need to load it using the <code class="docutils literal notranslate"><span class="pre">DataTracer</span></code> class.</p>
 <p>In this example, we will try to figure out the relationships between the tables in our dataset
-by using the pipeline <code class="docutils literal notranslate"><span class="pre">datatracer.foreign_key.standard</span></code>.</p>
+by using the solver <code class="docutils literal notranslate"><span class="pre">datatracer.foreign_key.standard</span></code>.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">DataTracer</span>
 
-<span class="c1"># Create the DataTrace instance</span>
-<span class="n">dtr</span> <span class="o">=</span> <span class="n">DataTracer</span><span class="p">(</span><span class="s1">&#39;datatracer.foreign_key.standard&#39;</span><span class="p">)</span>
-
-<span class="c1"># Fit it to our training datasets</span>
-<span class="n">dtr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span>
+<span class="c1"># Load the Solver</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">DataTracer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;datatracer.foreign_key.standard&#39;</span><span class="p">)</span>
 
 <span class="c1"># Solve the Data Lineage problem</span>
-<span class="n">foreign_keys</span> <span class="o">=</span> <span class="n">dtr</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
+<span class="n">foreign_keys</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The result will be a dictionary containing the foreign key candidates:</p>

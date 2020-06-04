@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datatracer.column_map.solver module &mdash; Data Tracer 0.0.4.dev0 documentation</title>
+  <title>datatracer.column_map.base module &mdash; Data Tracer 0.0.4.dev0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="datatracer.column_map.transformer module" href="datatracer.column_map.transformer.html" />
+    <link rel="next" title="datatracer.column_map.basic module" href="datatracer.column_map.basic.html" />
     <link rel="prev" title="datatracer.column_map package" href="datatracer.column_map.html" /> 
 </head>
 
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -201,14 +201,14 @@
         
           <li><a href="datatracer.column_map.html">datatracer.column_map package</a> &raquo;</li>
         
-      <li>datatracer.column_map.solver module</li>
+      <li>datatracer.column_map.base module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/api/datatracer.column_map.solver.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/api/datatracer.column_map.base.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -222,8 +222,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-datatracer.column_map.solver">
-<span id="datatracer-column-map-solver-module"></span><h1>datatracer.column_map.solver module<a class="headerlink" href="#module-datatracer.column_map.solver" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-datatracer.column_map.base">
+<span id="datatracer-column-map-base-module"></span><h1>datatracer.column_map.base module<a class="headerlink" href="#module-datatracer.column_map.base" title="Permalink to this headline">¶</a></h1>
+<p>Column Mapping base class.</p>
 <p><strong>Classes</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -231,16 +232,16 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.solver.ColumnMapSolver" title="datatracer.column_map.solver.ColumnMapSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnMapSolver</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Solver for the data lineage problem of column dependency.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.base.ColumnMapSolver" title="datatracer.column_map.base.ColumnMapSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnMapSolver</span></code></a></p></td>
+<td><p>Base Solver for the data lineage problem of column dependency.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="class">
-<dt id="datatracer.column_map.solver.ColumnMapSolver">
-<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.solver.</code><code class="sig-name descname">ColumnMapSolver</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/solver.html#ColumnMapSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.solver.ColumnMapSolver" title="Permalink to this definition">¶</a></dt>
+<dt id="datatracer.column_map.base.ColumnMapSolver">
+<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.base.</code><code class="sig-name descname">ColumnMapSolver</code><a class="reference internal" href="../_modules/datatracer/column_map/base.html#ColumnMapSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.base.ColumnMapSolver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Solver for the data lineage problem of column dependency.</p>
+<p>Base Solver for the data lineage problem of column dependency.</p>
 <p><strong>Methods</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -248,14 +249,29 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.solver.ColumnMapSolver.solve" title="datatracer.column_map.solver.ColumnMapSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, foreign_keys, target_table, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.base.ColumnMapSolver.fit" title="datatracer.column_map.base.ColumnMapSolver.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(list_of_databases)</p></td>
+<td><p>Fit this solver.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.column_map.base.ColumnMapSolver.solve" title="datatracer.column_map.base.ColumnMapSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, foreign_keys, target_table, …)</p></td>
 <td><p>Find the fields which contributed to the target_field the most.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="datatracer.column_map.solver.ColumnMapSolver.solve">
-<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em>, <em class="sig-param">target_table</em>, <em class="sig-param">target_field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/solver.html#ColumnMapSolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.solver.ColumnMapSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dt id="datatracer.column_map.base.ColumnMapSolver.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">list_of_databases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/base.html#ColumnMapSolver.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.base.ColumnMapSolver.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit this solver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_of_databases</strong> (<em>list</em>) – List of tuples containing <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> instnces and table dictinaries,
+which contain table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code> as values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="datatracer.column_map.base.ColumnMapSolver.solve">
+<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em>, <em class="sig-param">target_table</em>, <em class="sig-param">target_field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/base.html#ColumnMapSolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.base.ColumnMapSolver.solve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the fields which contributed to the target_field the most.</p>
 <p>The output is a dictionary containing the fields that contributed the
 most to the given target field as keys, specified as a tuple containing
@@ -291,7 +307,7 @@ as values.</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="datatracer.column_map.transformer.html" class="btn btn-neutral float-right" title="datatracer.column_map.transformer module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datatracer.column_map.basic.html" class="btn btn-neutral float-right" title="datatracer.column_map.basic module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="datatracer.column_map.html" class="btn btn-neutral float-left" title="datatracer.column_map package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -94,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#load-data">Load data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#select-a-pipeline">Select a Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#select-a-solver">Select a Solver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
@@ -236,20 +236,22 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.column_map.html#datatracer.column_map.Transformer.backward">backward() (datatracer.column_map.Transformer method)</a>
+      <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.backward">backward() (datatracer.column_map.transformer.Transformer method)</a>
+</li>
+      <li><a href="api/datatracer.column_map.html#datatracer.column_map.BasicColumnMapSolver">BasicColumnMapSolver (class in datatracer.column_map)</a>
 
       <ul>
-        <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.backward">(datatracer.column_map.transformer.Transformer method)</a>
+        <li><a href="api/datatracer.column_map.basic.html#datatracer.column_map.basic.BasicColumnMapSolver">(class in datatracer.column_map.basic)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.BasicForeignKeySolver">BasicForeignKeySolver (class in datatracer.foreign_key)</a>
 
       <ul>
         <li><a href="api/datatracer.foreign_key.basic.html#datatracer.foreign_key.basic.BasicForeignKeySolver">(class in datatracer.foreign_key.basic)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datatracer.primary_key.html#datatracer.primary_key.BasicPrimaryKeySolver">BasicPrimaryKeySolver (class in datatracer.primary_key)</a>
 
       <ul>
@@ -265,7 +267,7 @@
       <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver">ColumnMapSolver (class in datatracer.column_map)</a>
 
       <ul>
-        <li><a href="api/datatracer.column_map.solver.html#datatracer.column_map.solver.ColumnMapSolver">(class in datatracer.column_map.solver)</a>
+        <li><a href="api/datatracer.column_map.base.html#datatracer.column_map.base.ColumnMapSolver">(class in datatracer.column_map.base)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -290,14 +292,16 @@
 </li>
       <li><a href="api/datatracer.column_map.html#module-datatracer.column_map">datatracer.column_map (module)</a>
 </li>
-      <li><a href="api/datatracer.column_map.solver.html#module-datatracer.column_map.solver">datatracer.column_map.solver (module)</a>
+      <li><a href="api/datatracer.column_map.base.html#module-datatracer.column_map.base">datatracer.column_map.base (module)</a>
+</li>
+      <li><a href="api/datatracer.column_map.basic.html#module-datatracer.column_map.basic">datatracer.column_map.basic (module)</a>
 </li>
       <li><a href="api/datatracer.column_map.transformer.html#module-datatracer.column_map.transformer">datatracer.column_map.transformer (module)</a>
 </li>
-      <li><a href="api/datatracer.core.html#module-datatracer.core">datatracer.core (module)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.core.html#module-datatracer.core">datatracer.core (module)</a>
+</li>
       <li><a href="api/datatracer.data.html#module-datatracer.data">datatracer.data (module)</a>
 </li>
       <li><a href="api/datatracer.foreign_key.html#module-datatracer.foreign_key">datatracer.foreign_key (module)</a>
@@ -320,9 +324,13 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.fit">fit() (datatracer.core.DataTracer method)</a>
+      <li><a href="api/datatracer.column_map.base.html#datatracer.column_map.base.ColumnMapSolver.fit">fit() (datatracer.column_map.base.ColumnMapSolver method)</a>
 
       <ul>
+        <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver.fit">(datatracer.column_map.ColumnMapSolver method)</a>
+</li>
+        <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.fit">(datatracer.core.DataTracer method)</a>
+</li>
         <li><a href="api/datatracer.html#datatracer.DataTracer.fit">(datatracer.DataTracer method)</a>
 </li>
         <li><a href="api/datatracer.foreign_key.base.html#datatracer.foreign_key.base.ForeignKeySolver.fit">(datatracer.foreign_key.base.ForeignKeySolver method)</a>
@@ -352,12 +360,8 @@
         <li><a href="api/datatracer.foreign_key.base.html#datatracer.foreign_key.base.ForeignKeySolver">(class in datatracer.foreign_key.base)</a>
 </li>
       </ul></li>
-      <li><a href="api/datatracer.column_map.html#datatracer.column_map.Transformer.forward">forward() (datatracer.column_map.Transformer method)</a>
-
-      <ul>
-        <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.forward">(datatracer.column_map.transformer.Transformer method)</a>
+      <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer.forward">forward() (datatracer.column_map.transformer.Transformer method)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -440,10 +444,14 @@
         <li><a href="api/datatracer.html#datatracer.DataTracer.save">(datatracer.DataTracer method)</a>
 </li>
       </ul></li>
-      <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver.solve">solve() (datatracer.column_map.ColumnMapSolver method)</a>
+      <li><a href="api/datatracer.column_map.base.html#datatracer.column_map.base.ColumnMapSolver.solve">solve() (datatracer.column_map.base.ColumnMapSolver method)</a>
 
       <ul>
-        <li><a href="api/datatracer.column_map.solver.html#datatracer.column_map.solver.ColumnMapSolver.solve">(datatracer.column_map.solver.ColumnMapSolver method)</a>
+        <li><a href="api/datatracer.column_map.basic.html#datatracer.column_map.basic.BasicColumnMapSolver.solve">(datatracer.column_map.basic.BasicColumnMapSolver method)</a>
+</li>
+        <li><a href="api/datatracer.column_map.html#datatracer.column_map.BasicColumnMapSolver.solve">(datatracer.column_map.BasicColumnMapSolver method)</a>
+</li>
+        <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver.solve">(datatracer.column_map.ColumnMapSolver method)</a>
 </li>
         <li><a href="api/datatracer.core.html#datatracer.core.DataTracer.solve">(datatracer.core.DataTracer method)</a>
 </li>
@@ -484,12 +492,8 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.column_map.html#datatracer.column_map.Transformer">Transformer (class in datatracer.column_map)</a>
-
-      <ul>
-        <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer">(class in datatracer.column_map.transformer)</a>
+      <li><a href="api/datatracer.column_map.transformer.html#datatracer.column_map.transformer.Transformer">Transformer (class in datatracer.column_map.transformer)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datatracer.primary_key.basic module &mdash; Data Tracer 0.0.4.dev0 documentation</title>
+  <title>datatracer.column_map.basic module &mdash; Data Tracer 0.0.4.dev0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="datatracer.benchmark module" href="datatracer.benchmark.html" />
-    <link rel="prev" title="datatracer.primary_key.base module" href="datatracer.primary_key.base.html" /> 
+    <link rel="next" title="datatracer.column_map.transformer module" href="datatracer.column_map.transformer.html" />
+    <link rel="prev" title="datatracer.column_map.base module" href="datatracer.column_map.base.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -104,16 +104,16 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="datatracer.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="datatracer.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="datatracer.column_map.html">datatracer.column_map package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="datatracer.column_map.html#submodules">Submodules</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="datatracer.column_map.html">datatracer.column_map package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="datatracer.column_map.html#submodules">Submodules</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="datatracer.foreign_key.html">datatracer.foreign_key package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="datatracer.foreign_key.html#submodules">Submodules</a></li>
 </ul>
 </li>
-<li class="toctree-l3 current"><a class="reference internal" href="datatracer.primary_key.html">datatracer.primary_key package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="datatracer.primary_key.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datatracer.primary_key.html">datatracer.primary_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datatracer.primary_key.html#submodules">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -199,16 +199,16 @@
         
           <li><a href="datatracer.html">datatracer package</a> &raquo;</li>
         
-          <li><a href="datatracer.primary_key.html">datatracer.primary_key package</a> &raquo;</li>
+          <li><a href="datatracer.column_map.html">datatracer.column_map package</a> &raquo;</li>
         
-      <li>datatracer.primary_key.basic module</li>
+      <li>datatracer.column_map.basic module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/api/datatracer.primary_key.basic.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/api/datatracer.column_map.basic.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -222,9 +222,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-datatracer.primary_key.basic">
-<span id="datatracer-primary-key-basic-module"></span><h1>datatracer.primary_key.basic module<a class="headerlink" href="#module-datatracer.primary_key.basic" title="Permalink to this headline">¶</a></h1>
-<p>Basic Primary Key Solver module.</p>
+  <div class="section" id="module-datatracer.column_map.basic">
+<span id="datatracer-column-map-basic-module"></span><h1>datatracer.column_map.basic module<a class="headerlink" href="#module-datatracer.column_map.basic" title="Permalink to this headline">¶</a></h1>
 <p><strong>Classes</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -232,15 +231,16 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.primary_key.basic.BasicPrimaryKeySolver" title="datatracer.primary_key.basic.BasicPrimaryKeySolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicPrimaryKeySolver</span></code></a>(*args, **kwargs)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.basic.BasicColumnMapSolver" title="datatracer.column_map.basic.BasicColumnMapSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BasicColumnMapSolver</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Basic Solver for the data lineage problem of column dependency.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="class">
-<dt id="datatracer.primary_key.basic.BasicPrimaryKeySolver">
-<em class="property">class </em><code class="sig-prename descclassname">datatracer.primary_key.basic.</code><code class="sig-name descname">BasicPrimaryKeySolver</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/primary_key/basic.html#BasicPrimaryKeySolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.primary_key.basic.BasicPrimaryKeySolver" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="datatracer.primary_key.base.html#datatracer.primary_key.base.PrimaryKeySolver" title="datatracer.primary_key.base.PrimaryKeySolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatracer.primary_key.base.PrimaryKeySolver</span></code></a></p>
+<dt id="datatracer.column_map.basic.BasicColumnMapSolver">
+<em class="property">class </em><code class="sig-prename descclassname">datatracer.column_map.basic.</code><code class="sig-name descname">BasicColumnMapSolver</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/basic.html#BasicColumnMapSolver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.basic.BasicColumnMapSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="datatracer.column_map.base.html#datatracer.column_map.base.ColumnMapSolver" title="datatracer.column_map.base.ColumnMapSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">datatracer.column_map.base.ColumnMapSolver</span></code></a></p>
+<p>Basic Solver for the data lineage problem of column dependency.</p>
 <p><strong>Methods</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -248,39 +248,30 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.primary_key.basic.BasicPrimaryKeySolver.fit" title="datatracer.primary_key.basic.BasicPrimaryKeySolver.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(list_of_databases)</p></td>
-<td><p>Fit this solver.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.primary_key.basic.BasicPrimaryKeySolver.solve" title="datatracer.primary_key.basic.BasicPrimaryKeySolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables)</p></td>
-<td><p>Solve the problem.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.column_map.basic.BasicColumnMapSolver.solve" title="datatracer.column_map.basic.BasicColumnMapSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, foreign_keys, target_table, …)</p></td>
+<td><p>Find the fields which contributed to the target_field the most.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="datatracer.primary_key.basic.BasicPrimaryKeySolver.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">list_of_databases</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/primary_key/basic.html#BasicPrimaryKeySolver.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.primary_key.basic.BasicPrimaryKeySolver.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit this solver.</p>
+<dt id="datatracer.column_map.basic.BasicColumnMapSolver.solve">
+<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">foreign_keys</em>, <em class="sig-param">target_table</em>, <em class="sig-param">target_field</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/column_map/basic.html#BasicColumnMapSolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.column_map.basic.BasicColumnMapSolver.solve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the fields which contributed to the target_field the most.</p>
+<p>The output is a dictionary containing the fields that contributed the
+most to the given target field as keys, specified as a tuple containing
+both table name and field name, and the score obtained as values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>list_of_databases</strong> (<em>list</em>) – List of tuples containing <code class="docutils literal notranslate"><span class="pre">MetaData</span></code> instnces and table dictinaries,
-which contain table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code> as values.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="datatracer.primary_key.basic.BasicPrimaryKeySolver.solve">
-<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/primary_key/basic.html#BasicPrimaryKeySolver.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.primary_key.basic.BasicPrimaryKeySolver.solve" title="Permalink to this definition">¶</a></dt>
-<dd><p>Solve the problem.</p>
-<p>The output is a dictionary contiaining table names as keys, and the
-name of the field that is most likely to be the primary key as values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tables</strong> (<em>dict</em>) – Dict containing table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code>
-as values.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tables</strong> (<em>dict</em>) – Dict containing table names as input and <code class="docutils literal notranslate"><span class="pre">pandas.DataFrames</span></code>
+as values.</p></li>
+<li><p><strong>foreign_keys</strong> (<em>list</em>) – List of foreign key specifications.</p></li>
+<li><p><strong>target_table</strong> (<em>str</em>) – Name of the table that contains the target field.</p></li>
+<li><p><strong>target_field</strong> (<em>str</em>) – Name of the target field.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dict containing table names as keys and field names as values.</p>
+<dd class="field-even"><p>Dictionary of field specification tuples and scores.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dict</p>
@@ -300,10 +291,10 @@ as values.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="datatracer.benchmark.html" class="btn btn-neutral float-right" title="datatracer.benchmark module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datatracer.column_map.transformer.html" class="btn btn-neutral float-right" title="datatracer.column_map.transformer module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="datatracer.primary_key.base.html" class="btn btn-neutral float-left" title="datatracer.primary_key.base module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="datatracer.column_map.base.html" class="btn btn-neutral float-left" title="datatracer.column_map.base module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
