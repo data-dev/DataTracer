@@ -21,7 +21,7 @@ class BasicColumnMapSolver(ColumnMapSolver):
 
         return model.feature_importances_
 
-    def solve(self, tables, foreign_keys, target_table=None, target_field=None):
+    def solve(self, tables, foreign_keys, target_table, target_field):
         """Find the fields which contributed to the target_field the most.
 
         The output is a dictionary containing the fields that contributed the
@@ -35,52 +35,17 @@ class BasicColumnMapSolver(ColumnMapSolver):
             foreign_keys (list):
                 List of foreign key specifications.
             target_table (str):
-                Name of the table that contains the target field. If not given,
-                apply on all the tables.
+                Name of the table that contains the target field.
             target_field (str):
-                Name of the target field. If not given, apply on all the fields.
-                Accepted only if target_table is also passed.
+                Name of the target field.
 
         Returns:
             dict:
                 Dictionary of field specification tuples and scores.
-
-        Raises:
-            TypeError:
-                If target_field is passed but target_table is not.
         """
         transformer = Transformer(tables, foreign_keys)
 
-        if target_table:
-            tables = {target_table: tables[target_table]}
-        elif target_field:
-            raise TypeError('target_field can only be specified if target_column also is')
+        X, y = transformer.forward(target_table, target_field)
 
-        column_maps = {}
-        for table_name, table in tables.items():
-            column_map = {}
-            column_maps[table_name] = column_map
-
-            if target_field is not None:
-                fields = [target_field]
-            else:
-                fields = table.keys()
-
-            for field_name in fields:
-                if field_name not in table.columns:
-                    raise KeyError('Field {} not in table {}'.format(field_name, table_name))
-
-                if field_name in table.select_dtypes('number'):
-                    X, y = transformer.forward(table_name, field_name)
-
-                    importances = self._get_importances(X, y)
-                    column_map[field_name] = transformer.backward(importances)
-                elif target_field:
-                    LOGGER.warn(
-                        'Mapping a non-numerical field is not supported by this solver',
-                    )
-                else:
-                    LOGGER.info('Skipping unsupported non-numerical field %s.%s',
-                                table_name, field_name)
-
-        return column_maps
+        importances = self._get_importances(X, y)
+        return transformer.backward(importances)
