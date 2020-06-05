@@ -373,7 +373,7 @@ endpoint:
 ```python3
 import requests
 
-response = requests.post(
+requests.post(
     'http://localhost:8000/primary_key_detection',
     json={
         'tables': tables
