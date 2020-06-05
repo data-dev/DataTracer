@@ -108,6 +108,12 @@ test-readme: ## run the readme snippets
 	cd tests/readme_test && rundoc run --single-session python3 -t python3 ../../README.md
 	rm -rf tests/readme_test
 
+.PHONY: test-rest
+test-rest: ## run the readme snippets
+	rm -rf tests/rest_test && mkdir tests/rest_test
+	cd tests/rest_test && rundoc run --single-session python3 -t python3 ../../rest/README.md
+	rm -rf tests/rest_test
+
 .PHONY: test-tutorials
 test-tutorials: ## run the tutorial notebooks
 	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
@@ -120,7 +126,7 @@ test-devel: lint docs ## test everything that needs development dependencies
 
 .PHONY: test-all
 test-all: ## test using tox
-	tox -r -p auto
+	tox -r
 
 .PHONY: coverage
 coverage: ## check code coverage quickly with the default Python

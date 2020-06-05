@@ -18,7 +18,7 @@ Data Lineage Tracing Library
 
 ## Overview
 
-DataTracer is a Python library for solving Data Lineage problems using  statistical
+DataTracer is a Python library for solving Data Lineage problems using statistical
 methods, machine learning techniques, and hand-crafted heuristics.
 
 Currently the Data Tracer library implements discovery of the following properties:
@@ -27,6 +27,11 @@ Currently the Data Tracer library implements discovery of the following properti
 * **Foreign Key**: Find which relationships exist between the tables.
 * **Column Mapping**: Given a field in a table, deduce which other fields, from the same table
   or other tables, are more related or contributed the most in generating the given field.
+
+### REST API
+
+The DataTracer library also incorporates a REST API that enables interaction with the DataTracer
+Solvers via HTTP communication. You can check it [here](rest)
 
 # Install
 
@@ -167,3 +172,9 @@ The result will be a dictionary containing the foreign key candidates:
   'ref_table': 'offices',
   'ref_field': 'officeCode'}]
 ```
+
+# What's next?
+
+You can learn more about the DataTracer features in the [notebook tutorials](tutorials).
+
+Also don't forget to have a look at the DataTracer [REST API](rest).
