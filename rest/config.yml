@@ -1,0 +1,7 @@
+---
+host: 127.0.0.1
+port: 8000
+primary_key_solver: 'datatracer.primary_key.basic'
+foreign_key_solver: 'datatracer.foreign_key.standard'
+column_map_solver: 'datatracer.column_map.basic'
+column_map_threshold: 0.1
