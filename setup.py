@@ -12,13 +12,15 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
-    'mlprimitives>=0.2.3,<0.3',
-    'mlblocks>=0.3.4,<0.4',
     'pandas>=0.23.4,<0.25',
     'scikit-learn>=0.20.0,<0.21',
-    'docopt>=0.6.2,<1',
-    'metad>=0.0.1,<0.2',
     'numpy<1.17,>=1.15.2',
+    'mlblocks==0.3.4',
+    'metad==0.0.1',
+    'falcon>=2.0.0,<3',
+    'hug>=2.6.1,<3',
+    'pyyaml>=5.3.1,<6',
+    'tqdm>=4.46.1,<5',
 ]
 
 setup_requires = [
@@ -81,6 +83,9 @@ setup(
             'primitives=datatracer:MLBLOCKS_PRIMITIVES',
             'pipelines=datatracer:MLBLOCKS_PIPELINES'
         ],
+        'console_scripts': [
+            'datatracer=datatracer.__main__:main'
+        ],
     },
     extras_require={
         'test': tests_require,
@@ -100,6 +105,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/HDI-Project/DataTracer',
-    version='0.0.3',
+    version='0.0.4.dev1',
     zip_safe=False,
 )

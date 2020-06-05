@@ -1,5 +1,11 @@
 # History
 
+## 0.0.4 - 2020-06-05
+
+* Add initial version of pretrained solvers
+* Reorganize ColumnMapSolver code tree
+* Add REST API to access DataTracer solvers via HTTP
+
 ## 0.0.3 - 2020-05-28
 
 * Finish Column Mapping and add tutorial
