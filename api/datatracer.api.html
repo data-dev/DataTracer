@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>datatracer.benchmark module &mdash; Data Tracer 0.0.4.dev0 documentation</title>
+  <title>datatracer.api module &mdash; Data Tracer 0.0.4.dev0 documentation</title>
   
 
   
@@ -84,7 +84,10 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">DataTracer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../readme.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../readme.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../readme.html#rest-api">REST API</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#install">Install</a><ul>
@@ -99,6 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#what-s-next">What’s next?</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul class="current">
@@ -119,7 +123,7 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="reference internal" href="datatracer.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">datatracer.benchmark module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">datatracer.api module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datatracer.core.html">datatracer.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datatracer.data.html">datatracer.data module</a></li>
 </ul>
@@ -199,14 +203,14 @@
         
           <li><a href="datatracer.html">datatracer package</a> &raquo;</li>
         
-      <li>datatracer.benchmark module</li>
+      <li>datatracer.api module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/api/datatracer.benchmark.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/HDI-Project/Data Tracer/blob/master/docs/api/datatracer.api.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -220,18 +224,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-datatracer.benchmark">
-<span id="datatracer-benchmark-module"></span><h1>datatracer.benchmark module<a class="headerlink" href="#module-datatracer.benchmark" title="Permalink to this headline">¶</a></h1>
-<p>DataTracer Benchmark CLI.</p>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>datatracer primary &lt;datasets&gt;… [–out=&lt;out&gt;]
-datatracer foreign &lt;datasets&gt;… [–out=&lt;out&gt;]
-datatracer constraint &lt;datasets&gt;… [–out=&lt;out&gt;]</p>
-</dd>
-<dt>Options:</dt><dd><p>-h –help     Show this screen.
-–out=&lt;out&gt;   Path to output file.</p>
-</dd>
-</dl>
+  <div class="section" id="module-datatracer.api">
+<span id="datatracer-api-module"></span><h1>datatracer.api module<a class="headerlink" href="#module-datatracer.api" title="Permalink to this headline">¶</a></h1>
+<p>DataTracer functional and REST api.</p>
+<p>This module implements a set of simple python functions
+to expose the different types of solvers from DataTracer
+in a simplified functional interface.</p>
+<p>This functional interface is also exposed through a REST
+API based on [hug](<a class="reference external" href="https://hug.rest">https://hug.rest</a>).</p>
 <p><strong>Functions</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -239,47 +239,42 @@ datatracer constraint &lt;datasets&gt;… [–out=&lt;out&gt;]</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.benchmark.constraint" title="datatracer.benchmark.constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constraint</span></code></a>(args)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.api.column_mapping" title="datatracer.api.column_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column_mapping</span></code></a>(tables, target_table, …)</p></td>
+<td><p>Solve a column mapping problem.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.api.foreign_key_detection" title="datatracer.api.foreign_key_detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">foreign_key_detection</span></code></a>(tables)</p></td>
+<td><p>Solve a foreign key detection problem.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.api.load_tables" title="datatracer.api.load_tables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_tables</span></code></a>(tables)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.benchmark.foreign" title="datatracer.benchmark.foreign"><code class="xref py py-obj docutils literal notranslate"><span class="pre">foreign</span></code></a>(args)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.benchmark.load_dataset" title="datatracer.benchmark.load_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_dataset</span></code></a>(path_to_dataset)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.benchmark.main" title="datatracer.benchmark.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.benchmark.primary" title="datatracer.benchmark.primary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary</span></code></a>(args)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.api.primary_key_detection" title="datatracer.api.primary_key_detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primary_key_detection</span></code></a>(tables)</p></td>
+<td><p>Solve a primary key detection problem.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="function">
-<dt id="datatracer.benchmark.constraint">
-<code class="sig-prename descclassname">datatracer.benchmark.</code><code class="sig-name descname">constraint</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/benchmark.html#constraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.benchmark.constraint" title="Permalink to this definition">¶</a></dt>
+<dt id="datatracer.api.column_mapping">
+<code class="sig-prename descclassname">datatracer.api.</code><code class="sig-name descname">column_mapping</code><span class="sig-paren">(</span><em class="sig-param">tables: &lt;hug.types.Multiple object at 0x7f93e41cfa10&gt;</em>, <em class="sig-param">target_table: &lt;hug.types.JSON object at 0x7f93eb28fb90&gt;</em>, <em class="sig-param">target_field: &lt;hug.types.Text object at 0x7f93e41cc5d0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/api.html#column_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.api.column_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve a column mapping problem.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datatracer.api.foreign_key_detection">
+<code class="sig-prename descclassname">datatracer.api.</code><code class="sig-name descname">foreign_key_detection</code><span class="sig-paren">(</span><em class="sig-param">tables: &lt;hug.types.Multiple object at 0x7f93e41cfa10&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/api.html#foreign_key_detection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.api.foreign_key_detection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve a foreign key detection problem.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datatracer.api.load_tables">
+<code class="sig-prename descclassname">datatracer.api.</code><code class="sig-name descname">load_tables</code><span class="sig-paren">(</span><em class="sig-param">tables</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/api.html#load_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.api.load_tables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="datatracer.benchmark.foreign">
-<code class="sig-prename descclassname">datatracer.benchmark.</code><code class="sig-name descname">foreign</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/benchmark.html#foreign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.benchmark.foreign" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="datatracer.benchmark.load_dataset">
-<code class="sig-prename descclassname">datatracer.benchmark.</code><code class="sig-name descname">load_dataset</code><span class="sig-paren">(</span><em class="sig-param">path_to_dataset</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/benchmark.html#load_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.benchmark.load_dataset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="datatracer.benchmark.main">
-<code class="sig-prename descclassname">datatracer.benchmark.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/benchmark.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.benchmark.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="datatracer.benchmark.primary">
-<code class="sig-prename descclassname">datatracer.benchmark.</code><code class="sig-name descname">primary</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/benchmark.html#primary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.benchmark.primary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="datatracer.api.primary_key_detection">
+<code class="sig-prename descclassname">datatracer.api.</code><code class="sig-name descname">primary_key_detection</code><span class="sig-paren">(</span><em class="sig-param">tables: &lt;hug.types.Multiple object at 0x7f93e41cfa10&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/api.html#primary_key_detection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.api.primary_key_detection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve a primary key detection problem.</p>
+</dd></dl>
 
 </div>
 

@@ -83,7 +83,10 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">DataTracer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#rest-api">REST API</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
@@ -98,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#what-s-next">What’s next?</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
@@ -118,7 +122,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/datatracer.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/datatracer.benchmark.html">datatracer.benchmark module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.api.html">datatracer.api module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/datatracer.core.html">datatracer.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/datatracer.data.html">datatracer.data module</a></li>
 </ul>
@@ -227,7 +231,6 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#L"><strong>L</strong></a>
- | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -264,16 +267,16 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/datatracer.api.html#datatracer.api.column_mapping">column_mapping() (in module datatracer.api)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/datatracer.column_map.html#datatracer.column_map.ColumnMapSolver">ColumnMapSolver (class in datatracer.column_map)</a>
 
       <ul>
         <li><a href="api/datatracer.column_map.base.html#datatracer.column_map.base.ColumnMapSolver">(class in datatracer.column_map.base)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.constraint">constraint() (in module datatracer.benchmark)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -288,7 +291,7 @@
       </ul></li>
       <li><a href="api/datatracer.html#module-datatracer">datatracer (module)</a>
 </li>
-      <li><a href="api/datatracer.benchmark.html#module-datatracer.benchmark">datatracer.benchmark (module)</a>
+      <li><a href="api/datatracer.api.html#module-datatracer.api">datatracer.api (module)</a>
 </li>
       <li><a href="api/datatracer.column_map.html#module-datatracer.column_map">datatracer.column_map (module)</a>
 </li>
@@ -352,7 +355,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.foreign">foreign() (in module datatracer.benchmark)</a>
+      <li><a href="api/datatracer.api.html#datatracer.api.foreign_key_detection">foreign_key_detection() (in module datatracer.api)</a>
 </li>
       <li><a href="api/datatracer.foreign_key.html#datatracer.foreign_key.ForeignKeySolver">ForeignKeySolver (class in datatracer.foreign_key)</a>
 
@@ -395,8 +398,6 @@
       <li><a href="api/datatracer.html#datatracer.load_dataset">load_dataset() (in module datatracer)</a>
 
       <ul>
-        <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.load_dataset">(in module datatracer.benchmark)</a>
-</li>
         <li><a href="api/datatracer.data.html#datatracer.data.load_dataset">(in module datatracer.data)</a>
 </li>
       </ul></li>
@@ -408,13 +409,7 @@
         <li><a href="api/datatracer.data.html#datatracer.data.load_datasets">(in module datatracer.data)</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.main">main() (in module datatracer.benchmark)</a>
+      <li><a href="api/datatracer.api.html#datatracer.api.load_tables">load_tables() (in module datatracer.api)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -422,7 +417,7 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/datatracer.benchmark.html#datatracer.benchmark.primary">primary() (in module datatracer.benchmark)</a>
+      <li><a href="api/datatracer.api.html#datatracer.api.primary_key_detection">primary_key_detection() (in module datatracer.api)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>

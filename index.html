@@ -83,7 +83,10 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">DataTracer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#rest-api">REST API</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html#install">Install</a><ul>
@@ -98,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#what-s-next">What’s next?</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Resources</span></p>
 <ul>
@@ -118,7 +122,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/datatracer.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/datatracer.benchmark.html">datatracer.benchmark module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/datatracer.api.html">datatracer.api module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/datatracer.core.html">datatracer.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/datatracer.data.html">datatracer.data module</a></li>
 </ul>
@@ -234,7 +238,7 @@
 </ul>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>DataTracer is a Python library for solving Data Lineage problems using  statistical
+<p>DataTracer is a Python library for solving Data Lineage problems using statistical
 methods, machine learning techniques, and hand-crafted heuristics.</p>
 <p>Currently the Data Tracer library implements discovery of the following properties:</p>
 <ul class="simple">
@@ -243,6 +247,11 @@ methods, machine learning techniques, and hand-crafted heuristics.</p>
 <li><p><strong>Column Mapping</strong>: Given a field in a table, deduce which other fields, from the same table
 or other tables, are more related or contributed the most in generating the given field.</p></li>
 </ul>
+<div class="section" id="rest-api">
+<h3>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h3>
+<p>The DataTracer library also incorporates a REST API that enables interaction with the DataTracer
+Solvers via HTTP communication. You can check it <a class="reference external" href="rest">here</a></p>
+</div>
 </div>
 </div>
 <div class="section" id="install">
@@ -361,10 +370,15 @@ by using the solver <code class="docutils literal notranslate"><span class="pre"
   &#39;ref_field&#39;: &#39;officeCode&#39;}]
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h1>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h1>
+<p>You can learn more about the DataTracer features in the <a class="reference external" href="tutorials">notebook tutorials</a>.</p>
+<p>Also don’t forget to have a look at the DataTracer <a class="reference external" href="rest">REST API</a>.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">

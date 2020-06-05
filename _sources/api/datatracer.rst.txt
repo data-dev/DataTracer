@@ -20,6 +20,6 @@ Submodules
 
 .. toctree::
 
-   datatracer.benchmark
+   datatracer.api
    datatracer.core
    datatracer.data
