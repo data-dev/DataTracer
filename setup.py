@@ -21,7 +21,7 @@ install_requires = [
     'falcon>=2.0.0,<3',
     'hug>=2.6.1,<3',
     'pyyaml>=5.3.1,<6',
-    'tqdm>=4.46.1,<5',
+    'tqdm>=4,<5',
 ]
 
 setup_requires = [
