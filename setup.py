@@ -63,6 +63,9 @@ development_requires = [
     # Advanced testing
     'coverage>=4.5.1,<6',
     'tox>=2.9.1,<4',
+
+    # benchmarking
+    'dask>=2.15,<3',
 ]
 
 setup(
@@ -85,7 +88,8 @@ setup(
             'pipelines=datatracer:MLBLOCKS_PIPELINES'
         ],
         'console_scripts': [
-            'datatracer=datatracer.__main__:main'
+            'datatracer=datatracer.__main__:main',
+            'datatracer-benchmark=benchmark.benchmark:main'
         ],
     },
     extras_require={
@@ -105,7 +109,7 @@ setup(
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
-    url='https://github.com/HDI-Project/DataTracer',
+    url='https://github.com/data-dev/DataTracer',
     version='0.0.5.dev0',
     zip_safe=False,
 )

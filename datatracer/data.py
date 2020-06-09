@@ -6,12 +6,7 @@ generate a folder with demo datasets inside it.
 """
 import os
 import shutil
-from io import BytesIO
-from urllib.parse import urljoin
-from urllib.request import urlopen
-from zipfile import ZipFile
 
-import boto3
 import pandas as pd
 from metad import MetaData
 
@@ -96,25 +91,3 @@ def get_demo_data(path='datatracer_demo', force=False):
 
     demo_path = os.path.join(os.path.dirname(__file__), 'datasets')
     shutil.copytree(demo_path, path)
-
-
-def download():
-    BUCKET_NAME = 'tracer-data'  # Bucket where the datasets are stored
-    DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
-
-    homedir = os.path.expanduser("~/")
-    if homedir == "~/":
-        raise ValueError("Could not find a default download directory")
-    data_dir = os.path.join(homedir, "tracer_data")
-
-    client = boto3.client('s3')
-    for dataset in client.list_objects(Bucket=BUCKET_NAME)['Contents']:
-        dataset_name = dataset['Key'].replace(".zip", "")
-        dataset_path = os.path.join(data_dir, dataset_name)
-        if os.path.exists(dataset_path):
-            print("Skipping %s" % dataset_name)
-        else:
-            print("Downloading %s" % dataset_name)
-            with urlopen(urljoin(DATA_URL, dataset['Key'])) as fp:
-                with ZipFile(BytesIO(fp.read())) as zipfile:
-                    zipfile.extractall(dataset_path)
