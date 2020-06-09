@@ -1,6 +1,7 @@
 import uuid
-import pandas as pd
 from random import randint
+
+import pandas as pd
 
 users, posts = [], []
 for user_id in range(1000):
@@ -19,11 +20,11 @@ for user_id in range(1000):
     users.append(user)
 
 pd.DataFrame(
-    users, 
+    users,
     columns=["id", "age", "birthyear", "height", "nb_posts"]
 ).to_csv("users.csv", index=False)
 
 pd.DataFrame(
-    posts, 
+    posts,
     columns=["id", "uid", "text"]
 ).to_csv("posts.csv", index=False)
