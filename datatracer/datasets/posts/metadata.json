@@ -1,56 +1,67 @@
 {
-    "tables": [
-      {
-        "name": "users",
-        "primary_key": "id",
-        "fields": [
-          {
-            "name": "id",
-            "data_type": "number"
-          },
-          {
-            "name": "age",
-            "data_type": "number"
-          },
-          {
-            "name": "birthyear",
-            "data_type": "number"
-          },
-          {
-            "name": "height",
-            "data_type": "number"
-          },
-          {
-            "name": "nb_posts",
-            "data_type": "number"
-          }
-        ]
-      },
-      {
-        "name": "posts",
-        "primary_key": "id",
-        "fields": [
-          {
-            "name": "id",
-            "data_type": "number"
-          },
-          {
-            "name": "uid",
-            "data_type": "number"
-          },
-          {
-            "name": "text",
-            "data_type": "text"
-          }
-        ]
-      }
-    ],
-    "foreign_keys": [
-      {
-        "table": "posts",
-        "field": "uid",
-        "ref_table": "users",
-        "ref_field": "id"
-      }
-    ]
-  }
+  "tables": [
+    {
+      "name": "users",
+      "primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "data_type": "number"
+        },
+        {
+          "name": "age",
+          "data_type": "number"
+        },
+        {
+          "name": "birthyear",
+          "data_type": "number"
+        },
+        {
+          "name": "height",
+          "data_type": "number"
+        },
+        {
+          "name": "nb_posts",
+          "data_type": "number"
+        }
+      ]
+    },
+    {
+      "name": "posts",
+      "primary_key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "data_type": "number"
+        },
+        {
+          "name": "uid",
+          "data_type": "number"
+        },
+        {
+          "name": "text",
+          "data_type": "text"
+        }
+      ]
+    }
+  ],
+  "foreign_keys": [
+    {
+      "table": "posts",
+      "field": "uid",
+      "ref_table": "users",
+      "ref_field": "id"
+    }
+  ],
+  "constraints": [
+    {
+      "constraint_type": "validity",
+      "fields_under_consideration": [
+        {"table": "users", "field": "age"}
+      ],
+      "related_fields": [
+        {"table": "users", "field": "birthyear"}
+      ]
+    }
+  ]
+}
