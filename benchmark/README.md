@@ -3,10 +3,14 @@ This directory contains code for benchmarking the performance of `DataTracer`
 on user-supplied datasets. The datasets for benchmarking can be found in the
 `s3://tracer-data` bucket.
 
+<p align="center">
+    <img src="benchmark.gif"/>
+</p>
+
 Each benchmark - `primary`, `foreign`, and `column` - can be executed by 
 running the following command
 
-> datatracer-benchmark <BENCHMARK_TYPE> --output /path/to/results.csv
+> datatracer-benchmark <BENCHMARK_TYPE> --csv /path/to/results.csv
 
 which will (optionally) generate a CSV file with the benchmark results.
 

@@ -52,15 +52,13 @@ class DataTracer:
         """Fit the pipeline to the given data.
 
         Args:
-            datasets (list or dict):
-                List or dict of tuples containing a MetaData instance and a dict
-                with the tables of the dataset loaded as DataFrames.
+            datasets (dict):
+                Dict mapping dataset names to tuples containing a MetaData 
+                instance and a dict with the tables of the dataset loaded 
+                as DataFrames.
         """
-        if isinstance(datasets, dict):
-            datasets = list(datasets.values())
-
         self._mlpipeline = self._get_mlpipeline()
-        self._mlpipeline.fit(list_of_databases=datasets, tables={})
+        self._mlpipeline.fit(dict_of_databases=datasets, tables={})
 
     def solve(self, tables, **kwargs):
         """Solve the data lineage problem.

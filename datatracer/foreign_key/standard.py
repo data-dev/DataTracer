@@ -1,8 +1,8 @@
 from collections import Counter
 from itertools import permutations
 
-from sklearn.ensemble import RandomForestClassifier
 from tqdm import tqdm
+from sklearn.ensemble import RandomForestClassifier
 
 from datatracer.foreign_key.base import ForeignKeySolver
 
@@ -50,16 +50,19 @@ class StandardForeignKeySolver(ForeignKeySolver):
             1.0 if child_col.dtype == "object" else 0.0,
         ]
 
-    def fit(self, list_of_databases):
+    def fit(self, dict_of_databases):
         """Fit this solver.
 
         Args:
-            list_of_databases (list):
-                List of tuples containing ``MetaData`` instnces and table dictinaries,
-                which contain table names as input and ``pandas.DataFrames`` as values.
+            dict_of_databases (dict):
+                Map from database names to tuples containing ``MetaData`` 
+                instances and table dictionaries, which contain table names 
+                as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []
-        for metadata, tables in tqdm(list_of_databases, "extracting features"):
+        iterator = tqdm(dict_of_databases.items())
+        for database_name, (metadata, tables) in iterator:
+            iterator.set_description("Extracting features from %s" % database_name)
             fks = metadata.get_foreign_keys()
             fks = set([
                 (fk["table"], fk["field"], fk["ref_table"], fk["ref_field"])

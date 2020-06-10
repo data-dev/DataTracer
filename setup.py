@@ -105,7 +105,7 @@ setup(
     keywords='datatracer data-tracer Data Tracer',
     name='datatracer',
     packages=find_packages(include=['datatracer', 'datatracer.*']),
-    python_requires='>=3.5,<=3.8',
+    python_requires='>=3.5',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
