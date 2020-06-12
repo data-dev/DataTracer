@@ -17,8 +17,8 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
         return [
             list(table.columns).index(column_name),
             list(table.columns).index(column_name) / len(table.columns),
-            1.0 if len(set(column)) == len(column) else 0.0,
-            len(set(column)) / len(column),
+            1.0 if column.nunique() == len(column) else 0.0,
+            column.nunique() / len(column),
             1.0 if "key" in column.name else 0.0,
             1.0 if "id" in column.name else 0.0,
             1.0 if "_key" in column.name else 0.0,
