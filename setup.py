@@ -105,6 +105,6 @@ setup(
     test_suite='tests',
     tests_require=tests_require,
     url='https://github.com/HDI-Project/DataTracer',
-    version='0.0.5.dev1',
+    version='0.0.5.dev2',
     zip_safe=False,
 )
