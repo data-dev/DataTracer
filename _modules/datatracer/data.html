@@ -228,6 +228,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">metad</span> <span class="kn">import</span> <span class="n">MetaData</span>
@@ -268,10 +269,11 @@
 <span class="sd">        dict:</span>
 <span class="sd">            Dict of (metadata, tables) tubles, one for each dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="n">dataset</span><span class="p">:</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datasets_path</span><span class="p">,</span> <span class="n">dataset</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">datasets_path</span><span class="p">)</span>
-    <span class="p">}</span></div>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">path_to_dataset</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datasets_path</span><span class="p">,</span> <span class="s2">&quot;*/&quot;</span><span class="p">)):</span>
+        <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path_to_dataset</span><span class="p">))</span>
+        <span class="n">datasets</span><span class="p">[</span><span class="n">dataset_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">path_to_dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datasets</span></div>
 
 
 <div class="viewcode-block" id="get_demo_data"><a class="viewcode-back" href="../../api/datatracer.data.html#datatracer.get_demo_data">[docs]</a><span class="k">def</span> <span class="nf">get_demo_data</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;datatracer_demo&#39;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
