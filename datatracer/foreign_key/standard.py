@@ -24,7 +24,7 @@ class StandardForeignKeySolver(ForeignKeySolver):
         return diff
 
     def _feature_vector(self, parent_col, child_col):
-        parent_set, child_set = set(parent_col), set(child_col)
+        parent_set, child_set = set(parent_col.unique()), set(child_col.unique())
         len_intersect = len(parent_set.intersection(child_set))
         return [
             len_intersect / (len(child_set) + 1e-5),
@@ -60,11 +60,10 @@ class StandardForeignKeySolver(ForeignKeySolver):
         """
         X, y = [], []
         for metadata, tables in tqdm(list_of_databases, "extracting features"):
-            fks = metadata.get_foreign_keys()
-            fks = set([
-                (fk["table"], fk["field"], fk["ref_table"], fk["ref_field"])
-                for fk in fks
-            ])
+            fks = set()
+            for fk in metadata.get_foreign_keys():
+                if isinstance(fk["field"], str):
+                    fks.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
 
             for t1, t2 in permutations(tables.keys(), r=2):
                 for c1 in tables[t1].columns:

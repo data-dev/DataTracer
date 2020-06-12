@@ -3,17 +3,14 @@
 The DataTracer library incorporates a REST API that enables interaction with the DataTracer
 Solvers via HTTP communication.
 
-## :warning: Development Status
+## Development Status
 
 The current version of this REST api supports the following functionalities:
 
 * **Primary Key Detection**
 * **Foreign Key Detection**
 * **Column Mapping**
-
-The other features are under development and will be available soon:
-
-* **Metadata Updates**
+* **Update Metadata**
 
 ## Using the REST API Server
 
@@ -132,7 +129,10 @@ API responses to refer at the corresponding inputted table, as well as in
 some requests, like `column_mapping`, which need to refer to one of the
 inputted tables somewhere else in the request.
 
-### PRIMARY KEY DETECTION: `/primary_key_detection/`
+### PRIMARY KEY DETECTION: `POST /primary_key_detection/`
+
+This endpoint uses a pre-trained DataTracer solver to solve a Primary
+Key detection problem.
 
 The input to this endpoint is just a field called `tables` which contains
 a list of _table specifications_.
@@ -180,7 +180,10 @@ _table identifiers_ with the  `primary_key` field added to each one of them.
 }
 ```
 
-### FOREIGN KEY DETECTION: `/foreign_key_detection/`
+### FOREIGN KEY DETECTION: `POST /foreign_key_detection/`
+
+This endpoint uses a pre-trained DataTracer solver to solve a Foreign
+Key detection problem.
 
 The input to this endpoint is just a field called `tables` which contains
 a list of _table specifications_.
@@ -237,7 +240,9 @@ fields:
 }
 ```
 
-### COLUMN MAPPING: `/column_mapping/`
+### COLUMN MAPPING: `POST /column_mapping/`
+
+This endpoint uses a pre-trained DataTracer solver to solve a Column Mapping problem.
 
 The input to this endpoint contains three fields:
 * `tables`: list of _table specifications_
@@ -310,6 +315,161 @@ three fields:
 }
 ```
 
+### UPDATE METADATA: `POST /update_metadata/`
+
+This endpoint updates a MetaData JSON applying the outputs from the `primary_key_detection`,
+`foreign_key_detection` and `column_mapping` endpoints.
+
+The input to this endpoint contains two fields:
+* `metadata`: Contents of a MetaData JSON. Alternatively, a string containing the path
+  to a MetaData JSON can also be passed.
+* `update`: JSON specification of what two update. The contents of this JSON can be the
+  outputs of any of the other endpoints. Combining all of them in a single JSON is also
+  supported.
+
+The output is the contents of the updated metadata.
+
+**:warning: NOTE**: The contents of the updated metadata are always returned regardless of
+whether the input contained a path to a JSON file or the contents of the orignal metadata.
+If a path to a JSON file was passed, the JSON file **will not be modified**.
+
+#### Update Metadata Input Example:
+
+In this example we are updating the metadata adding a constraint based on the
+column mapping output.
+
+```json
+{
+    "metadata": {
+        "tables": [
+            {
+                "id": 1234,
+                "name": "a_table",
+                "path": "a/path/to/a.csv",
+                "fields": [
+                    {
+                        "name": "a_field",
+                        "type": "number",
+                        "subtype": "float"
+                    },
+                    {
+                        "name": "some_field",
+                        "type": "number",
+                        "subtype": "float"
+                    }
+                ]
+            },
+            {
+                "id": 4567,
+                "name": "another_table",
+                "path": "a/path/to/another.csv",
+                "fields": [
+                    {
+                        "name": "another_field",
+                        "type": "number",
+                        "subtype": "float"
+                    },
+                    {
+                        "name": "some_other_field",
+                        "type": "number",
+                        "subtype": "float"
+                    }
+                ]
+            },
+        ],
+    },
+    "update": {
+        "target_table": {
+            "id": 1234,
+            "name": "a_table",
+        },
+        "target_field": "a_field",
+        "column_mappings": [
+            {
+                "table": {
+                    "id": 4567,
+                    "name": "another_table",
+                    "path": "a/path/to/another.csv"
+                },
+                "field": "some_other_field"
+            },
+            {
+                "table": {
+                    "id": 1234,
+                    "name": "a_table",
+                    "path": "a/path/to/a.csv"
+                },
+                "field": "some_field"
+            },
+        ]
+    }
+}
+```
+
+#### Update Metadata Output Example:
+
+```json
+{
+    "tables": [
+        {
+            "id": 1234,
+            "name": "a_table",
+            "path": "a/path/to/a.csv",
+            "fields": [
+                {
+                    "name": "a_field",
+                    "type": "number",
+                    "subtype": "float"
+                },
+                {
+                    "name": "some_field",
+                    "type": "number",
+                    "subtype": "float"
+                }
+            ]
+        },
+        {
+            "id": 4567,
+            "name": "another_table",
+            "path": "a/path/to/another.csv",
+            "fields": [
+                {
+                    "name": "another_field",
+                    "type": "number",
+                    "subtype": "float"
+                },
+                {
+                    "name": "some_other_field",
+                    "type": "number",
+                    "subtype": "float"
+                }
+            ]
+        },
+    ],
+    "constraints": [
+        {
+            "constraint_type": "lineage",
+            "fields_under_consideration": [
+                {
+                    "table": "a_table",
+                    "field": "a_field"
+                }
+            ],
+            "related_fields": [
+                {
+                    "table": "a_table",
+                    "field": "some_field"
+                },
+                {
+                    "table": "another_table",
+                    "field": "some_other_field"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## Usage Example
 
 In this section we will be showing a few examples of how to interact with the DataTracer REST API
@@ -337,20 +497,19 @@ Once we have generated the demo data, let's choose a dataset and prepare a list 
 ```python3
 import os
 
-dataset_path = 'datatracer_demo/classicmodels/'
+from datatracer import load_dataset
 
-tables = [
-    {
-        'name': name[:-4],
-        'path': os.path.join(dataset_path, name)
-    }
-    for name in os.listdir(dataset_path)
-    if name.endswith('.csv')
-]
+dataset_path = 'datatracer_demo/classicmodels/'
+metadata = load_dataset(dataset_path)[0]
+
+tables = metadata.data['tables']
+
+for table in tables:
+    table["path"] = os.path.join(dataset_path, table['name'] + '.csv')
 ```
 
-This will create a list of dictionaries that contain the names of the tables of the dataset and
-the paths to the corresponding CSV files:
+This will create a list of dictionaries that contain, among other things, the names of the tables
+of the dataset and the paths to the corresponding CSV files:
 
 ```python
 [{'name': 'productlines',
@@ -373,7 +532,7 @@ endpoint:
 ```python3
 import requests
 
-requests.post(
+primary_keys = requests.post(
     'http://localhost:8000/primary_key_detection',
     json={
         'tables': tables
@@ -386,7 +545,7 @@ This will return a list of primary keys in the format indicated above.
 Similarly, we can obtain the list of foreign key candidates:
 
 ```python3
-requests.post(
+foreign_keys = requests.post(
     'http://localhost:8000/foreign_key_detection',
     json={
         'tables': tables
@@ -401,7 +560,7 @@ For example, let's try to solve the column mapping problem for the `quantityInSt
 from the `products` table:
 
 ```python3
-requests.post(
+column_mappings = requests.post(
     'http://localhost:8000/column_mapping',
     json={
         'tables': tables,
@@ -432,3 +591,24 @@ The result will be a JSON indicating the column mapping for the requested field:
     ]
 }
 ```
+
+Once we have all of this, we can try to update the metadata JSON with the new contents
+by passing each output to the `update_metadata` endpoint.
+
+For example, let's add the column mappings obtained as a lineage constraint:
+
+```python3
+metadata_dict = metadata.data
+
+metadata_dict = requests.post(
+    'http://localhost:8000/update_metadata',
+    json={
+        'metadata': metadata_dict,
+        'update': column_mappings
+    }
+).json()
+```
+
+After this, the `metadata_dict` variable will contain the metadata dictionary with a new
+constraint entry indicating the relationships previously discovered by the column mapping
+endpoint.

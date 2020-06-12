@@ -6,6 +6,7 @@ generate a folder with demo datasets inside it.
 """
 import os
 import shutil
+from glob import glob
 
 import pandas as pd
 from metad import MetaData
@@ -46,10 +47,11 @@ def load_datasets(datasets_path):
         dict:
             Dict of (metadata, tables) tubles, one for each dataset.
     """
-    return {
-        dataset: load_dataset(os.path.join(datasets_path, dataset))
-        for dataset in os.listdir(datasets_path)
-    }
+    datasets = {}
+    for path_to_dataset in glob(os.path.join(datasets_path, "*/")):
+        dataset_name = os.path.basename(os.path.dirname(path_to_dataset))
+        datasets[dataset_name] = load_dataset(path_to_dataset)
+    return datasets
 
 
 def get_demo_data(path='datatracer_demo', force=False):
