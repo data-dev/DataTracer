@@ -3,7 +3,7 @@
 The DataTracer library incorporates a REST API that enables interaction with the DataTracer
 Solvers via HTTP communication.
 
-## :warning: Development Status
+## Development Status
 
 The current version of this REST api supports the following functionalities:
 
@@ -330,7 +330,7 @@ The input to this endpoint contains two fields:
 The output is the updated metadata.
 
 
-#### Metadata Update Input Example:
+#### Update Metadata Input Example:
 
 **NOTE**: In this example we are updating the metadata adding a constraint based on the
 column mapping output.
