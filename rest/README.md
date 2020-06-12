@@ -321,7 +321,8 @@ This endpoint updates a MetaData JSON applying the outputs from the `primary_key
 `foreign_key_detection` and `column_mapping` endpoints.
 
 The input to this endpoint contains two fields:
-* `metadata`: Contents of a MetaData JSON.
+* `metadata`: Contents of a MetaData JSON. Alternatively, a string containing the path
+  to a MetaData JSON can also be passed.
 * `update`: JSON specification of what two update. The contents of this JSON can be the
   outputs of any of the other endpoints. Combining all of them in a single JSON is also
   supported.

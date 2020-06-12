@@ -10,6 +10,7 @@ API based on [hug](https://hug.rest).
 
 import copy
 import io
+import json
 import uuid
 
 import hug
@@ -244,8 +245,13 @@ def _validate(metadata):
 
 
 @hug.post('/update_metadata')
-def update_metadata(metadata: types.json, update: types.json):
-    metadata = copy.deepcopy(metadata)
+def update_metadata(metadata: types.multi(types.json, types.text), update: types.json):
+    if isinstance(metadata, dict):
+        metadata = copy.deepcopy(metadata)
+    else:
+        with open(metadata, 'r') as metadata_file:
+            metadata = json.load(metadata_file)
+
     _validate(metadata)
 
     if 'primary_keys' in update:
