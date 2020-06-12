@@ -230,13 +230,15 @@
 <span class="sd">API based on [hug](https://hug.rest).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
 
 <span class="kn">import</span> <span class="nn">hug</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">hug</span> <span class="kn">import</span> <span class="n">types</span>
+<span class="kn">from</span> <span class="nn">metad</span> <span class="kn">import</span> <span class="n">MetaData</span>
 
 <span class="kn">from</span> <span class="nn">datatracer</span> <span class="kn">import</span> <span class="n">DataTracer</span>
 
@@ -284,7 +286,7 @@
     <span class="n">details</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
         <span class="n">table_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
-        <span class="n">table_details</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">table_details</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="n">table_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">_load_table_data</span><span class="p">(</span><span class="n">table_details</span><span class="p">)</span>
         <span class="n">details</span><span class="p">[</span><span class="n">table_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">table_details</span>
 
@@ -349,6 +351,144 @@
         <span class="s1">&#39;target_field&#39;</span><span class="p">:</span> <span class="n">target_field</span><span class="p">,</span>
         <span class="s1">&#39;column_mappings&#39;</span><span class="p">:</span> <span class="n">column_mappings</span>
     <span class="p">}</span></div>
+
+
+<span class="k">def</span> <span class="nf">_find_object</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">filters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Reachable only if loop was not broken</span>
+            <span class="k">return</span> <span class="n">obj</span>
+
+
+<span class="k">def</span> <span class="nf">_update_primary_keys</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">primary_keys</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add primary keys to the given metadata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata_dict (dict):</span>
+<span class="sd">            Dictionary representing a dataset metadata. The dictionary</span>
+<span class="sd">            corresponds to the ``data`` attribute of a ``MetaData`` object.</span>
+<span class="sd">        primary_keys (list):</span>
+<span class="sd">            List containing a set of attributes that uniquely identify a</span>
+<span class="sd">            table from the given metadata and an additional ``primary_key``</span>
+<span class="sd">            entry indicating the name of the field that acts as the primary</span>
+<span class="sd">            key of the table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">primary_keys</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">primary_keys</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="n">metadata_dict</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">primary_key_spec</span> <span class="ow">in</span> <span class="n">primary_keys</span><span class="p">:</span>
+        <span class="n">primary_key_column</span> <span class="o">=</span> <span class="n">primary_key_spec</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;primary_key&#39;</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">_find_object</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">primary_key_spec</span><span class="p">)</span>
+        <span class="n">table</span><span class="p">[</span><span class="s1">&#39;primary_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary_key_column</span>
+
+
+<span class="k">def</span> <span class="nf">_update_foreign_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add foreign keys to the given metadata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata_dict (dict):</span>
+<span class="sd">            Dictionary representing a dataset metadata. The dictionary</span>
+<span class="sd">            corresponds to the ``data`` attribute of a ``MetaData`` object.</span>
+<span class="sd">        foreign_keys (list):</span>
+<span class="sd">            List containing foreign key specifications.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">foreign_keys</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">foreign_keys</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">]</span>
+    <span class="n">metadata_foreign_keys</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;foreign_keys&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">foreign_key</span> <span class="ow">in</span> <span class="n">foreign_keys</span><span class="p">:</span>
+        <span class="n">table_filters</span> <span class="o">=</span> <span class="n">foreign_key</span><span class="p">[</span><span class="s1">&#39;table&#39;</span><span class="p">]</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">_find_object</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">table_filters</span><span class="p">)</span>
+        <span class="n">foreign_key</span><span class="p">[</span><span class="s1">&#39;table&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>   <span class="c1"># Change to `id` on MetaData v0.0.2</span>
+
+        <span class="n">ref_table_filters</span> <span class="o">=</span> <span class="n">foreign_key</span><span class="p">[</span><span class="s1">&#39;ref_table&#39;</span><span class="p">]</span>
+        <span class="n">ref_table</span> <span class="o">=</span> <span class="n">_find_object</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">ref_table_filters</span><span class="p">)</span>
+        <span class="n">foreign_key</span><span class="p">[</span><span class="s1">&#39;ref_table&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_table</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>   <span class="c1"># Change to `id` on MetaData v0.0.2</span>
+
+        <span class="k">if</span> <span class="n">foreign_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_foreign_keys</span><span class="p">:</span>
+            <span class="n">metadata_foreign_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">foreign_key</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_update_lineage_constraint</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">,</span> <span class="n">column_mappings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add or update a lineage constraint of the given metadata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata_dict (dict):</span>
+<span class="sd">            Dictionary representing a dataset metadata. The dictionary</span>
+<span class="sd">            corresponds to the ``data`` attribute of a ``MetaData`` object.</span>
+<span class="sd">        target_table (dict):</span>
+<span class="sd">            Dict containing a set of attributes that uniquely identify a</span>
+<span class="sd">            table from the given metadata.</span>
+<span class="sd">        target_field (str):</span>
+<span class="sd">            Name of a filed in the target table.</span>
+<span class="sd">        column_mappings (list):</span>
+<span class="sd">            List containing column mapping specifications.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">]</span>
+    <span class="n">target_table</span> <span class="o">=</span> <span class="n">_find_object</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">target_table</span><span class="p">)[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>   <span class="c1"># Change to `id` on MetaData v0.0.2</span>
+
+    <span class="n">related_fields</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">column_mapping</span> <span class="ow">in</span> <span class="n">column_mappings</span><span class="p">:</span>
+        <span class="n">related_table</span> <span class="o">=</span> <span class="n">_find_object</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="n">column_mapping</span><span class="p">[</span><span class="s1">&#39;table&#39;</span><span class="p">])</span>
+        <span class="n">related_fields</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;table&#39;</span><span class="p">:</span> <span class="n">related_table</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>   <span class="c1"># Change to `id` on MetaData v0.0.2</span>
+            <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">column_mapping</span><span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="p">]</span>
+        <span class="p">})</span>
+
+    <span class="n">constraint</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;constraint_type&#39;</span><span class="p">:</span> <span class="s1">&#39;lineage&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fields_under_consideration&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;table&#39;</span><span class="p">:</span> <span class="n">target_table</span><span class="p">,</span>
+                <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">target_field</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">constraints</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;constraints&#39;</span><span class="p">]</span>
+    <span class="n">metadata_constraint</span> <span class="o">=</span> <span class="n">_find_object</span><span class="p">(</span><span class="n">constraints</span><span class="p">,</span> <span class="n">constraint</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata_constraint</span><span class="p">:</span>
+        <span class="c1"># Constraint does not exist yet, so add it</span>
+        <span class="n">constraints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span>
+        <span class="n">constraint</span><span class="p">[</span><span class="s1">&#39;related_fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">related_fields</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Constraing exists, so just add any missing fields.</span>
+        <span class="n">metadata_constraint</span><span class="p">[</span><span class="s1">&#39;related_fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span>
+            <span class="n">metadata_constraint</span><span class="p">[</span><span class="s1">&#39;related_fields&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">related_fields</span>
+        <span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+    <span class="n">metad</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+    <span class="n">metad</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">metadata</span>
+    <span class="n">metad</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="update_metadata"><a class="viewcode-back" href="../../api/datatracer.api.html#datatracer.api.update_metadata">[docs]</a><span class="nd">@hug</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/update_metadata&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">update_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">multi</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">json</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> <span class="n">update</span><span class="p">:</span> <span class="n">types</span><span class="o">.</span><span class="n">json</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">metadata_file</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">metadata_file</span><span class="p">)</span>
+
+    <span class="n">_validate</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;primary_keys&#39;</span> <span class="ow">in</span> <span class="n">update</span><span class="p">:</span>
+        <span class="n">_update_primary_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">update</span><span class="p">[</span><span class="s1">&#39;primary_keys&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="s1">&#39;foreign_keys&#39;</span> <span class="ow">in</span> <span class="n">update</span><span class="p">:</span>
+        <span class="n">_update_foreign_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">update</span><span class="p">[</span><span class="s1">&#39;foreign_keys&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="s1">&#39;column_mappings&#39;</span> <span class="ow">in</span> <span class="n">update</span><span class="p">:</span>
+        <span class="n">_update_lineage_constraint</span><span class="p">(</span>
+            <span class="n">metadata</span><span class="p">,</span> <span class="n">update</span><span class="p">[</span><span class="s1">&#39;target_table&#39;</span><span class="p">],</span> <span class="n">update</span><span class="p">[</span><span class="s1">&#39;target_field&#39;</span><span class="p">],</span> <span class="n">update</span><span class="p">[</span><span class="s1">&#39;column_mappings&#39;</span><span class="p">])</span>
+
+    <span class="n">_validate</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">metadata</span></div>
 </pre></div>
 
            </div>
