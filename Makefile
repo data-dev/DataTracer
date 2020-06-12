@@ -109,9 +109,13 @@ test-readme: ## run the readme snippets
 	rm -rf tests/readme_test
 
 .PHONY: test-rest
-test-rest: ## run the readme snippets
-	rm -rf tests/rest_test && mkdir tests/rest_test
-	cd tests/rest_test && rundoc run --single-session python3 -t python3 ../../rest/README.md
+test-rest: ## run the rest/readme snippets
+	rm -rf tests/rest_test
+	mkdir tests/rest_test
+	datatracer api & echo $$! > tests/rest_test/api.pid
+	cd tests/rest_test && \
+		rundoc run --single-session python3 -t python3 ../../rest/README.md; \
+		kill `cat api.pid`
 	rm -rf tests/rest_test
 
 .PHONY: test-tutorials
@@ -119,7 +123,7 @@ test-tutorials: ## run the tutorial notebooks
 	jupyter nbconvert --execute --ExecutePreprocessor.timeout=600 tutorials/*.ipynb --stdout > /dev/null
 
 .PHONY: test
-test: test-unit test-readme test-tutorials ## test everything that needs test dependencies
+test: test-unit test-readme test-rest test-tutorials ## test everything that needs test dependencies
 
 .PHONY: test-devel
 test-devel: lint docs ## test everything that needs development dependencies
