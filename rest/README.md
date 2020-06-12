@@ -327,12 +327,15 @@ The input to this endpoint contains two fields:
   outputs of any of the other endpoints. Combining all of them in a single JSON is also
   supported.
 
-The output is the updated metadata.
+The output is the contents of the updated metadata.
 
+**:warning: NOTE**: The contents of the updated metadata are always returned regardless of
+whether the input contained a path to a JSON file or the contents of the orignal metadata.
+If a path to a JSON file was passed, the JSON file **will not be modified**.
 
 #### Update Metadata Input Example:
 
-**NOTE**: In this example we are updating the metadata adding a constraint based on the
+In this example we are updating the metadata adding a constraint based on the
 column mapping output.
 
 ```json
