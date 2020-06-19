@@ -3,7 +3,7 @@
 Primitives implemented so far are:
     * update_metadata_primary_keys: Set primary keys into the given Metadata
     * update_metadata_foreign_keys: Set foreign keys into the given Metadata
-    * update_metadata_column_mappings: Set lineage constraints into the given Metadata
+    * update_metadata_column_map: Set lineage constraints into the given Metadata
 """
 
 import copy
@@ -46,7 +46,14 @@ def _add_foreign_keys(metadata_dict, foreign_keys):
             metadata_foreign_keys.append(foreign_key)
 
 
-def _add_column_mappings(metadata_dict, column_mappings, target_table, target_field):
+def _add_column_map(metadata_dict, column_map, target_table, target_field):
+    related_fields = [
+        {
+            'table': table_id,
+            'field': field
+        }
+        for (table_id, field), score in reversed(sorted(column_map.items(), key=lambda x: x[1]))
+    ]
 
     constraint = {
         'constraint_type': 'lineage',
@@ -63,11 +70,11 @@ def _add_column_mappings(metadata_dict, column_mappings, target_table, target_fi
     if not metadata_constraint:
         # Constraint does not exist yet, so add it
         constraints.append(constraint)
-        constraint['related_fields'] = copy.deepcopy(column_mappings)
+        constraint['related_fields'] = related_fields
     else:
         # Constraing exists, so just add any missing fields.
         metadata_constraint['related_fields'] = list(set(
-            metadata_constraint['related_fields'] + copy.deepcopy(column_mappings)
+            metadata_constraint['related_fields'] + related_fields
         ))
 
 
@@ -156,19 +163,19 @@ def update_metadata_foreign_keys(metadata, foreign_keys, output_path=None):
     )
 
 
-def update_metadata_column_mappings(metadata, column_mappings, target_table,
+def update_metadata_column_map(metadata, column_map, target_table,
                                     target_field, output_path=None):
-    """Add column mappings to the given metadata.
+    """Add a column map to the given metadata.
 
     Args:
         metadata (MetaData, dict or str):
             Metadata that will be updated. It can be given as a MetaData
             instance, or as a metadata dict or as a path to a metadata
             JSON file.
-        column_mappings (list):
-            List of column mappings.
+        column_map (dict):
+            Column map dict.
         target_table (str):
-            If of the target table
+            If of the target table.
         target_field (str):
             Name of the target field from the target table.
         output_path (str):
@@ -180,10 +187,10 @@ def update_metadata_column_mappings(metadata, column_mappings, target_table,
             The updated metadata
     """
     return _update_metadata(
-        _add_column_mappings,
+        _add_column_map,
         metadata,
         output_path,
-        column_mappings=column_mappings,
+        column_map=column_map,
         target_table=target_table,
         target_field=target_field
     )

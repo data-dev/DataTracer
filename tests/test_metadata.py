@@ -67,17 +67,11 @@ def foreign_keys():
 
 
 @pytest.fixture
-def column_mappings():
-    return [
-        {
-            'table': '1234',
-            'field': 'some_field'
-        },
-        {
-            'table': '4567',
-            'field': 'some_other_field'
-        },
-    ]
+def column_map():
+    return {
+        ('4567', 'some_other_field'): 0.8,
+        ('1234', 'some_field'): 0.9,
+    }
 
 
 @pytest.fixture
@@ -118,8 +112,7 @@ def test_foreign_keys(metad, foreign_keys):
     assert updated.data['foreign_keys'] == foreign_keys
 
 
-def test_column_mappings(metad, column_mappings, constraints):
-    updated = metadata.update_metadata_column_mappings(
-        metad, column_mappings, '1234', 'a_field')
+def test_column_map(metad, column_map, constraints):
+    updated = metadata.update_metadata_column_map(metad, column_map, '1234', 'a_field')
 
     assert updated.data['constraints'] == constraints
