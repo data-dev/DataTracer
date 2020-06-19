@@ -23,7 +23,8 @@
           "name": "salary",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "RA"
     },
     {
       "name": "course",
@@ -41,7 +42,8 @@
           "name": "diff",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "course"
     },
     {
       "name": "prof",
@@ -59,7 +61,8 @@
           "name": "teachingability",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "prof"
     },
     {
       "name": "registration",
@@ -84,7 +87,8 @@
           "name": "sat",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "registration"
     },
     {
       "name": "student",
@@ -102,7 +106,8 @@
           "name": "ranking",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "student"
     }
   ],
   "foreign_keys": [

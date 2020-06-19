@@ -16,9 +16,9 @@ import uuid
 import hug
 import pandas as pd
 from hug import types
-from metad import MetaData
 
 from datatracer import DataTracer
+from datatracer.metadata import find_object, validate
 
 PRIMARY_KEY_SOLVER = 'datatracer.primary_key.basic'
 FOREIGN_KEY_SOLVER = 'datatracer.foreign_key.standard'
@@ -131,17 +131,6 @@ def column_mapping(tables: types.multiple, target_table: types.json, target_fiel
     }
 
 
-def _find_object(objects, filters):
-    for obj in objects:
-        for key, value in filters.items():
-            if obj[key] != value:
-                break
-
-        else:
-            # Reachable only if loop was not broken
-            return obj
-
-
 def _update_primary_keys(metadata_dict, primary_keys):
     """Add primary keys to the given metadata.
 
@@ -159,7 +148,7 @@ def _update_primary_keys(metadata_dict, primary_keys):
     tables = metadata_dict['tables']
     for primary_key_spec in primary_keys:
         primary_key_column = primary_key_spec.pop('primary_key')
-        table = _find_object(tables, primary_key_spec)
+        table = find_object(tables, primary_key_spec)
         table['primary_key'] = primary_key_column
 
 
@@ -178,11 +167,11 @@ def _update_foreign_keys(metadata, foreign_keys):
     metadata_foreign_keys = metadata['foreign_keys']
     for foreign_key in foreign_keys:
         table_filters = foreign_key['table']
-        table = _find_object(tables, table_filters)
+        table = find_object(tables, table_filters)
         foreign_key['table'] = table['name']   # Change to `id` on MetaData v0.0.2
 
         ref_table_filters = foreign_key['ref_table']
-        ref_table = _find_object(tables, ref_table_filters)
+        ref_table = find_object(tables, ref_table_filters)
         foreign_key['ref_table'] = ref_table['name']   # Change to `id` on MetaData v0.0.2
 
         if foreign_key not in metadata_foreign_keys:
@@ -205,11 +194,11 @@ def _update_lineage_constraint(metadata, target_table, target_field, column_mapp
             List containing column mapping specifications.
     """
     tables = metadata['tables']
-    target_table = _find_object(tables, target_table)['name']   # Change to `id` on MetaData v0.0.2
+    target_table = find_object(tables, target_table)['name']   # Change to `id` on MetaData v0.0.2
 
     related_fields = []
     for column_mapping in column_mappings:
-        related_table = _find_object(tables, column_mapping['table'])
+        related_table = find_object(tables, column_mapping['table'])
         related_fields.append({
             'table': related_table['name'],   # Change to `id` on MetaData v0.0.2
             'field': column_mapping['field']
@@ -226,7 +215,7 @@ def _update_lineage_constraint(metadata, target_table, target_field, column_mapp
     }
 
     constraints = metadata['constraints']
-    metadata_constraint = _find_object(constraints, constraint)
+    metadata_constraint = find_object(constraints, constraint)
     if not metadata_constraint:
         # Constraint does not exist yet, so add it
         constraints.append(constraint)
@@ -238,12 +227,6 @@ def _update_lineage_constraint(metadata, target_table, target_field, column_mapp
         ))
 
 
-def _validate(metadata):
-    metad = MetaData()
-    metad.data = metadata
-    metad.validate()
-
-
 @hug.post('/update_metadata')
 def update_metadata(metadata: types.multi(types.json, types.text), update: types.json):
     if isinstance(metadata, dict):
@@ -252,7 +235,7 @@ def update_metadata(metadata: types.multi(types.json, types.text), update: types
         with open(metadata, 'r') as metadata_file:
             metadata = json.load(metadata_file)
 
-    _validate(metadata)
+    validate(metadata)
 
     if 'primary_keys' in update:
         _update_primary_keys(metadata, update['primary_keys'])
@@ -264,6 +247,6 @@ def update_metadata(metadata: types.multi(types.json, types.text), update: types
         _update_lineage_constraint(
             metadata, update['target_table'], update['target_field'], update['column_mappings'])
 
-    _validate(metadata)
+    validate(metadata)
 
     return metadata

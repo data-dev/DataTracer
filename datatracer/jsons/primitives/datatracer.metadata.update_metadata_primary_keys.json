@@ -1,0 +1,29 @@
+{
+    "name": "datatracer.metadata.update_metadata_primary_keys",
+    "description": "Add primary keys to the metadata",
+    "primitive": "datatracer.metadata.update_metadata_primary_keys",
+    "produce": {
+        "args": [
+            {
+                "name": "metadata",
+                "type": "MetaData, dict or str"
+            },
+            {
+                "name": "primary_keys",
+                "type": "dict"
+            },
+            {
+                "name": "output_path",
+                "default": null,
+                "type": "str"
+            }
+        ],
+        "output": [
+            {
+                "name": "metadata",
+                "type": "MetaData"
+            }
+        ]
+    },
+    "hyperparameters": {}
+}
