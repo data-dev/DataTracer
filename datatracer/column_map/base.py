@@ -4,15 +4,15 @@
 class ColumnMapSolver:
     """Base Solver for the data lineage problem of column dependency."""
 
-    def fit(self, list_of_databases):
+    def fit(self, dict_of_databases):
         """Fit this solver.
 
         Args:
-            list_of_databases (list):
-                List of tuples containing ``MetaData`` instnces and table dictinaries,
-                which contain table names as input and ``pandas.DataFrames`` as values.
+            dict_of_databases (dict):
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
+                as input and ``pandas.DataFrames`` as values.
         """
-        pass
 
     def solve(self, tables, foreign_keys, target_table, target_field):
         """Find the fields which contributed to the target_field the most.

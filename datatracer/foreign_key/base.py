@@ -3,15 +3,15 @@
 
 class ForeignKeySolver():
 
-    def fit(self, list_of_databases):
+    def fit(self, dict_of_databases):
         """Fit this solver.
 
         Args:
-            list_of_databases (list):
-                List of tuples containing ``MetaData`` instnces and table dictinaries,
-                which contain table names as input and ``pandas.DataFrames`` as values.
+            dict_of_databases (dict):
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
+                as input and ``pandas.DataFrames`` as values.
         """
-        pass
 
     def solve(self, tables, primary_keys=None):
         """Solve the foreign key detection problem.

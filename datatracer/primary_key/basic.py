@@ -2,6 +2,7 @@
 
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from tqdm import tqdm
 
 from datatracer.primary_key.base import PrimaryKeySolver
 
@@ -27,16 +28,19 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
             1.0 if column.dtype == "object" else 0.0,
         ]
 
-    def fit(self, list_of_databases):
+    def fit(self, dict_of_databases):
         """Fit this solver.
 
         Args:
-            list_of_databases (list):
-                List of tuples containing ``MetaData`` instnces and table dictinaries,
-                which contain table names as input and ``pandas.DataFrames`` as values.
+            dict_of_databases (dict):
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
+                as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []
-        for metadata, tables in list_of_databases:
+        iterator = tqdm(dict_of_databases.items())
+        for database_name, (metadata, tables) in iterator:
+            iterator.set_description("Extracting features from %s" % database_name)
             for table in metadata.get_tables():
                 if "primary_key" not in table:
                     continue

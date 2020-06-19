@@ -50,20 +50,24 @@ class StandardForeignKeySolver(ForeignKeySolver):
             1.0 if child_col.dtype == "object" else 0.0,
         ]
 
-    def fit(self, list_of_databases):
+    def fit(self, dict_of_databases):
         """Fit this solver.
 
         Args:
-            list_of_databases (list):
-                List of tuples containing ``MetaData`` instnces and table dictinaries,
-                which contain table names as input and ``pandas.DataFrames`` as values.
+            dict_of_databases (dict):
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
+                as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []
-        for metadata, tables in tqdm(list_of_databases, "extracting features"):
-            fks = set()
-            for fk in metadata.get_foreign_keys():
-                if isinstance(fk["field"], str):
-                    fks.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
+        iterator = tqdm(dict_of_databases.items())
+        for database_name, (metadata, tables) in iterator:
+            iterator.set_description("Extracting features from %s" % database_name)
+            fks = metadata.get_foreign_keys()
+            fks = set([
+                (fk["table"], fk["field"], fk["ref_table"], fk["ref_field"])
+                for fk in fks
+            ])
 
             for t1, t2 in permutations(tables.keys(), r=2):
                 for c1 in tables[t1].columns:
