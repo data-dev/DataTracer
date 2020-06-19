@@ -6,11 +6,11 @@
       "fields": [
         {
           "name": "game_id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "opening_id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "event",
@@ -46,11 +46,11 @@
         },
         {
           "name": "whiteElo",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "BlackElo",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "opening",
@@ -136,7 +136,8 @@
           "name": "b10",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "game"
     },
     {
       "name": "opening",
@@ -144,7 +145,7 @@
       "fields": [
         {
           "name": "opening_id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "name",
@@ -190,7 +191,8 @@
           "name": "variation",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "opening"
     }
   ],
   "foreign_keys": [

@@ -6,25 +6,26 @@
       "fields": [
         {
           "name": "id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "age",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "birthyear",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "height",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "nb_posts",
-          "data_type": "number"
+          "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "users"
     },
     {
       "name": "posts",
@@ -32,17 +33,18 @@
       "fields": [
         {
           "name": "id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "uid",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "text",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "posts"
     }
   ],
   "foreign_keys": [
@@ -57,10 +59,16 @@
     {
       "constraint_type": "validity",
       "fields_under_consideration": [
-        {"table": "users", "field": "age"}
+        {
+          "table": "users",
+          "field": "age"
+        }
       ],
       "related_fields": [
-        {"table": "users", "field": "birthyear"}
+        {
+          "table": "users",
+          "field": "birthyear"
+        }
       ]
     }
   ]

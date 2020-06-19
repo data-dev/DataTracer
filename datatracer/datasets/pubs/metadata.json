@@ -40,7 +40,8 @@
           "name": "contract",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "authors"
     },
     {
       "name": "discounts",
@@ -66,7 +67,8 @@
           "name": "discount",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "discounts"
     },
     {
       "name": "employee",
@@ -104,7 +106,8 @@
           "name": "hire_date",
           "data_type": "datetime"
         }
-      ]
+      ],
+      "id": "employee"
     },
     {
       "name": "jobs",
@@ -126,7 +129,8 @@
           "name": "max_lvl",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "jobs"
     },
     {
       "name": "pub_info",
@@ -144,7 +148,8 @@
           "name": "pr_info",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "pub_info"
     },
     {
       "name": "publishers",
@@ -170,7 +175,8 @@
           "name": "country",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "publishers"
     },
     {
       "name": "roysched",
@@ -192,7 +198,8 @@
           "name": "royalty",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "roysched"
     },
     {
       "name": "sales",
@@ -226,7 +233,8 @@
           "name": "title_id",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "sales"
     },
     {
       "name": "stores",
@@ -256,7 +264,8 @@
           "name": "zip",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "stores"
     },
     {
       "name": "titleauthor",
@@ -281,7 +290,8 @@
           "name": "royaltyper",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "titleauthor"
     },
     {
       "name": "titles",
@@ -327,7 +337,8 @@
           "name": "pubdate",
           "data_type": "datetime"
         }
-      ]
+      ],
+      "id": "titles"
     }
   ],
   "foreign_keys": [
