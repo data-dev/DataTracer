@@ -8,11 +8,10 @@ class PrimaryKeySolver():
 
         Args:
             dict_of_databases (dict):
-                Map from database names to tuples containing ``MetaData`` 
-                instances and table dictionaries, which contain table names 
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
                 as input and ``pandas.DataFrames`` as values.
         """
-        pass
 
     def solve(self, tables):
         """Solve the primary key detection problem.

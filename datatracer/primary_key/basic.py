@@ -1,8 +1,8 @@
 """Basic Primary Key Solver module."""
 
 import numpy as np
-from tqdm import tqdm
 from sklearn.ensemble import RandomForestClassifier
+from tqdm import tqdm
 
 from datatracer.primary_key.base import PrimaryKeySolver
 
@@ -33,8 +33,8 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
 
         Args:
             dict_of_databases (dict):
-                Map from database names to tuples containing ``MetaData`` 
-                instances and table dictionaries, which contain table names 
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
                 as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []

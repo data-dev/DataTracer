@@ -66,6 +66,7 @@ development_requires = [
 
     # benchmarking
     'dask>=2.15,<3',
+    'distributed>=2.15,<3',
 ]
 
 setup(

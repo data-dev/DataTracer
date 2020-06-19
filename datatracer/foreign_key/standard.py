@@ -1,8 +1,8 @@
 from collections import Counter
 from itertools import permutations
 
-from tqdm import tqdm
 from sklearn.ensemble import RandomForestClassifier
+from tqdm import tqdm
 
 from datatracer.foreign_key.base import ForeignKeySolver
 

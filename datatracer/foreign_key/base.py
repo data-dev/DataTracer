@@ -8,11 +8,10 @@ class ForeignKeySolver():
 
         Args:
             dict_of_databases (dict):
-                Map from database names to tuples containing ``MetaData`` 
-                instances and table dictionaries, which contain table names 
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
                 as input and ``pandas.DataFrames`` as values.
         """
-        pass
 
     def solve(self, tables, primary_keys=None):
         """Solve the foreign key detection problem.

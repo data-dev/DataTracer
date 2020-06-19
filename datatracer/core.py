@@ -53,8 +53,8 @@ class DataTracer:
 
         Args:
             datasets (dict):
-                Dict mapping dataset names to tuples containing a MetaData 
-                instance and a dict with the tables of the dataset loaded 
+                Dict mapping dataset names to tuples containing a MetaData
+                instance and a dict with the tables of the dataset loaded
                 as DataFrames.
         """
         self._mlpipeline = self._get_mlpipeline()
