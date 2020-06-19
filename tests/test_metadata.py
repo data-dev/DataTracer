@@ -116,7 +116,7 @@ def test_primary_keys_dict(metad, primary_keys):
 
 
 def test_primary_keys_str(metad, primary_keys, tmpdir):
-    metad_path = os.path.join(tmpdir, 'metadata.json')
+    metad_path = os.path.join(str(tmpdir), 'metadata.json')
     metad.to_json(metad_path)
     updated = metadata.update_metadata_primary_keys(metad_path, primary_keys)
 
@@ -125,7 +125,7 @@ def test_primary_keys_str(metad, primary_keys, tmpdir):
 
 
 def test_primary_output_path(metad, primary_keys, tmpdir):
-    output_path = os.path.join(tmpdir, 'metadata.json')
+    output_path = os.path.join(str(tmpdir), 'metadata.json')
     metadata.update_metadata_primary_keys(metad, primary_keys, output_path=output_path)
 
     updated = MetaData.from_json(output_path)
@@ -146,7 +146,7 @@ def test_foreign_keys_dict(metad, foreign_keys):
 
 
 def test_foreign_keys_str(metad, foreign_keys, tmpdir):
-    metad_path = os.path.join(tmpdir, 'metadata.json')
+    metad_path = os.path.join(str(tmpdir), 'metadata.json')
     metad.to_json(metad_path)
     updated = metadata.update_metadata_foreign_keys(metad_path, foreign_keys)
 
@@ -154,7 +154,7 @@ def test_foreign_keys_str(metad, foreign_keys, tmpdir):
 
 
 def test_foreign_keys_output_path(metad, foreign_keys, tmpdir):
-    output_path = os.path.join(tmpdir, 'updated.json')
+    output_path = os.path.join(str(tmpdir), 'updated.json')
     metadata.update_metadata_foreign_keys(metad, foreign_keys, output_path=output_path)
 
     updated = MetaData.from_json(output_path)
@@ -176,7 +176,7 @@ def test_column_map_dict(metad, column_map, constraints):
 
 
 def test_column_map_str(metad, column_map, constraints, tmpdir):
-    metad_path = os.path.join(tmpdir, 'metadata.json')
+    metad_path = os.path.join(str(tmpdir), 'metadata.json')
     metad.to_json(metad_path)
     updated = metadata.update_metadata_column_map(
         metad_path, column_map, target_table='1234', target_field='a_field')
@@ -185,7 +185,7 @@ def test_column_map_str(metad, column_map, constraints, tmpdir):
 
 
 def test_column_map_output_path(metad, column_map, constraints, tmpdir):
-    output_path = os.path.join(tmpdir, 'metadata.json')
+    output_path = os.path.join(str(tmpdir), 'metadata.json')
     metadata.update_metadata_column_map(
         metad, column_map, target_table='1234', target_field='a_field', output_path=output_path)
 
