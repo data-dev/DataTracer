@@ -1,5 +1,10 @@
 # History
 
+## 0.0.5 - 2020-06-12
+
+* Add new `update_metadata` endpoint to the REST API.
+* New demo dataset and new tutorial.
+
 ## 0.0.4 - 2020-06-05
 
 * Add initial version of pretrained solvers

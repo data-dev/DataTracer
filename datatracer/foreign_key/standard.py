@@ -24,7 +24,7 @@ class StandardForeignKeySolver(ForeignKeySolver):
         return diff
 
     def _feature_vector(self, parent_col, child_col):
-        parent_set, child_set = set(parent_col), set(child_col)
+        parent_set, child_set = set(parent_col.unique()), set(child_col.unique())
         len_intersect = len(parent_set.intersection(child_set))
         return [
             len_intersect / (len(child_set) + 1e-5),
@@ -55,8 +55,8 @@ class StandardForeignKeySolver(ForeignKeySolver):
 
         Args:
             dict_of_databases (dict):
-                Map from database names to tuples containing ``MetaData`` 
-                instances and table dictionaries, which contain table names 
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
                 as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []

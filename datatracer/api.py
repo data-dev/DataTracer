@@ -8,13 +8,15 @@ This functional interface is also exposed through a REST
 API based on [hug](https://hug.rest).
 """
 
+import copy
 import io
+import json
 import uuid
-from copy import deepcopy
 
 import hug
 import pandas as pd
 from hug import types
+from metad import MetaData
 
 from datatracer import DataTracer
 
@@ -62,7 +64,7 @@ def load_tables(tables):
     details = {}
     for table in tables:
         table_id = uuid.uuid4()
-        table_details = deepcopy(table)
+        table_details = copy.deepcopy(table)
         data[table_id] = _load_table_data(table_details)
         details[table_id] = table_details
 
@@ -127,3 +129,141 @@ def column_mapping(tables: types.multiple, target_table: types.json, target_fiel
         'target_field': target_field,
         'column_mappings': column_mappings
     }
+
+
+def _find_object(objects, filters):
+    for obj in objects:
+        for key, value in filters.items():
+            if obj[key] != value:
+                break
+
+        else:
+            # Reachable only if loop was not broken
+            return obj
+
+
+def _update_primary_keys(metadata_dict, primary_keys):
+    """Add primary keys to the given metadata.
+
+    Args:
+        metadata_dict (dict):
+            Dictionary representing a dataset metadata. The dictionary
+            corresponds to the ``data`` attribute of a ``MetaData`` object.
+        primary_keys (list):
+            List containing a set of attributes that uniquely identify a
+            table from the given metadata and an additional ``primary_key``
+            entry indicating the name of the field that acts as the primary
+            key of the table.
+    """
+    primary_keys = copy.deepcopy(primary_keys)
+    tables = metadata_dict['tables']
+    for primary_key_spec in primary_keys:
+        primary_key_column = primary_key_spec.pop('primary_key')
+        table = _find_object(tables, primary_key_spec)
+        table['primary_key'] = primary_key_column
+
+
+def _update_foreign_keys(metadata, foreign_keys):
+    """Add foreign keys to the given metadata.
+
+    Args:
+        metadata_dict (dict):
+            Dictionary representing a dataset metadata. The dictionary
+            corresponds to the ``data`` attribute of a ``MetaData`` object.
+        foreign_keys (list):
+            List containing foreign key specifications.
+    """
+    foreign_keys = copy.deepcopy(foreign_keys)
+    tables = metadata['tables']
+    metadata_foreign_keys = metadata['foreign_keys']
+    for foreign_key in foreign_keys:
+        table_filters = foreign_key['table']
+        table = _find_object(tables, table_filters)
+        foreign_key['table'] = table['name']   # Change to `id` on MetaData v0.0.2
+
+        ref_table_filters = foreign_key['ref_table']
+        ref_table = _find_object(tables, ref_table_filters)
+        foreign_key['ref_table'] = ref_table['name']   # Change to `id` on MetaData v0.0.2
+
+        if foreign_key not in metadata_foreign_keys:
+            metadata_foreign_keys.append(foreign_key)
+
+
+def _update_lineage_constraint(metadata, target_table, target_field, column_mappings):
+    """Add or update a lineage constraint of the given metadata.
+
+    Args:
+        metadata_dict (dict):
+            Dictionary representing a dataset metadata. The dictionary
+            corresponds to the ``data`` attribute of a ``MetaData`` object.
+        target_table (dict):
+            Dict containing a set of attributes that uniquely identify a
+            table from the given metadata.
+        target_field (str):
+            Name of a filed in the target table.
+        column_mappings (list):
+            List containing column mapping specifications.
+    """
+    tables = metadata['tables']
+    target_table = _find_object(tables, target_table)['name']   # Change to `id` on MetaData v0.0.2
+
+    related_fields = []
+    for column_mapping in column_mappings:
+        related_table = _find_object(tables, column_mapping['table'])
+        related_fields.append({
+            'table': related_table['name'],   # Change to `id` on MetaData v0.0.2
+            'field': column_mapping['field']
+        })
+
+    constraint = {
+        'constraint_type': 'lineage',
+        'fields_under_consideration': [
+            {
+                'table': target_table,
+                'field': target_field
+            }
+        ]
+    }
+
+    constraints = metadata['constraints']
+    metadata_constraint = _find_object(constraints, constraint)
+    if not metadata_constraint:
+        # Constraint does not exist yet, so add it
+        constraints.append(constraint)
+        constraint['related_fields'] = related_fields
+    else:
+        # Constraing exists, so just add any missing fields.
+        metadata_constraint['related_fields'] = list(set(
+            metadata_constraint['related_fields'] + related_fields
+        ))
+
+
+def _validate(metadata):
+    metad = MetaData()
+    metad.data = metadata
+    metad.validate()
+
+
+@hug.post('/update_metadata')
+def update_metadata(metadata: types.multi(types.json, types.text), update: types.json):
+    if isinstance(metadata, dict):
+        metadata = copy.deepcopy(metadata)
+    else:
+        with open(metadata, 'r') as metadata_file:
+            metadata = json.load(metadata_file)
+
+    _validate(metadata)
+
+    if 'primary_keys' in update:
+        _update_primary_keys(metadata, update['primary_keys'])
+
+    if 'foreign_keys' in update:
+        _update_foreign_keys(metadata, update['foreign_keys'])
+
+    if 'column_mappings' in update:
+        _update_lineage_constraint(
+            metadata, update['target_table'], update['target_field'], update['column_mappings'])
+
+    _validate(metadata)
+
+    return metadata
