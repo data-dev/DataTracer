@@ -1,0 +1,5 @@
+{
+    "primitives": [
+        "datatracer.metadata.update_metadata_primary_keys"
+    ]
+}
