@@ -164,7 +164,7 @@ def update_metadata_foreign_keys(metadata, foreign_keys, output_path=None):
 
 
 def update_metadata_column_map(metadata, column_map, target_table,
-                                    target_field, output_path=None):
+                               target_field, output_path=None):
     """Add a column map to the given metadata.
 
     Args:
