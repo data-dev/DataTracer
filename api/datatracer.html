@@ -126,6 +126,7 @@
 <li class="toctree-l3"><a class="reference internal" href="datatracer.api.html">datatracer.api module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datatracer.core.html">datatracer.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datatracer.data.html">datatracer.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datatracer.metadata.html">datatracer.metadata module</a></li>
 </ul>
 </li>
 </ul>
@@ -303,7 +304,7 @@ all the Data Lineage functionalities of the project.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#datatracer.DataTracer.save" title="datatracer.DataTracer.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
 <td><p>Save this object using pickle for later usage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.DataTracer.solve" title="datatracer.DataTracer.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>(tables, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#datatracer.DataTracer.solve" title="datatracer.DataTracer.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>([tables])</p></td>
 <td><p>Solve the data lineage problem.</p></td>
 </tr>
 </tbody>
@@ -352,7 +353,7 @@ this object will be stored.</p>
 
 <dl class="method">
 <dt id="datatracer.DataTracer.solve">
-<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/core.html#DataTracer.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.DataTracer.solve" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">solve</code><span class="sig-paren">(</span><em class="sig-param">tables=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datatracer/core.html#DataTracer.solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datatracer.DataTracer.solve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solve the data lineage problem.</p>
 <p>The underlaying pipeline is executed and the outputs are returned.</p>
 <dl class="field-list simple">
@@ -509,6 +510,7 @@ and a dict with the tables of the dataset loaded as DataFrames.</p>
 <li class="toctree-l1"><a class="reference internal" href="datatracer.api.html">datatracer.api module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datatracer.core.html">datatracer.core module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datatracer.data.html">datatracer.data module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datatracer.metadata.html">datatracer.metadata module</a></li>
 </ul>
 </div>
 </div>

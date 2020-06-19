@@ -1,0 +1,7 @@
+datatracer.metadata module
+==========================
+
+.. automodule:: datatracer.metadata
+   :members:
+   :undoc-members:
+   :show-inheritance:

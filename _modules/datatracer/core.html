@@ -124,6 +124,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.api.html">datatracer.api module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.core.html">datatracer.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.data.html">datatracer.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.metadata.html">datatracer.metadata module</a></li>
 </ul>
 </li>
 </ul>
@@ -285,7 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_mlpipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_mlpipeline</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mlpipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">list_of_databases</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span> <span class="n">tables</span><span class="o">=</span><span class="p">{})</span></div>
 
-<div class="viewcode-block" id="DataTracer.solve"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataTracer.solve"><a class="viewcode-back" href="../../api/datatracer.core.html#datatracer.DataTracer.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Solve the data lineage problem.</span>
 
 <span class="sd">        The underlaying pipeline is executed and the outputs are returned.</span>

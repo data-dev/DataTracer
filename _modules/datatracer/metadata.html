@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datatracer.metadata &mdash; Data Tracer 0.0.6.dev0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/dai-logo-white.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Data Tracer
+          
+
+          
+            
+            <img src="../../_static/dai-logo-white-200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">DataTracer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../readme.html#rest-api">REST API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#install">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#install-with-pip">Install with pip</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#data-format-datasets-and-metadata">Data Format: Datasets and Metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#quickstart">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#load-data">Load data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#select-a-solver">Select a Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../readme.html#use-a-datatracer-instance-to-find-table-relationships">Use a DataTracer instance to find table relationships</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html#what-s-next">What’s next?</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/datatracer.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/datatracer.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.column_map.html">datatracer.column_map package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/datatracer.column_map.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.foreign_key.html">datatracer.foreign_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/datatracer.foreign_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.primary_key.html">datatracer.primary_key package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/datatracer.primary_key.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/datatracer.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.api.html">datatracer.api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.core.html">datatracer.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.data.html">datatracer.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/datatracer.metadata.html">datatracer.metadata module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#types-of-contributions">Types of Contributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#report-bugs">Report Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#fix-bugs">Fix Bugs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#implement-features">Implement Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#write-documentation">Write Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#submit-feedback">Submit Feedback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#unit-testing-guidelines">Unit Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#release-workflow">Release Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing.html#release-candidates">Release Candidates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../history.html#id1">0.0.5 - 2020-06-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../history.html#id2">0.0.4 - 2020-06-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../history.html#id3">0.0.3 - 2020-05-28</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../history.html#id4">0.0.2 - 2020-05-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../history.html#id5">0.0.1 - 2020-05-22</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Data Tracer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../datatracer.html">datatracer</a> &raquo;</li>
+        
+      <li>datatracer.metadata</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datatracer.metadata</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Metadata releated primitives module.</span>
+
+<span class="sd">Primitives implemented so far are:</span>
+<span class="sd">    * update_metadata_primary_keys: Set primary keys into the given Metadata</span>
+<span class="sd">    * update_metadata_foreign_keys: Set foreign keys into the given Metadata</span>
+<span class="sd">    * update_metadata_column_map: Set lineage constraints into the given Metadata</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">from</span> <span class="nn">metad</span> <span class="kn">import</span> <span class="n">MetaData</span>
+
+
+<div class="viewcode-block" id="validate"><a class="viewcode-back" href="../../api/datatracer.metadata.html#datatracer.metadata.validate">[docs]</a><span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+    <span class="n">metad</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+    <span class="n">metad</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">metadata</span>
+    <span class="n">metad</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="find_object"><a class="viewcode-back" href="../../api/datatracer.metadata.html#datatracer.metadata.find_object">[docs]</a><span class="k">def</span> <span class="nf">find_object</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">filters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Reachable only if loop was not broken</span>
+            <span class="k">return</span> <span class="n">obj</span></div>
+
+
+<span class="k">def</span> <span class="nf">_add_primary_keys</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">primary_keys</span><span class="p">):</span>
+    <span class="n">primary_keys</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">primary_keys</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">table</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]:</span> <span class="n">table</span>
+        <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">metadata_dict</span><span class="p">[</span><span class="s1">&#39;tables&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">table_id</span><span class="p">,</span> <span class="n">primary_key</span> <span class="ow">in</span> <span class="n">primary_keys</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">tables</span><span class="p">[</span><span class="n">table_id</span><span class="p">]</span>
+        <span class="n">table</span><span class="p">[</span><span class="s1">&#39;primary_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">primary_key</span>
+
+
+<span class="k">def</span> <span class="nf">_add_foreign_keys</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">):</span>
+    <span class="n">metadata_foreign_keys</span> <span class="o">=</span> <span class="n">metadata_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;foreign_keys&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">for</span> <span class="n">foreign_key</span> <span class="ow">in</span> <span class="n">foreign_keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">foreign_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata_foreign_keys</span><span class="p">:</span>
+            <span class="n">metadata_foreign_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">foreign_key</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_add_column_map</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">target_field</span><span class="p">):</span>
+    <span class="n">related_fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;table&#39;</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span>
+            <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">field</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">table_id</span><span class="p">,</span> <span class="n">field</span><span class="p">),</span> <span class="n">score</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">column_map</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="p">]</span>
+
+    <span class="n">constraint</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;constraint_type&#39;</span><span class="p">:</span> <span class="s1">&#39;lineage&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fields_under_consideration&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s1">&#39;table&#39;</span><span class="p">:</span> <span class="n">target_table</span><span class="p">,</span>
+                <span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">target_field</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">constraints</span> <span class="o">=</span> <span class="n">metadata_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;constraints&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">metadata_constraint</span> <span class="o">=</span> <span class="n">find_object</span><span class="p">(</span><span class="n">constraints</span><span class="p">,</span> <span class="n">constraint</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata_constraint</span><span class="p">:</span>
+        <span class="c1"># Constraint does not exist yet, so add it</span>
+        <span class="n">constraints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span>
+        <span class="n">constraint</span><span class="p">[</span><span class="s1">&#39;related_fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">related_fields</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Constraing exists, so just add any missing fields.</span>
+        <span class="n">metadata_constraint</span><span class="p">[</span><span class="s1">&#39;related_fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span>
+            <span class="n">metadata_constraint</span><span class="p">[</span><span class="s1">&#39;related_fields&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">related_fields</span>
+        <span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_load_metadata_dict</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the given metadata as a dict.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">metadata</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">metadata</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">validate</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">metadata</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Metadata can only be MetaData, dict or str&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_update_metadata</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">_load_metadata_dict</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="n">function</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">validate</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">):</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">metadata_dict</span>
+
+    <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">metadata</span>
+
+
+<div class="viewcode-block" id="update_metadata_primary_keys"><a class="viewcode-back" href="../../api/datatracer.metadata.html#datatracer.metadata.update_metadata_primary_keys">[docs]</a><span class="k">def</span> <span class="nf">update_metadata_primary_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">primary_keys</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add primary keys to the given metadata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata (MetaData, dict or str):</span>
+<span class="sd">            Metadata that will be updated. It can be given as a MetaData</span>
+<span class="sd">            instance, or as a metadata dict or as a path to a metadata</span>
+<span class="sd">            JSON file.</span>
+<span class="sd">        primary_keys (dict):</span>
+<span class="sd">            Dict of primary key specifications.</span>
+<span class="sd">        output_path (str):</span>
+<span class="sd">            Optional. If given, store the updated metadata in the given</span>
+<span class="sd">            path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MetaData:</span>
+<span class="sd">            The updated metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_update_metadata</span><span class="p">(</span>
+        <span class="n">_add_primary_keys</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">,</span>
+        <span class="n">primary_keys</span><span class="o">=</span><span class="n">primary_keys</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update_metadata_foreign_keys"><a class="viewcode-back" href="../../api/datatracer.metadata.html#datatracer.metadata.update_metadata_foreign_keys">[docs]</a><span class="k">def</span> <span class="nf">update_metadata_foreign_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">foreign_keys</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add foreign keys to the given metadata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata (MetaData, dict or str):</span>
+<span class="sd">            Metadata that will be updated. It can be given as a MetaData</span>
+<span class="sd">            instance, or as a metadata dict or as a path to a metadata</span>
+<span class="sd">            JSON file.</span>
+<span class="sd">        foreign_keys (list):</span>
+<span class="sd">            List of foreign key specifications.</span>
+<span class="sd">        output_path (str):</span>
+<span class="sd">            Optional. If given, store the updated metadata in the given</span>
+<span class="sd">            path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MetaData:</span>
+<span class="sd">            The updated metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_update_metadata</span><span class="p">(</span>
+        <span class="n">_add_foreign_keys</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">,</span>
+        <span class="n">foreign_keys</span><span class="o">=</span><span class="n">foreign_keys</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update_metadata_column_map"><a class="viewcode-back" href="../../api/datatracer.metadata.html#datatracer.metadata.update_metadata_column_map">[docs]</a><span class="k">def</span> <span class="nf">update_metadata_column_map</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span>
+                               <span class="n">target_field</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add a column map to the given metadata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata (MetaData, dict or str):</span>
+<span class="sd">            Metadata that will be updated. It can be given as a MetaData</span>
+<span class="sd">            instance, or as a metadata dict or as a path to a metadata</span>
+<span class="sd">            JSON file.</span>
+<span class="sd">        column_map (dict):</span>
+<span class="sd">            Column map dict.</span>
+<span class="sd">        target_table (str):</span>
+<span class="sd">            If of the target table.</span>
+<span class="sd">        target_field (str):</span>
+<span class="sd">            Name of the target field from the target table.</span>
+<span class="sd">        output_path (str):</span>
+<span class="sd">            Optional. If given, store the updated metadata in the given</span>
+<span class="sd">            path.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        MetaData:</span>
+<span class="sd">            The updated metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_update_metadata</span><span class="p">(</span>
+        <span class="n">_add_column_map</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">,</span>
+        <span class="n">column_map</span><span class="o">=</span><span class="n">column_map</span><span class="p">,</span>
+        <span class="n">target_table</span><span class="o">=</span><span class="n">target_table</span><span class="p">,</span>
+        <span class="n">target_field</span><span class="o">=</span><span class="n">target_field</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, MIT Data To AI Lab
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
