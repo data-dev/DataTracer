@@ -1,0 +1,37 @@
+{
+    "name": "datatracer.metadata.update_metadata_column_map",
+    "description": "Add lineage constraints to the metadata",
+    "primitive": "datatracer.metadata.update_metadata_column_map",
+    "produce": {
+        "args": [
+            {
+                "name": "metadata",
+                "type": "MetaData, dict or str"
+            },
+            {
+                "name": "column_map",
+                "type": "dict"
+            },
+            {
+                "name": "target_table",
+                "type": "str"
+            },
+            {
+                "name": "target_field",
+                "type": "str"
+            },
+            {
+                "name": "output_path",
+                "default": null,
+                "type": "str"
+            }
+        ],
+        "output": [
+            {
+                "name": "metadata",
+                "type": "MetaData"
+            }
+        ]
+    },
+    "hyperparameters": {}
+}
