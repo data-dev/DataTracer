@@ -100,7 +100,7 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 
 .PHONY: test-unit
 test-unit: ## run tests quickly with the default Python
-	python -m pytest --basetemp=${ENVTMPDIR} --cov=datatracer
+	python -m pytest --cov=datatracer
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
