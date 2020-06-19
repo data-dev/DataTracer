@@ -15,7 +15,8 @@
           "name": "name2",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "parent"
     },
     {
       "name": "person",
@@ -25,7 +26,8 @@
           "name": "name",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "person"
     },
     {
       "name": "same_gen",
@@ -42,7 +44,8 @@
           "name": "name2",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "same_gen"
     },
     {
       "name": "target",
@@ -63,7 +66,8 @@
           "name": "target",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "target"
     }
   ],
   "foreign_keys": [

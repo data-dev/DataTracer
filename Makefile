@@ -100,7 +100,7 @@ fix-lint: ## fix lint issues using autoflake, autopep8, and isort
 
 .PHONY: test-unit
 test-unit: ## run tests quickly with the default Python
-	python -m pytest --basetemp=${ENVTMPDIR} --cov=datatracer
+	python -m pytest --cov=datatracer
 
 .PHONY: test-readme
 test-readme: ## run the readme snippets
@@ -112,7 +112,7 @@ test-readme: ## run the readme snippets
 test-rest: ## run the rest/readme snippets
 	rm -rf tests/rest_test
 	mkdir tests/rest_test
-	datatracer api & echo $$! > tests/rest_test/api.pid
+	cd tests/rest_test && datatracer api & echo $$! > tests/rest_test/api.pid
 	cd tests/rest_test && \
 		rundoc run --single-session python3 -t python3 ../../rest/README.md; \
 		kill `cat api.pid`

@@ -1,0 +1,29 @@
+{
+    "name": "datatracer.metadata.update_metadata_foreign_keys",
+    "description": "Add foreign keys to the metadata",
+    "primitive": "datatracer.metadata.update_metadata_foreign_keys",
+    "produce": {
+        "args": [
+            {
+                "name": "metadata",
+                "type": "MetaData, dict or str"
+            },
+            {
+                "name": "foreign_keys",
+                "type": "list"
+            },
+            {
+                "name": "output_path",
+                "default": null,
+                "type": "str"
+            }
+        ],
+        "output": [
+            {
+                "name": "metadata",
+                "type": "MetaData"
+            }
+        ]
+    },
+    "hyperparameters": {}
+}
