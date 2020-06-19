@@ -1,5 +1,10 @@
 # History
 
+## 0.0.6 - 2020-06-19
+
+* Add `update_metadata` primitives and pipelines.
+* Upgrade to MetaData v0.0.2
+
 ## 0.0.5 - 2020-06-12
 
 * Add new `update_metadata` endpoint to the REST API.
