@@ -1,7 +1,7 @@
 import argparse
 import os
 from io import BytesIO
-from time import time
+from time import ctime, time
 from urllib.parse import urljoin
 from urllib.request import urlopen
 from zipfile import ZipFile
@@ -120,7 +120,10 @@ def benchmark_primary_key(data_dir, solver="datatracer.primary_key.basic"):
         results = dask.compute(dataset_to_metrics)[0]
     for dataset_name, metrics in results.items():
         metrics["dataset"] = dataset_name
-    return pd.DataFrame(list(results.values()))
+    df = pd.DataFrame(list(results.values()))
+    dataset_col = df.pop('dataset')
+    df.insert(0, 'dataset', dataset_col)
+    return df
 
 
 @dask.delayed
@@ -201,7 +204,10 @@ def benchmark_foreign_key(data_dir, solver="datatracer.foreign_key.standard"):
         results = dask.compute(dataset_to_metrics)[0]
     for dataset_name, metrics in results.items():
         metrics["dataset"] = dataset_name
-    return pd.DataFrame(list(results.values()))
+    df = pd.DataFrame(list(results.values()))
+    dataset_col = df.pop('dataset')
+    df.insert(0, 'dataset', dataset_col)
+    return df
 
 
 @dask.delayed
@@ -235,11 +241,18 @@ def column_map(solver, target, datasets):
 
         start = time()
         y_pred = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
-        y_pred = {field for field, score in y_pred.items() if score > 0.0}
         end = time()
 
-        precision = len(y_true.intersection(y_pred)) / len(y_pred)
-        recall = len(y_true.intersection(y_pred)) / len(y_true)
+        y_pred_total = 0
+        intersection_total = 0
+
+        for field_temp, score in y_pred.items():
+            if field_temp in y_true:
+                intersection_total += max(0, min(1, score))
+            y_pred_total += max(0, min(1, score))
+
+        precision = intersection_total / y_pred_total
+        recall = intersection_total / len(y_true)
         f1 = 2.0 * precision * recall / (precision + recall)
 
         list_of_metrics.append({
@@ -282,7 +295,14 @@ def benchmark_column_map(data_dir, solver="datatracer.column_map.basic"):
         for metrics in list_of_metrics:
             metrics["dataset"] = dataset_name
             rows.append(metrics)
-    return pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
+    dataset_col = df.pop('dataset')
+    table_col = df.pop('table')
+    field_col = df.pop('field')
+    df.insert(0, 'field', field_col)
+    df.insert(0, 'table', table_col)
+    df.insert(0, 'dataset', dataset_col)
+    return df
 
 
 def _get_parser():
@@ -290,7 +310,9 @@ def _get_parser():
     shared_args.add_argument('--data_dir', type=str, 
         default=os.path.expanduser("~/tracer_data"), required=False, 
         help='Path to the benchmark datasets.')
-    shared_args.add_argument('--csv', type=str, required=False, 
+    default_csv = "report_" + ctime().replace(" ", "_") + ".csv"
+    shared_args.add_argument('--csv', type=str,
+        default=os.path.expanduser(default_csv), required=False, 
         help='Path to the CSV file where the report will be written.')
 
     parser = argparse.ArgumentParser(
