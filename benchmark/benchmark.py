@@ -35,6 +35,8 @@ def download(data_dir):
     rows = []
     client = boto3.client('s3')
     for dataset in client.list_objects(Bucket=BUCKET_NAME)['Contents']:
+        if not '.zip' in dataset['Key']:
+            continue
         rows.append(dataset)
         dataset_name = dataset['Key'].replace(".zip", "")
         dataset_path = os.path.join(data_dir, dataset_name)
