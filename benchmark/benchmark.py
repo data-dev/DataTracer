@@ -1,5 +1,8 @@
 import argparse
 import os
+import queue
+import threading
+import time
 from io import BytesIO
 from time import ctime, time
 from urllib.parse import urljoin
@@ -360,8 +363,12 @@ def main():
     parser = _get_parser()
     args = parser.parse_args()
     df = args.command(args.data_dir)
-    if args.csv:
-        df.to_csv(args.csv, index=False)
+    cmd_str = { benchmark_column_map: 'ColMap_',
+    benchmark_foreign_key: 'ForeignKey_',
+    benchmark_primary_key: 'PrimaryKey_'
+    }
+    if args.csv and args.command in cmd_str:
+        df.to_csv("Reports/" + cmd_str[args.command] + args.csv, index=False)
     print(df)
 
 
