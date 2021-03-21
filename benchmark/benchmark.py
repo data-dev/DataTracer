@@ -256,8 +256,13 @@ def column_map(solver, target, datasets):
                 intersection_total += max(0, min(1, score))
             y_pred_total += max(0, min(1, score))
 
-        precision = intersection_total / y_pred_total
-        recall = intersection_total / len(y_true)
+        #precision = intersection_total / y_pred_total
+        #recall = intersection_total / len(y_true)
+        #f1 = 2.0 * precision * recall / (precision + recall)
+        
+        y_pred = {field for field, score in y_pred.items() if score > 0.0}
+        precision = len(y_true.intersection(y_pred)) / len(y_pred)
+        recall = len(y_true.intersection(y_pred)) / len(y_true)
         f1 = 2.0 * precision * recall / (precision + recall)
 
         list_of_metrics.append({
