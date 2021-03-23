@@ -321,6 +321,7 @@ def _get_parser():
         default=os.path.expanduser("~/tracer_data"), required=False, 
         help='Path to the benchmark datasets.')
     default_csv = "report_" + ctime().replace(" ", "_") + ".csv"
+    default_csv = default_csv.replace("/", "_")
     shared_args.add_argument('--csv', type=str,
         default=os.path.expanduser(default_csv), required=False, 
         help='Path to the CSV file where the report will be written.')
