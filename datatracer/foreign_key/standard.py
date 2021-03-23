@@ -64,10 +64,14 @@ class StandardForeignKeySolver(ForeignKeySolver):
         for database_name, (metadata, tables) in iterator:
             iterator.set_description("Extracting features from %s" % database_name)
             fks = metadata.get_foreign_keys()
-            fks = set([
-                (fk["table"], fk["field"], fk["ref_table"], fk["ref_field"])
-                for fk in fks
-            ])
+            fks_new = []
+            for fk in fks:
+                if isinstance(fk["field"], list):
+                    for field, ref_field in zip(fk["field"], fk["ref_field"]):
+                        fks_new.append((fk["table"], field, fk["ref_table"], ref_field))
+                else:
+                    fks_new.append((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
+            fks = set(fks_new)
 
             for t1, t2 in permutations(tables.keys(), r=2):
                 for c1 in tables[t1].columns:

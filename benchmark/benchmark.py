@@ -172,9 +172,9 @@ def foreign_key(solver, target, datasets):
             "inference_time": end - start
         }
 
-    precision = len(y_true.intersection(y_pred)) / len(y_pred)
-    recall = len(y_true.intersection(y_pred)) / len(y_true)
-    f1 = 2.0 * precision * recall / (precision + recall)
+    precision = 0.0 if len(y_pred) == 0 else len(y_true.intersection(y_pred)) / len(y_pred)
+    recall = 0.0 if len(y_true) == 0 else len(y_true.intersection(y_pred)) / len(y_true)
+    f1 = 0.0 if precision + recall == 0 else 2.0 * precision * recall / (precision + recall)
 
     return {
         "precision": precision,
@@ -259,11 +259,11 @@ def column_map(solver, target, datasets):
         #precision = intersection_total / y_pred_total
         #recall = intersection_total / len(y_true)
         #f1 = 2.0 * precision * recall / (precision + recall)
-        
+
         y_pred = {field for field, score in y_pred.items() if score > 0.0}
-        precision = len(y_true.intersection(y_pred)) / len(y_pred)
-        recall = len(y_true.intersection(y_pred)) / len(y_true)
-        f1 = 2.0 * precision * recall / (precision + recall)
+        precision = 0.0 if len(y_pred) == 0 else len(y_true.intersection(y_pred)) / len(y_pred)
+        recall = 0.0 if len(y_true) == 0 else len(y_true.intersection(y_pred)) / len(y_true)
+        f1 = 0.0 if precision + recall == 0 else 2.0 * precision * recall / (precision + recall)
 
         list_of_metrics.append({
             "table": field["table"],
