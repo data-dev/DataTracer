@@ -14,7 +14,7 @@ import dask
 import pandas as pd
 from dask.diagnostics import ProgressBar
 
-from datatracer import DataTracer, load_datasets
+from datatracer import DataTracer, load_datasets, sample_datasets
 
 BUCKET_NAME = 'tracer-data'
 DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
@@ -76,26 +76,47 @@ def primary_key(solver, target, datasets):
     y_true = {}
     for table in metadata.get_tables():
         if "primary_key" not in table:
-            continue  # Skip tables without primary keys
-        if not isinstance(table["primary_key"], str):
-            continue  # Skip tables with composite primary keys
-        y_true[table["name"]] = table["primary_key"]
+            y_true[table["name"]] = set()
+        elif not isinstance(table["primary_key"], str):
+            y_true[table["name"]] = set(table["primary_key"])
+        else:
+            y_true[table["name"]] = set([table["primary_key"]])
 
+    """
     if len(y_true) == 0:
         return {}  # Skip dataset, no primary keys found.
+    """
 
-    correct, total = 0, 0
+    correct, total_pred, total_true = 0, 0, 0
     start = time()
     y_pred = tracer.solve(tables)
     end = time()
     for table_name, primary_key in y_true.items():
-        if y_pred.get(table_name) == primary_key:
-            correct += 1
-        total += 1
-    accuracy = correct / total
+        ans = y_pred.get(table_name)
+        if isinstance(ans, str):
+            ans = set([ans])
+        else:
+            ans = set(ans)
+        correct += len(ans.intersection(primary_key))
+        total_pred += len(ans)
+        total_true += len(primary_key)
+
+    if correct == 0 or total_pred == 0 or \
+            total_true == 0:
+        return {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "inference_time": end - start
+        }
+    precision = correct / total_pred
+    recall = correct / total_true
+    f1 = 2 * precision * recall / (precision + recall)
 
     return {
-        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
         "inference_time": end - start
     }
 
@@ -198,6 +219,7 @@ def benchmark_foreign_key(data_dir, solver="datatracer.foreign_key.standard"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
+    datasets = sample_datasets(datasets, max_size=1000)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
@@ -291,6 +313,7 @@ def benchmark_column_map(data_dir, solver="datatracer.column_map.basic"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
+    datasets = sample_datasets(datasets, max_size=1000)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
@@ -321,7 +344,7 @@ def _get_parser():
         default=os.path.expanduser("~/tracer_data"), required=False, 
         help='Path to the benchmark datasets.')
     default_csv = "report_" + ctime().replace(" ", "_") + ".csv"
-    default_csv = default_csv.replace("/", "_")
+    default_csv = default_csv.replace(":", "_")
     shared_args.add_argument('--csv', type=str,
         default=os.path.expanduser(default_csv), required=False, 
         help='Path to the CSV file where the report will be written.')
