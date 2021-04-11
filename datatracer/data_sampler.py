@@ -19,12 +19,15 @@ def calculate_size(transformed_dataset):
 def transform_dataset(metadata, dataset):
     fks = metadata.get_foreign_keys()
     transformed_fk = {}
+    key_columns = {table_name: set() for table_name in dataset}
     for fk in fks:
         table, all_field, ref_table, all_ref_field = fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]
         if isinstance(all_field, str):
             all_field = [all_field]
             all_ref_field = [all_ref_field]
         for field, ref_field in zip(all_field, all_ref_field):
+            key_columns[table].add(field)
+            key_columns[ref_table].add(ref_field)
             if ref_table not in transformed_fk:
                 transformed_fk[ref_table] = []
             transformed_fk[ref_table].append((ref_table, ref_field, table, field))
@@ -32,7 +35,7 @@ def transform_dataset(metadata, dataset):
     size = 0
     for table_name in dataset:
         table = dataset[table_name]
-        columns = list(table.columns)
+        columns = key_columns[table_name]
         transformed_table = {'size': table.memory_usage().sum(),
                              'row_size': float(table.memory_usage().sum()) / len(table),
                              'entries': {col: {} for col in columns},
@@ -93,7 +96,7 @@ def sample_dataset(metadata, dataset, max_size=None, max_ratio=1.0, rand_seed=0)
         max_size = size
     target_size = min(max_size, size * float(max_ratio))
     root_tables = get_root_tables(metadata)
-    while calculate_size(transformed_dataset) > target_size:
+    while calculate_size(transformed_dataset) > target_size + 1: #+1 is for preventing precision issues
         table_name = random.sample(root_tables, 1)[0]
         if len(transformed_dataset[table_name]['chosen']) > 0:
             idx = random.sample(transformed_dataset[table_name]['chosen'], 1)[0]
