@@ -313,7 +313,7 @@ def benchmark_column_map(data_dir, solver="datatracer.column_map.basic"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
-    datasets = sample_datasets(datasets, max_size=1000)
+    datasets = sample_datasets(datasets, max_size=500)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
