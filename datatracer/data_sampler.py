@@ -95,13 +95,17 @@ def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, ra
     if len(dataset) == 0:
         return None #empty dataset
     
-    random.seed(rand_seed)
-    transformed_fk, transformed_dataset, size = transform_dataset(metadata, dataset)
+    size = sum([table.memory_usage().sum() for _, table in dataset.items()])
     if max_size is not None:
         max_size *= (1024.0**2) #input max_size is in MB
     else:
         max_size = size
     target_size = min(max_size, size * float(max_ratio))
+    if size <= target_size + 1:
+        return dataset
+    
+    random.seed(rand_seed)
+    transformed_fk, transformed_dataset, size = transform_dataset(metadata, dataset)
     root_tables = get_root_tables(metadata)
     while calculate_size(transformed_dataset) > target_size + 1: #+1 is for preventing precision issues
         table_name = random.sample(root_tables, 1)[0]
@@ -111,6 +115,8 @@ def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, ra
                 return None
         else:
             return None
+    
+    return backward_transform(transformed_dataset, dataset)
     
     return backward_transform(transformed_dataset, dataset)
 
