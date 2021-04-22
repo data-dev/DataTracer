@@ -87,13 +87,13 @@ def get_root_tables(metadata):
         return {table['name'] for table in metadata.get_tables()}
 
 @dask.delayed
-def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, rand_seed=0, database_name=None, 
-                  dict_of_databases=None):
+def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, drop_threshold=None,
+                rand_seed=0, database_name=None, dict_of_databases=None):
     if dict_of_databases is not None:
         metadata, dataset = dict_of_databases[database_name]
     
     if len(dataset) == 0:
-        return None #empty dataset
+        return (None, 'empty') #empty dataset
     
     size = sum([table.memory_usage().sum() for _, table in dataset.items()])
     if max_size is not None:
@@ -101,8 +101,13 @@ def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, ra
     else:
         max_size = size
     target_size = min(max_size, size * float(max_ratio))
+
+    if drop_threshold is None:
+        drop_threshold = 5 * target_size
     if size <= target_size + 1:
         return dataset
+    elif size > drop_threshold:
+        return (None, 'size')
     
     random.seed(rand_seed)
     transformed_fk, transformed_dataset, size = transform_dataset(metadata, dataset)
@@ -112,28 +117,31 @@ def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, ra
         if len(transformed_dataset[table_name]['chosen']) > 0:
             idx = random.sample(transformed_dataset[table_name]['chosen'], 1)[0]
             if remove_row(dataset, transformed_fk, transformed_dataset, table_name, idx) is None:
-                return None
+                return (None, 'empty')
         else:
-            return None
+            return (None, 'empty')
     
     return backward_transform(transformed_dataset, dataset)
     
     return backward_transform(transformed_dataset, dataset)
 
-def sample_datasets(dict_of_databases, max_size=None, max_ratio=1.0, rand_seed=0):
+def sample_datasets(dict_of_databases, max_size=None, max_ratio=1.0, drop_threshold=None, rand_seed=0):
     db_names = list(dict_of_databases.keys())
     immediate_dict_of_db = dict_of_databases
     dict_of_databases = dask.delayed(dict_of_databases)
     new_dict_of_databases = {}
     for database_name in db_names:
         new_dict_of_databases[database_name] = sample_dataset(max_size=max_size,
-                max_ratio=max_ratio, rand_seed=rand_seed,
+                max_ratio=max_ratio, drop_threshold=drop_threshold, rand_seed=rand_seed,
                 dict_of_databases=dict_of_databases, database_name=database_name)
     with ProgressBar():
         new_dict_of_databases = dask.compute(new_dict_of_databases)[0]
     for database_name in db_names:
-        if new_dict_of_databases[database_name] is None:
-            print("%s is dropped because of empty tables when sampling" % database_name)
+        if isinstance(new_dict_of_databases[database_name], tuple):
+            if new_dict_of_databases[database_name][1] == 'empty':
+                print("%s is dropped because of empty tables when sampling" % database_name)
+            elif new_dict_of_databases[database_name][1] == 'size':
+                print("%s is dropped because it's too big" % database_name)
             del new_dict_of_databases[database_name]
         else:
             metadata = immediate_dict_of_db[database_name][0]
