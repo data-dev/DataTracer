@@ -1,7 +1,10 @@
 import argparse
 import os
+import queue
+import threading
+import time
 from io import BytesIO
-from time import time
+from time import ctime, time
 from urllib.parse import urljoin
 from urllib.request import urlopen
 from zipfile import ZipFile
@@ -11,7 +14,7 @@ import dask
 import pandas as pd
 from dask.diagnostics import ProgressBar
 
-from datatracer import DataTracer, load_datasets
+from datatracer import DataTracer, load_datasets, sample_datasets
 
 BUCKET_NAME = 'tracer-data'
 DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
@@ -35,6 +38,8 @@ def download(data_dir):
     rows = []
     client = boto3.client('s3')
     for dataset in client.list_objects(Bucket=BUCKET_NAME)['Contents']:
+        if not '.zip' in dataset['Key']:
+            continue
         rows.append(dataset)
         dataset_name = dataset['Key'].replace(".zip", "")
         dataset_path = os.path.join(data_dir, dataset_name)
@@ -71,26 +76,47 @@ def primary_key(solver, target, datasets):
     y_true = {}
     for table in metadata.get_tables():
         if "primary_key" not in table:
-            continue  # Skip tables without primary keys
-        if not isinstance(table["primary_key"], str):
-            continue  # Skip tables with composite primary keys
-        y_true[table["name"]] = table["primary_key"]
+            y_true[table["name"]] = set()
+        elif not isinstance(table["primary_key"], str):
+            y_true[table["name"]] = set(table["primary_key"])
+        else:
+            y_true[table["name"]] = set([table["primary_key"]])
 
+    """
     if len(y_true) == 0:
         return {}  # Skip dataset, no primary keys found.
+    """
 
-    correct, total = 0, 0
+    correct, total_pred, total_true = 0, 0, 0
     start = time()
     y_pred = tracer.solve(tables)
     end = time()
     for table_name, primary_key in y_true.items():
-        if y_pred.get(table_name) == primary_key:
-            correct += 1
-        total += 1
-    accuracy = correct / total
+        ans = y_pred.get(table_name)
+        if isinstance(ans, str):
+            ans = set([ans])
+        else:
+            ans = set(ans)
+        correct += len(ans.intersection(primary_key))
+        total_pred += len(ans)
+        total_true += len(primary_key)
+
+    if correct == 0 or total_pred == 0 or \
+            total_true == 0:
+        return {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "inference_time": end - start
+        }
+    precision = correct / total_pred
+    recall = correct / total_true
+    f1 = 2 * precision * recall / (precision + recall)
 
     return {
-        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
         "inference_time": end - start
     }
 
@@ -120,7 +146,10 @@ def benchmark_primary_key(data_dir, solver="datatracer.primary_key.basic"):
         results = dask.compute(dataset_to_metrics)[0]
     for dataset_name, metrics in results.items():
         metrics["dataset"] = dataset_name
-    return pd.DataFrame(list(results.values()))
+    df = pd.DataFrame(list(results.values()))
+    dataset_col = df.pop('dataset')
+    df.insert(0, 'dataset', dataset_col)
+    return df
 
 
 @dask.delayed
@@ -190,6 +219,7 @@ def benchmark_foreign_key(data_dir, solver="datatracer.foreign_key.standard"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
+    datasets = sample_datasets(datasets, max_size=20)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
@@ -201,7 +231,10 @@ def benchmark_foreign_key(data_dir, solver="datatracer.foreign_key.standard"):
         results = dask.compute(dataset_to_metrics)[0]
     for dataset_name, metrics in results.items():
         metrics["dataset"] = dataset_name
-    return pd.DataFrame(list(results.values()))
+    df = pd.DataFrame(list(results.values()))
+    dataset_col = df.pop('dataset')
+    df.insert(0, 'dataset', dataset_col)
+    return df
 
 
 @dask.delayed
@@ -238,18 +271,29 @@ def column_map(solver, target, datasets):
         y_pred = {field for field, score in y_pred.items() if score > 0.0}
         end = time()
 
-        precision = len(y_true.intersection(y_pred)) / len(y_pred)
-        recall = len(y_true.intersection(y_pred)) / len(y_true)
-        f1 = 2.0 * precision * recall / (precision + recall)
+        if len(y_pred) == 0 or len(y_true) == 0 or \
+                len(y_true.intersection(y_pred)) == 0:
+            list_of_metrics.append({
+                "table": field["table"],
+                "field": field["field"],
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "inference_time": end - start
+            })
+        else:
+            precision = len(y_true.intersection(y_pred)) / len(y_pred)
+            recall = len(y_true.intersection(y_pred)) / len(y_true)
+            f1 = 2.0 * precision * recall / (precision + recall)
 
-        list_of_metrics.append({
-            "table": field["table"],
-            "field": field["field"],
-            "precision": precision,
-            "recall": recall,
-            "f1": f1,
-            "inference_time": end - start
-        })
+            list_of_metrics.append({
+                "table": field["table"],
+                "field": field["field"],
+                "precision": precision,
+                "recall": recall,
+                "f1": f1,
+                "inference_time": end - start
+            })
 
     return list_of_metrics
 
@@ -268,6 +312,7 @@ def benchmark_column_map(data_dir, solver="datatracer.column_map.basic"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
+    datasets = sample_datasets(datasets, max_size=20)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
@@ -282,7 +327,14 @@ def benchmark_column_map(data_dir, solver="datatracer.column_map.basic"):
         for metrics in list_of_metrics:
             metrics["dataset"] = dataset_name
             rows.append(metrics)
-    return pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
+    dataset_col = df.pop('dataset')
+    table_col = df.pop('table')
+    field_col = df.pop('field')
+    df.insert(0, 'field', field_col)
+    df.insert(0, 'table', table_col)
+    df.insert(0, 'dataset', dataset_col)
+    return df
 
 
 def _get_parser():
@@ -290,7 +342,10 @@ def _get_parser():
     shared_args.add_argument('--data_dir', type=str, 
         default=os.path.expanduser("~/tracer_data"), required=False, 
         help='Path to the benchmark datasets.')
-    shared_args.add_argument('--csv', type=str, required=False, 
+    default_csv = "report_" + ctime().replace(" ", "_") + ".csv"
+    default_csv = default_csv.replace(":", "_")
+    shared_args.add_argument('--csv', type=str,
+        default=os.path.expanduser(default_csv), required=False, 
         help='Path to the CSV file where the report will be written.')
 
     parser = argparse.ArgumentParser(
@@ -336,8 +391,12 @@ def main():
     parser = _get_parser()
     args = parser.parse_args()
     df = args.command(args.data_dir)
-    if args.csv:
-        df.to_csv(args.csv, index=False)
+    cmd_str = { benchmark_column_map: 'ColMap_',
+    benchmark_foreign_key: 'ForeignKey_',
+    benchmark_primary_key: 'PrimaryKey_'
+    }
+    if args.csv and args.command in cmd_str:
+        df.to_csv("Reports/" + cmd_str[args.command] + args.csv, index=False)
     print(df)
 
 
