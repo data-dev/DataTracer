@@ -15,6 +15,7 @@ PRETRAINED_DIR = os.path.join(os.path.dirname(__file__), 'pretrained')
 PIPELINE_DIR = os.path.join(os.path.dirname(__file__), 'jsons/pipelines')
 PRIMITIVE_DIR = os.path.join(os.path.dirname(__file__), 'jsons/primitives')
 
+
 class DataTracer:
     """DataTracer Class.
 
@@ -51,7 +52,8 @@ class DataTracer:
                             with open(primitive) as json_file:
                                 primitive = json.load(json_file)
                         elif os.path.isfile(os.path.join(PRIMITIVE_DIR, primitive + '.json')):
-                            with open(os.path.join(PRIMITIVE_DIR, primitive + '.json')) as json_file:
+                            with open(os.path.join(PRIMITIVE_DIR, primitive + '.json'))\
+                                    as json_file:
                                 primitive = json.load(json_file)
                     pipeline['primitives'][idx] = primitive
 

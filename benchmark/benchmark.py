@@ -193,9 +193,9 @@ def foreign_key(solver, target, datasets):
             "inference_time": end - start
         }
 
-    precision = 0.0 if len(y_pred) == 0 else len(y_true.intersection(y_pred)) / len(y_pred)
-    recall = 0.0 if len(y_true) == 0 else len(y_true.intersection(y_pred)) / len(y_true)
-    f1 = 0.0 if precision + recall == 0 else 2.0 * precision * recall / (precision + recall)
+    precision = len(y_true.intersection(y_pred)) / len(y_pred)
+    recall = len(y_true.intersection(y_pred)) / len(y_true)
+    f1 = 2.0 * precision * recall / (precision + recall)
 
     return {
         "precision": precision,
@@ -219,7 +219,7 @@ def benchmark_foreign_key(data_dir, solver="datatracer.foreign_key.standard"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
-    datasets = sample_datasets(datasets, max_size=1000)
+    datasets = sample_datasets(datasets, max_size=20)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
@@ -268,33 +268,32 @@ def column_map(solver, target, datasets):
 
         start = time()
         y_pred = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
+        y_pred = {field for field, score in y_pred.items() if score > 0.0}
         end = time()
 
-        y_pred_total = 0
-        intersection_total = 0
+        if len(y_pred) == 0 or len(y_true) == 0 or \
+                len(y_true.intersection(y_pred)) == 0:
+            list_of_metrics.append({
+                "table": field["table"],
+                "field": field["field"],
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "inference_time": end - start
+            })
+        else:
+            precision = len(y_true.intersection(y_pred)) / len(y_pred)
+            recall = len(y_true.intersection(y_pred)) / len(y_true)
+            f1 = 2.0 * precision * recall / (precision + recall)
 
-        for field_temp, score in y_pred.items():
-            if field_temp in y_true:
-                intersection_total += max(0, min(1, score))
-            y_pred_total += max(0, min(1, score))
-
-        #precision = intersection_total / y_pred_total
-        #recall = intersection_total / len(y_true)
-        #f1 = 2.0 * precision * recall / (precision + recall)
-
-        y_pred = {field for field, score in y_pred.items() if score > 0.0}
-        precision = 0.0 if len(y_pred) == 0 else len(y_true.intersection(y_pred)) / len(y_pred)
-        recall = 0.0 if len(y_true) == 0 else len(y_true.intersection(y_pred)) / len(y_true)
-        f1 = 0.0 if precision + recall == 0 else 2.0 * precision * recall / (precision + recall)
-
-        list_of_metrics.append({
-            "table": field["table"],
-            "field": field["field"],
-            "precision": precision,
-            "recall": recall,
-            "f1": f1,
-            "inference_time": end - start
-        })
+            list_of_metrics.append({
+                "table": field["table"],
+                "field": field["field"],
+                "precision": precision,
+                "recall": recall,
+                "f1": f1,
+                "inference_time": end - start
+            })
 
     return list_of_metrics
 
@@ -313,7 +312,7 @@ def benchmark_column_map(data_dir, solver="datatracer.column_map.basic"):
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
-    datasets = sample_datasets(datasets, max_size=100)
+    datasets = sample_datasets(datasets, max_size=20)
     dataset_names = list(datasets.keys())
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
