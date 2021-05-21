@@ -117,8 +117,6 @@ class StandardForeignKeySolver(ForeignKeySolver):
                     best_f1 = f1
                     best_threshold = threshold
             self._threshold = best_threshold
-            print(best_threshold)
-
 
     def solve(self, tables, primary_keys=None):
         """Solve the foreign key detection problem.

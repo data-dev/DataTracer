@@ -46,6 +46,10 @@ class BasicColumnMapSolver(ColumnMapSolver):
         transformer = Transformer(tables, foreign_keys)
 
         X, y = transformer.forward(target_table, target_field)
+        if len(X.shape) != 2: #invalid X shape
+            return {}
+        elif X.shape[0] == 0 or X.shape[1] == 0: #empty dimension
+            return {}
 
         importances = self._get_importances(X, y)
         return transformer.backward(importances)
