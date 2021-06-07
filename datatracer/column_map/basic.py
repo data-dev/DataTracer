@@ -60,10 +60,13 @@ class BasicColumnMapSolver(ColumnMapSolver):
         elif X.shape[0] == 0 or X.shape[1] == 0: #empty dimension
             return {}
 
-        reg = LinearRegression(fit_intercept=False).fit(X, y)
-        if reg.score(X, y) > self._linear_score_threshold:
-            importances = self._convert_linear_importances(reg.coef_)
-        else:
+        try:
+            reg = LinearRegression(fit_intercept=False).fit(X, y)
+            if reg.score(X, y) > self._linear_score_threshold:
+                importances = self._convert_linear_importances(reg.coef_)
+            else:
+                importances = self._get_importances(X, y)
+        except:
             importances = self._get_importances(X, y)
 
         ret_dict = transformer.backward(importances)
