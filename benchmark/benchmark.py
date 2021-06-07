@@ -224,7 +224,7 @@ def benchmark_foreign_key(data_dir, dataset_name=None, solver="datatracer.foreig
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
-    datasets = sample_datasets(datasets, max_size=20)
+    #datasets = sample_datasets(datasets, max_size=20)
     dataset_names = list(datasets.keys())
     if dataset_name is not None:
         if dataset_name in dataset_names:
@@ -322,7 +322,7 @@ def benchmark_column_map(data_dir, dataset_name=None, solver="datatracer.column_
         A DataFrame containing the benchmark resuls.
     """
     datasets = load_datasets(data_dir)
-    datasets = sample_datasets(datasets, max_size=20)
+    #datasets = sample_datasets(datasets, max_size=20)
     dataset_names = list(datasets.keys())
     if dataset_name is not None:
         if dataset_name in dataset_names:
