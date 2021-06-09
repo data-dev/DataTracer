@@ -248,6 +248,44 @@ def benchmark_foreign_key(data_dir, dataset_name=None, solver="datatracer.foreig
 
 
 @dask.delayed
+def evaluate_single_column_map(constraint, tracer, tables):
+    field = constraint["fields_under_consideration"][0]
+    related_fields = constraint["related_fields"]
+
+    y_true = set()
+    for related_field in related_fields:
+        y_true.add((related_field["table"], related_field["field"]))
+
+    start = time()
+    y_pred = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
+    y_pred = {field for field, score in y_pred.items() if score > 0.0}
+    end = time()
+
+    if len(y_pred) == 0 or len(y_true) == 0 or \
+            len(y_true.intersection(y_pred)) == 0:
+        return {
+            "table": field["table"],
+            "field": field["field"],
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "inference_time": end - start
+        }
+    else:
+        precision = len(y_true.intersection(y_pred)) / len(y_pred)
+        recall = len(y_true.intersection(y_pred)) / len(y_true)
+        f1 = 2.0 * precision * recall / (precision + recall)
+
+        return {
+            "table": field["table"],
+            "field": field["field"],
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+            "inference_time": end - start
+        }
+
+@dask.delayed
 def column_map(solver, target, datasets):
     """Benchmark the column map solver on the target dataset.
 
@@ -269,42 +307,9 @@ def column_map(solver, target, datasets):
 
     list_of_metrics = []
     for constraint in metadata.data["constraints"]:
-        field = constraint["fields_under_consideration"][0]
-        related_fields = constraint["related_fields"]
+        list_of_metrics.append(evaluate_single_column_map(constraint, tracer, tables))
 
-        y_true = set()
-        for related_field in related_fields:
-            y_true.add((related_field["table"], related_field["field"]))
-
-        start = time()
-        y_pred = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
-        y_pred = {field for field, score in y_pred.items() if score > 0.0}
-        end = time()
-
-        if len(y_pred) == 0 or len(y_true) == 0 or \
-                len(y_true.intersection(y_pred)) == 0:
-            list_of_metrics.append({
-                "table": field["table"],
-                "field": field["field"],
-                "precision": 0.0,
-                "recall": 0.0,
-                "f1": 0.0,
-                "inference_time": end - start
-            })
-        else:
-            precision = len(y_true.intersection(y_pred)) / len(y_pred)
-            recall = len(y_true.intersection(y_pred)) / len(y_true)
-            f1 = 2.0 * precision * recall / (precision + recall)
-
-            list_of_metrics.append({
-                "table": field["table"],
-                "field": field["field"],
-                "precision": precision,
-                "recall": recall,
-                "f1": f1,
-                "inference_time": end - start
-            })
-
+    list_of_metrics = dask.compute(list_of_metrics)[0]
     return list_of_metrics
 
 
