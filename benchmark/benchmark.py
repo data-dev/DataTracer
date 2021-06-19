@@ -26,6 +26,9 @@ def download(data_dir):
     This downloads the benchmark datasets from S3 into the target folder in an 
     uncompressed format. It skips datasets that have already been downloaded.
 
+    Please make sure an appropriate S3 credential is installed before you call
+    this method.
+
     Args:
         data_dir: The directory to download the datasets to.
 
@@ -88,9 +91,19 @@ def primary_key(solver, target, datasets):
     """
 
     correct, total_pred, total_true = 0, 0, 0
-    start = time()
-    y_pred = tracer.solve(tables)
-    end = time()
+
+    try:
+        start = time()
+        y_pred = tracer.solve(tables)
+        end = time()
+    except:
+        return {
+            "precision": 0,
+            "recall": 0,
+            "f1": 0,
+            "inference_time": 0,
+            "status": "ERROR"
+        }
     for table_name, primary_key in y_true.items():
         ans = y_pred.get(table_name)
         if isinstance(ans, str):
@@ -107,7 +120,8 @@ def primary_key(solver, target, datasets):
             "precision": 0.0,
             "recall": 0.0,
             "f1": 0.0,
-            "inference_time": end - start
+            "inference_time": end - start,
+            "status": "OK"
         }
     precision = correct / total_pred
     recall = correct / total_true
@@ -117,7 +131,8 @@ def primary_key(solver, target, datasets):
         "precision": precision,
         "recall": recall,
         "f1": f1,
-        "inference_time": end - start
+        "inference_time": end - start,
+        "status": "OK"
     }
 
 
@@ -129,6 +144,7 @@ def benchmark_primary_key(data_dir, dataset_name=None, solver="datatracer.primar
 
     Args:
         data_dir: The directory containing the datasets.
+        dataset_name: The target dataset to test on. If none is provided, will test on all available datasets by default.
         solver: The name of the primary key pipeline.
 
     Returns:
@@ -181,9 +197,18 @@ def foreign_key(solver, target, datasets):
             continue  # Skip composite foreign keys
         y_true.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
 
-    start = time()
-    fk_pred = tracer.solve(tables)
-    end = time()
+    try:
+        start = time()
+        fk_pred = tracer.solve(tables)
+        end = time()
+    except:
+        return {
+            "precision": 0,
+            "recall": 0,
+            "f1": 0,
+            "inference_time": 0,
+            "status": "ERROR"
+        }
 
     y_pred = set()
     for fk in fk_pred:
@@ -195,7 +220,8 @@ def foreign_key(solver, target, datasets):
             "precision": 0.0,
             "recall": 0.0,
             "f1": 0.0,
-            "inference_time": end - start
+            "inference_time": end - start,
+            "status": "OK"
         }
 
     precision = len(y_true.intersection(y_pred)) / len(y_pred)
@@ -206,7 +232,8 @@ def foreign_key(solver, target, datasets):
         "precision": precision,
         "recall": recall,
         "f1": f1,
-        "inference_time": end - start
+        "inference_time": end - start,
+        "status": "OK"
     }
 
 
@@ -218,6 +245,7 @@ def benchmark_foreign_key(data_dir, dataset_name=None, solver="datatracer.foreig
 
     Args:
         data_dir: The directory containing the datasets.
+        dataset_name: The target dataset to test on. If none is provided, will test on all available datasets by default.
         solver: The name of the foreign key pipeline.
 
     Returns:
@@ -256,10 +284,21 @@ def evaluate_single_column_map(constraint, tracer, tables):
     for related_field in related_fields:
         y_true.add((related_field["table"], related_field["field"]))
 
-    start = time()
-    y_pred = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
-    y_pred = {field for field, score in y_pred.items() if score > 0.0}
-    end = time()
+    try:
+        start = time()
+        y_pred = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
+        y_pred = {field for field, score in y_pred.items() if score > 0.0}
+        end = time()
+    except:
+        return {
+            "table": field["table"],
+            "field": field["field"],
+            "precision": 0,
+            "recall": 0,
+            "f1": 0,
+            "inference_time": 0,
+            "status": "ERROR"
+        }
 
     if len(y_pred) == 0 or len(y_true) == 0 or \
             len(y_true.intersection(y_pred)) == 0:
@@ -269,7 +308,8 @@ def evaluate_single_column_map(constraint, tracer, tables):
             "precision": 0.0,
             "recall": 0.0,
             "f1": 0.0,
-            "inference_time": end - start
+            "inference_time": end - start,
+            "status": "OK"
         }
     else:
         precision = len(y_true.intersection(y_pred)) / len(y_pred)
@@ -282,7 +322,8 @@ def evaluate_single_column_map(constraint, tracer, tables):
             "precision": precision,
             "recall": recall,
             "f1": f1,
-            "inference_time": end - start
+            "inference_time": end - start,
+            "status": "OK"
         }
 
 @dask.delayed
@@ -321,6 +362,7 @@ def benchmark_column_map(data_dir, dataset_name=None, solver="datatracer.column_
 
     Args:
         data_dir: The directory containing the datasets.
+        dataset_name: The target dataset to test on. If none is provided, will test on all available datasets by default.
         solver: The name of the column map pipeline.
 
     Returns:

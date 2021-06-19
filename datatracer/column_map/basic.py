@@ -24,9 +24,10 @@ class BasicColumnMapSolver(ColumnMapSolver):
         model.fit(X, y)
 
         return model.feature_importances_
-    
+
     def _convert_linear_importances(self, weights):
-        new_weights = (weights > self._linear_weight_threshold) / sum(weights > self._linear_weight_threshold)
+        new_weights = (weights > self._linear_weight_threshold) / \
+            sum(weights > self._linear_weight_threshold)
 
         return new_weights
 
@@ -55,9 +56,9 @@ class BasicColumnMapSolver(ColumnMapSolver):
         transformer = Transformer(tables, foreign_keys)
 
         X, y = transformer.forward(target_table, target_field)
-        if len(X.shape) != 2: #invalid X shape
+        if len(X.shape) != 2:  # invalid X shape
             return {}
-        elif X.shape[0] == 0 or X.shape[1] == 0: #empty dimension
+        elif X.shape[0] == 0 or X.shape[1] == 0:  # empty dimension
             return {}
 
         try:
@@ -66,7 +67,7 @@ class BasicColumnMapSolver(ColumnMapSolver):
                 importances = self._convert_linear_importances(reg.coef_)
             else:
                 importances = self._get_importances(X, y)
-        except:
+        except BaseException:
             importances = self._get_importances(X, y)
 
         ret_dict = transformer.backward(importances)

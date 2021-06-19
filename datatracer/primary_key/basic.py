@@ -9,7 +9,7 @@ from datatracer.primary_key.base import PrimaryKeySolver
 
 class BasicPrimaryKeySolver(PrimaryKeySolver):
 
-    def __init__(self, threshold = [i/20 for i in range(20)], *args, **kwargs):
+    def __init__(self, threshold=[i / 20 for i in range(20)], *args, **kwargs):
         self._model_args = args
         self._model_kwargs = kwargs
         self._threshold = threshold
@@ -51,7 +51,7 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
                 else:
                     pk = [table["primary_key"]]
 
-                primary_key = table["primary_key"]
+                table["primary_key"]
                 for column in tables[table["name"]].columns:
                     X.append(self._feature_vector(tables[table["name"]], column))
                     y.append(1.0 if column in pk else 0.0)
@@ -68,7 +68,7 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
             len_true = sum(y)
             for threshold in self._threshold:
                 filtered_y = (pred_y >= threshold).astype(float)
-                intersect = sum(filtered_y*y)
+                intersect = sum(filtered_y * y)
                 len_pred = sum(filtered_y)
                 if intersect * len_true * len_pred == 0:
                     f1 = 0
@@ -83,7 +83,7 @@ class BasicPrimaryKeySolver(PrimaryKeySolver):
 
     def _score_all_keys(self, table):
         return [(column, self.model.predict([self._feature_vector(table, column)]))
-            for column in table.columns]
+                for column in table.columns]
 
     def _find_primary_key(self, table):
         ret = []

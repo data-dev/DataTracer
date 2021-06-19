@@ -9,7 +9,7 @@ from datatracer.foreign_key.base import ForeignKeySolver
 
 class StandardForeignKeySolver(ForeignKeySolver):
 
-    def __init__(self, threshold=[i/20 for i in range(20)], add_details=False, *args, **kwargs):
+    def __init__(self, threshold=[i / 20 for i in range(20)], add_details=False, *args, **kwargs):
         self._threshold = threshold
         self._add_details = add_details
         self._model_args = args
@@ -105,7 +105,7 @@ class StandardForeignKeySolver(ForeignKeySolver):
             len_true = sum(y)
             for threshold in self._threshold:
                 filtered_y = (pred_y >= threshold).astype(float)
-                intersect = sum(filtered_y*y)
+                intersect = sum(filtered_y * y)
                 len_pred = sum(filtered_y)
                 if intersect * len_true * len_pred == 0:
                     f1 = 0
