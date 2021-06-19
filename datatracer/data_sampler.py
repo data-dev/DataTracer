@@ -12,6 +12,16 @@ from dask.diagnostics import ProgressBar
 
 
 def calculate_size(transformed_dataset):
+    """Helper function to calculate the total size of a dataset
+
+    Args:
+        transformed_dataset (dict): a ``TransformedDataset`` instance, which maps (str) table name
+            to {'size': (float) size of the table in byte, 'row_size': (float) the size of a
+            row in byte, 'entries': (set) the column names, 'chosen': (set) the rows selected}
+
+    Returns:
+        float: the dataset size in byte
+    """
     size = 0
     for table in transformed_dataset.values():
         size += table['row_size'] * len(table['chosen'])
@@ -19,6 +29,18 @@ def calculate_size(transformed_dataset):
 
 
 def transform_dataset(metadata, dataset):
+    """Pack the foreign key relations, sizes, and the rows selected of a dataset into dictionaries.
+
+    Args:
+        metadata (dict): a ``MetaData`` instance
+        dataset (dict): maps table name to pd.DataFrame object
+
+    Returns:
+        dict: a ``TransformedForeignKey`` instance, which maps (str) table name to (list(tuple))
+            its associated foreign key relations
+        dict: a ``TransformedDataset`` instance
+        float: the dataset size in byte
+    """
     fks = metadata.get_foreign_keys()
     transformed_fk = {}
     key_columns = {table_name: set() for table_name in dataset}
@@ -55,6 +77,16 @@ def transform_dataset(metadata, dataset):
 
 
 def backward_transform(transformed_dataset, dataset):
+    """Transform a ``TransformedDataset`` instance back into a dictionary mapping name
+        to pd.DataFrame objects
+
+    Args:
+        transformed_dataset (dict): a ``TransformedDataset`` instance
+        dataset (dict): a dictionary mapping table name to pd.DataFrame object
+
+    Returns:
+        dict: a dictionary mapping table name to pd.DataFrame object
+    """
     new_dataset = {}
     for table_name in dataset:
         idxes = list(transformed_dataset[table_name]['chosen'])
@@ -63,6 +95,19 @@ def backward_transform(transformed_dataset, dataset):
 
 
 def remove_row(dataset, transformed_fk, transformed_dataset, table_name, idx):
+    """Remove a row from a table, and recursively removed all other rows associated
+        by some foreign key relations
+
+    Args:
+        dataset (dict): a dictionary mapping table name to pd.DataFrame object
+        transformed_fk (dict): a ``TransformedForeignKey`` instance
+        transformed_dataset (dict): a ``TransformedDataset`` instance
+        table_name (string): the name of the table in which a row is to be removed
+        idx (int): the index of the row to be removed
+
+    Returns:
+        None if at least of the tables is empty after the recursive removal. True otherwise.
+    """
     if idx in transformed_dataset[table_name]['chosen']:
         transformed_dataset[table_name]['chosen'].remove(idx)
         if len(transformed_dataset[table_name]['chosen']) == 0:
@@ -81,6 +126,15 @@ def remove_row(dataset, transformed_fk, transformed_dataset, table_name, idx):
 
 
 def get_root_tables(metadata):
+    """Get all root tables (tables who are never a child table in a foreign key relation)
+        of the dataset.
+
+    Args:
+        metadata (dict): a ``MetaData`` instance
+
+    Returns:
+        set: the root table names
+    """
     all_tables = {table['name'] for table in metadata.get_tables()}
 
     for fk in metadata.get_foreign_keys():
@@ -95,6 +149,24 @@ def get_root_tables(metadata):
 @dask.delayed
 def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, drop_threshold=None,
                    rand_seed=0, database_name=None, dict_of_databases=None):
+    """Sample from a dataset
+
+    Args:
+        metadata (dict): a ``MetaData`` instance.
+            Will be extracted from datasets if None is provided.
+        dataset (dict): maps table name to pd.DataFrame object.
+            Will be extracted from datasets if None is provided.
+        max_size (float): the target size to sample down to, in MB.
+        max_ratio (float): the target fraction to sample down to.
+        drop_threshold (float): the maximum dataset size allowed.
+        rand_seed (int): seed for random.
+        database_name (str): name of the dataset.
+        dict_of_databases (dict): maps (str) dataset name to (metadata, dataset) tuple.
+
+    Returns:
+        tuple (None, str) describing the reason of dropping the dataset if it is dropped.
+        dict, which maps table name to pd.DataFrame object, otherwise.
+    """
     if dict_of_databases is not None:
         metadata, dataset = dict_of_databases[database_name]
 
@@ -130,11 +202,21 @@ def sample_dataset(metadata=None, dataset=None, max_size=None, max_ratio=1.0, dr
 
     return backward_transform(transformed_dataset, dataset)
 
-    return backward_transform(transformed_dataset, dataset)
-
 
 def sample_datasets(dict_of_databases, max_size=None, max_ratio=1.0,
                     drop_threshold=None, rand_seed=0):
+    """Sample from multiple datasets
+
+    Args:
+        dict_of_databases (dict): maps (str) dataset name to (metadata, dataset) tuple.
+        max_size (float): the target size to sample down to, in MB.
+        max_ratio (float): the target fraction to sample down to.
+        drop_threshold (float): the maximum dataset size allowed.
+        rand_seed (int): seed for random.
+
+    Returns:
+        dict: maps (str) dataset name to (metadata, dataset) tuple.
+    """
     db_names = list(dict_of_databases.keys())
     immediate_dict_of_db = dict_of_databases
     dict_of_databases = dask.delayed(dict_of_databases)
