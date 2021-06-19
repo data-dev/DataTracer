@@ -395,9 +395,12 @@ def _get_parser():
     shared_args.add_argument('--ds_name', type=str,
         default=None, required=False, 
         help='Name of the dataset to test on. Default is all available datasets.')
-    shared_args.add_argument('--cmd', type=str,
+    shared_args.add_argument('--problem', type=str,
         default=None, required=False, 
         help='Name of the tests results to aggregate.')
+    shared_args.add_argument('--primitive', type=str,
+        default=None, required=False, 
+        help='Name of the primitive to be tested.')
 
     parser = argparse.ArgumentParser(
         prog='datatracer-benchmark',
@@ -451,9 +454,12 @@ def main():
     if args.command == download:
         df = args.command(args.data_dir)
     elif args.command == aggregate:
-        df = args.command(args.cmd)
+        df = args.command(args.problem)
     else:
-        df = args.command(args.data_dir, args.ds_name)
+        if args.primitive is None:
+            df = args.command(args.data_dir, args.ds_name)
+        else:
+            df = args.command(args.data_dir, args.ds_name, solver=args.primitive)
     cmd_abbrv = { 'column': 'ColMap_',
     'foreign': 'ForeignKey_',
     'primary': 'PrimaryKey_'
@@ -461,7 +467,7 @@ def main():
     cmd_str = { benchmark_column_map: 'ColMap_',
     benchmark_foreign_key: 'ForeignKey_',
     benchmark_primary_key: 'PrimaryKey_',
-    aggregate: cmd_abbrv[args.cmd] if args.cmd in cmd_abbrv else ''
+    aggregate: cmd_abbrv[args.problem] if args.problem in cmd_abbrv else ''
     }
     csv_name = "st_" + args.ds_name + ".csv" if args.ds_name else args.csv
     # st is for recognition in the aggregation step
