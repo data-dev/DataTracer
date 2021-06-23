@@ -22,8 +22,9 @@ class BasicColumnMapSolver(ColumnMapSolver):
     def _get_importances(self, X, y):
         model = RandomForestRegressor(*self._model_args, **self._model_kwargs)
         model.fit(X, y)
+        score = model.score(X, y)
 
-        return model.feature_importances_
+        return model.feature_importances_, score
 
     def _convert_linear_importances(self, weights):
         new_weights = (weights > self._linear_weight_threshold) / \
@@ -57,18 +58,22 @@ class BasicColumnMapSolver(ColumnMapSolver):
 
         X, y = transformer.forward(target_table, target_field)
         if len(X.shape) != 2:  # invalid X shape
-            return {}
+            return {"ans":{}, "linear": False, "confidence": 0}
         elif X.shape[0] == 0 or X.shape[1] == 0:  # empty dimension
-            return {}
+            return {"ans":{}, "linear": False, "confidence": 0}
 
+        linear = False
         try:
             reg = LinearRegression(fit_intercept=False).fit(X, y)
-            if reg.score(X, y) > self._linear_score_threshold:
+            score = reg.score(X, y)
+            if score > self._linear_score_threshold:
                 importances = self._convert_linear_importances(reg.coef_)
+                linear = True
+                confidence = score
             else:
-                importances = self._get_importances(X, y)
+                importances, confidence = self._get_importances(X, y)
         except BaseException:
-            importances = self._get_importances(X, y)
+            importances, confidence = self._get_importances(X, y)
 
         ret_dict = transformer.backward(importances)
         flag = True
@@ -81,4 +86,4 @@ class BasicColumnMapSolver(ColumnMapSolver):
                     del new_rets[field]
                     flag = True
             ret_dict = new_rets
-        return ret_dict
+        return {"ans": ret_dict, "linear": linear, "confidence": confidence}
