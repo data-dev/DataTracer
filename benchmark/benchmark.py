@@ -287,9 +287,7 @@ def evaluate_single_column_map(constraint, tracer, tables):
     try:
         start = time()
         ret_dict = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
-        y_pred = ret_dict["ans"]
-        linear_status = ret_dict["linear"]
-        confidence_estimate = ret_dict["confidence"]
+        y_pred = ret_dict
         y_pred = {field for field, score in y_pred.items() if score > 0.0}
         end = time()
     except:
@@ -301,8 +299,6 @@ def evaluate_single_column_map(constraint, tracer, tables):
             "f1": 0,
             "inference_time": 0,
             "status": "ERROR",
-            "linear": False,
-            "confidence": 0
         }
 
     if len(y_pred) == 0 or len(y_true) == 0 or \
@@ -315,8 +311,6 @@ def evaluate_single_column_map(constraint, tracer, tables):
             "f1": 0.0,
             "inference_time": end - start,
             "status": "OK",
-            "linear": linear_status,
-            "confidence": confidence_estimate
         }
     else:
         precision = len(y_true.intersection(y_pred)) / len(y_pred)
@@ -331,8 +325,6 @@ def evaluate_single_column_map(constraint, tracer, tables):
             "f1": f1,
             "inference_time": end - start,
             "status": "OK",
-            "linear": linear_status,
-            "confidence": confidence_estimate
         }
 
 @dask.delayed

@@ -95,9 +95,8 @@ class BasicColumnMapSolver(ColumnMapSolver):
     def _get_importances(self, X, y):
         model = RandomForestRegressor(*self._model_args, **self._model_kwargs)
         model.fit(X, y)
-        score = model.score(X, y)
 
-        return model.feature_importances_, score
+        return model.feature_importances_
 
     def _convert_linear_importances(self, weights):
         new_weights = (weights > self._linear_weight_threshold) / \
@@ -131,21 +130,18 @@ class BasicColumnMapSolver(ColumnMapSolver):
 
         X, y = transformer.forward(target_table, target_field)
         if len(X.shape) != 2:  # invalid X shape
-            return {"ans":{}, "linear": False, "confidence": 0}
+            return {}
         elif X.shape[0] == 0 or X.shape[1] == 0:  # empty dimension
-            return {"ans":{}, "linear": False, "confidence": 0}
+            return {}
 
-        linear = False
         try:
             restricted_linear_type, weights = detect_restricted_reg(X, y)
             if restricted_linear_type != "None":
                 importances = self._convert_linear_importances(np.array(weights))
-                linear = True
-                confidence = 1
             else:
-                importances, confidence = self._get_importances(X, y)
+                importances = self._get_importances(X, y)
         except BaseException:
-            importances, confidence = self._get_importances(X, y)
+            importances = self._get_importances(X, y)
 
         ret_dict = transformer.backward(importances)
         flag = True
@@ -158,4 +154,4 @@ class BasicColumnMapSolver(ColumnMapSolver):
                     del new_rets[field]
                     flag = True
             ret_dict = new_rets
-        return {"ans": ret_dict, "linear": linear, "confidence": confidence}
+        return ret_dict
