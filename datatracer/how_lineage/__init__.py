@@ -1,7 +1,7 @@
-from datatracer.column_map.base import ColumnMapSolver
-from datatracer.column_map.basic import BasicColumnMapSolver
+from datatracer.how_lineage.base import HowLineageSolver
+from datatracer.how_lineage.basic import BasicHowLineageSolver
 
 __all__ = (
-    'ColumnMapSolver',
-    'BasicColumnMapSolver',
+    'HowLineageSolver',
+    'BasicHowLineageSolver',
 )

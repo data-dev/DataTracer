@@ -117,23 +117,33 @@ class BasicHowLineageSolver(HowLineageSolver):
         transformer = Transformer(tables, foreign_keys)
 
         X, y = transformer.forward(target_table, target_field)
+        print(X, y)
         if len(X.shape) != 2:  # invalid X shape
-            return {}
+            print("Encountered invalid X shape in how-lineage detection. Please check if any table is empty or if foreign keys have been provided.")
+            return {"lineage_columns": [],
+                    "transformation": ""}
         elif X.shape[0] == 0 or X.shape[1] == 0:  # empty dimension
-            return {}
+            print("Encountered invalid X shape in how-lineage detection. Please check if any table is empty or if foreign keys have been provided.")
+            return {"lineage_columns": [],
+                    "transformation": ""}
 
         try:
             restricted_linear_type, indicies = detect_restricted_reg(X, y)
-            if restricted_linear_type != "None":
-                importances = self._convert_linear_importances(np.array(weights))
-            else:
-                return [], ""
-        except BaseException:
-            return [], ""
+            if restricted_linear_type == "None":
+                print("Failed to detect any basic linear maps in how-lineage detection.")
+                return {"lineage_columns": [],
+                    "transformation": ""}
+        except BaseException as e:
+            print("Encountered an error in how-lineage detection, though very likely a standard timeout. Error message is as below.")
+            print(e)
+            return {"lineage_columns": [],
+                    "transformation": ""}
 
         lineage = [transformer.columns[idx] for idx in indicies]
 
         linear_map_dict = {"sum": "datatracer.how_lineage.sum",
                             "diff": "datatracer.how_lineage.diff",
                             "avg": "datatracer.how_lineage.avg"}
-        return lineage, linear_map_dict[restricted_linear_type]
+
+        return {"lineage_columns": lineage, 
+                "transformation": linear_map_dict[restricted_linear_type]}
