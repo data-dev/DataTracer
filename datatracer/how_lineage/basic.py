@@ -117,7 +117,6 @@ class BasicHowLineageSolver(HowLineageSolver):
         transformer = Transformer(tables, foreign_keys)
 
         X, y = transformer.forward(target_table, target_field)
-        print(X, y)
         if len(X.shape) != 2:  # invalid X shape
             print("Encountered invalid X shape in how-lineage detection. Please check if any table is empty or if foreign keys have been provided.")
             return {"lineage_columns": [],
@@ -141,9 +140,9 @@ class BasicHowLineageSolver(HowLineageSolver):
 
         lineage = [transformer.columns[idx] for idx in indicies]
 
-        linear_map_dict = {"sum": "datatracer.how_lineage.sum",
-                            "diff": "datatracer.how_lineage.diff",
-                            "avg": "datatracer.how_lineage.avg"}
+        linear_map_dict = {"sum": "datatracer.how_lineage.columns_sum",
+                            "diff": "datatracer.how_lineage.columns_diff",
+                            "avg": "datatracer.how_lineage.columns_avg"}
 
         return {"lineage_columns": lineage, 
                 "transformation": linear_map_dict[restricted_linear_type]}

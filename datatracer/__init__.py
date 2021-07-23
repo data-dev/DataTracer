@@ -13,6 +13,7 @@ from mlblocks import discovery
 from datatracer.core import PRETRAINED_DIR, DataTracer
 from datatracer.data import get_demo_data, load_dataset, load_datasets
 from datatracer.data_sampler import sample_datasets
+import datatracer.how_lineage
 
 _BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 _JSONS_PATH = os.path.join(_BASE_PATH, 'jsons')
@@ -28,6 +29,7 @@ __all__ = (
     'load_dataset',
     'load_datasets',
     'sample_datasets',
+    'how_lineage'
 )
 
 
