@@ -1,12 +1,12 @@
 import time
-from time import ctime, time
+from time import time
 
 import dask
 import pandas as pd
 from dask.diagnostics import ProgressBar
 
-import datatracer
 from datatracer import DataTracer, load_datasets
+
 
 @dask.delayed
 def evaluate_single_column_map(constraint, tracer, tables):
@@ -23,7 +23,7 @@ def evaluate_single_column_map(constraint, tracer, tables):
         y_pred = ret_dict
         y_pred = {field for field, score in y_pred.items() if score > 0.0}
         end = time()
-    except:
+    except BaseException:
         return {
             "table": field["table"],
             "field": field["field"],
@@ -60,6 +60,7 @@ def evaluate_single_column_map(constraint, tracer, tables):
             "status": "OK",
         }
 
+
 @dask.delayed
 def column_map(solver, target, datasets):
     """Benchmark the column map solver on the target dataset.
@@ -91,7 +92,7 @@ def column_map(solver, target, datasets):
 def benchmark_column_map(data_dir, dataset_name=None, solver="datatracer.column_map.basic"):
     """Benchmark the column map solver.
 
-    This uses leave-one-out validation and evaluates the performance of the 
+    This uses leave-one-out validation and evaluates the performance of the
     solver on the specified datasets.
 
     Args:

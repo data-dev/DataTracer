@@ -1,11 +1,10 @@
 import time
-from time import ctime, time
+from time import time
 
 import dask
 import pandas as pd
 from dask.diagnostics import ProgressBar
 
-import datatracer
 from datatracer import DataTracer, load_datasets
 
 
@@ -37,7 +36,7 @@ def foreign_key(solver, target, datasets):
         start = time()
         fk_pred = tracer.solve(tables)
         end = time()
-    except:
+    except BaseException:
         return {
             "precision": 0,
             "recall": 0,
@@ -76,7 +75,7 @@ def foreign_key(solver, target, datasets):
 def benchmark_foreign_key(data_dir, dataset_name=None, solver="datatracer.foreign_key.standard"):
     """Benchmark the foreign key solver.
 
-    This uses leave-one-out validation and evaluates the performance of the 
+    This uses leave-one-out validation and evaluates the performance of the
     solver on the specified datasets.
 
     Args:

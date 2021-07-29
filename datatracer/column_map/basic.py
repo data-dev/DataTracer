@@ -1,58 +1,66 @@
 import logging
-
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
-from itertools import combinations
-import numpy as np
 import time
+from itertools import combinations
+
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
 
 from datatracer.column_map.base import ColumnMapSolver
 from datatracer.column_map.transformer import Transformer
 
 LOGGER = logging.getLogger(__name__)
 
+
 def approx_equal(num, target, add_margin, multi_margin):
     if target >= 0:
-        return (num <= target * (1 + multi_margin) + add_margin) and (num >= target * (1 - multi_margin) - add_margin)
+        return (num <= target * (1 + multi_margin) + add_margin) and\
+            (num >= target * (1 - multi_margin) - add_margin)
     else:
-        return (num <= target * (1 - multi_margin) + add_margin) and (num >= target * (1 + multi_margin) - add_margin)
-    
+        return (num <= target * (1 - multi_margin) + add_margin) and\
+            (num >= target * (1 + multi_margin) - add_margin)
+
+
 def approx_equal_arrays(num, target, add_margin, multi_margin):
     for n, t in zip(num, target):
         if not approx_equal(n, t, add_margin, multi_margin):
             return False
     return True
 
+
 def check_sum(indicies, X, y, add_margin, multi_margin):
-    return approx_equal_arrays(X[:, indicies].sum(axis = 1), y, add_margin, multi_margin)
+    return approx_equal_arrays(X[:, indicies].sum(axis=1), y, add_margin, multi_margin)
+
 
 def check_avg(indicies, X, y, add_margin, multi_margin):
-    return approx_equal_arrays(X[:, indicies].sum(axis = 1)/len(indicies), y, add_margin, multi_margin)
+    return approx_equal_arrays(X[:, indicies].sum(
+        axis=1) / len(indicies), y, add_margin, multi_margin)
+
 
 def check_diff(indicies, X, y, add_margin, multi_margin):
     pred_y = X[:, indicies[0]] - X[:, indicies[1]]
     return approx_equal_arrays(pred_y, y, 0, 0)
+
 
 def detect_restricted_reg(X, y, add_margin=1e-4, mult_margin=1e-4, max_feature=5, timeout=3600):
     """
     This method runs a restricted regression where the target column is either the sum
     or difference of several columns in the given table, or the average of several columns
     in the given table.
-    
+
     Returns:
         (str, tuple): a string ("sum", "diff", "avg" or "None") representing the operation,
         and a tuple of coeffs.
     """
     start_time = time.time()
-    
+
     dot_prods = (X.T).dot(y)
     length = len(dot_prods)
     y2 = y.dot(y)
     for num_feature in range(1, max_feature + 1):
-        for combo in combinations(range(length),num_feature):
+        for combo in combinations(range(length), num_feature):
             if time.time() - start_time > timeout:
                 return "None", None
-            
+
             indicies = list(combo)
             if approx_equal(dot_prods[indicies].sum(), y2, add_margin, mult_margin):
                 if check_sum(indicies, X, y, add_margin, mult_margin):
@@ -60,20 +68,23 @@ def detect_restricted_reg(X, y, add_margin=1e-4, mult_margin=1e-4, max_feature=5
                     for ind in indicies:
                         weights[ind] = 1
                     return "sum", weights
-            if (num_feature > 1) and approx_equal(dot_prods[indicies].sum()/num_feature, y2, add_margin, mult_margin):
+            if (num_feature > 1) and approx_equal(
+                    dot_prods[indicies].sum() / num_feature, y2, add_margin, mult_margin):
                 if check_avg(indicies, X, y, add_margin, mult_margin):
                     weights = [0] * length
                     for ind in indicies:
-                        weights[ind] = 1.0/num_feature
+                        weights[ind] = 1.0 / num_feature
                     return "avg", weights
             if num_feature == 2:
-                if approx_equal(dot_prods[indicies[0]] - dot_prods[indicies[1]], y2, add_margin, mult_margin):
+                if approx_equal(dot_prods[indicies[0]] - dot_prods[indicies[1]],
+                                y2, add_margin, mult_margin):
                     if check_diff(indicies, X, y, add_margin, mult_margin):
                         weights = [0] * length
                         weights[indicies[0]] = 1
                         weights[indicies[1]] = -1
                         return "diff", weights
-                if approx_equal(dot_prods[indicies[1]] - dot_prods[indicies[0]], y2, add_margin, mult_margin):
+                if approx_equal(dot_prods[indicies[1]] - dot_prods[indicies[0]],
+                                y2, add_margin, mult_margin):
                     if check_diff(indicies[::-1], X, y, add_margin, mult_margin):
                         weights = [0] * length
                         weights[indicies[0]] = -1

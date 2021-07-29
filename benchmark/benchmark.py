@@ -1,23 +1,17 @@
 import argparse
 import os
-import queue
-import threading
-import time
 from io import BytesIO
-from time import ctime, time
+from time import ctime
 from urllib.parse import urljoin
 from urllib.request import urlopen
 from zipfile import ZipFile
 
 import boto3
-import dask
 import pandas as pd
-from dask.diagnostics import ProgressBar
 
-from datatracer import DataTracer, load_datasets, sample_datasets
-from how_lineage_benchmark import benchmark_how_lineage
 from column_map_benchmark import benchmark_column_map
 from foreign_key_benchmark import benchmark_foreign_key
+from how_lineage_benchmark import benchmark_how_lineage
 from primary_key_benchmark import benchmark_primary_key
 
 BUCKET_NAME = 'tracer-data'
@@ -27,7 +21,7 @@ DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
 def download(data_dir):
     """Download benchmark datasets from S3.
 
-    This downloads the benchmark datasets from S3 into the target folder in an 
+    This downloads the benchmark datasets from S3 into the target folder in an
     uncompressed format. It skips datasets that have already been downloaded.
 
     Please make sure an appropriate S3 credential is installed before you call
@@ -67,45 +61,45 @@ def start_with(target, source):
 
 
 def aggregate(cmd_name):
-    cmd_abbrv = { 'column': 'ColMap_st',
-    'foreign': 'ForeignKey_st',
-    'primary': 'PrimaryKey_st'
-    }
+    cmd_abbrv = {'column': 'ColMap_st',
+                 'foreign': 'ForeignKey_st',
+                 'primary': 'PrimaryKey_st'
+                 }
     if cmd_name not in cmd_abbrv:
         print("Invalid command name!")
-        return None #invalid command name
+        return None  # invalid command name
     cmd_name = cmd_abbrv[cmd_name]
     dfs = []
     for file in os.listdir("Reports"):
         if start_with(file, cmd_name):
-            dfs.append(pd.read_csv("Reports/"+file))
+            dfs.append(pd.read_csv("Reports/" + file))
     if len(dfs) == 0:
         print("No available test results!")
         return None
     df = pd.concat(dfs, axis=0, ignore_index=True)
-    os.system("rm Reports/"+cmd_name+"*") #Clean up the caches
+    os.system("rm Reports/" + cmd_name + "*")  # Clean up the caches
     return df
 
 
 def _get_parser():
     shared_args = argparse.ArgumentParser(add_help=False)
-    shared_args.add_argument('--data_dir', type=str, 
-        default=os.path.expanduser("~/tracer_data"), required=False, 
-        help='Path to the benchmark datasets.')
+    shared_args.add_argument('--data_dir', type=str,
+                             default=os.path.expanduser("~/tracer_data"), required=False,
+                             help='Path to the benchmark datasets.')
     default_csv = "report_" + ctime().replace(" ", "_") + ".csv"
     default_csv = default_csv.replace(":", "_")
     shared_args.add_argument('--csv', type=str,
-        default=os.path.expanduser(default_csv), required=False, 
-        help='Path to the CSV file where the report will be written.')
+                             default=os.path.expanduser(default_csv), required=False,
+                             help='Path to the CSV file where the report will be written.')
     shared_args.add_argument('--ds_name', type=str,
-        default=None, required=False, 
-        help='Name of the dataset to test on. Default is all available datasets.')
+                             default=None, required=False,
+                             help='Name of the dataset to test on. Default is all available datasets.')
     shared_args.add_argument('--problem', type=str,
-        default=None, required=False, 
-        help='Name of the tests results to aggregate.')
+                             default=None, required=False,
+                             help='Name of the tests results to aggregate.')
     shared_args.add_argument('--primitive', type=str,
-        default=None, required=False, 
-        help='Name of the primitive to be tested.')
+                             default=None, required=False,
+                             help='Name of the primitive to be tested.')
 
     parser = argparse.ArgumentParser(
         prog='datatracer-benchmark',
@@ -172,17 +166,17 @@ def main():
             df = args.command(args.data_dir, args.ds_name)
         else:
             df = args.command(args.data_dir, args.ds_name, solver=args.primitive)
-    cmd_abbrv = { 'column': 'ColMap_',
-    'foreign': 'ForeignKey_',
-    'primary': 'PrimaryKey_',
-    'how': 'HowLineage_'
-    }
-    cmd_str = { benchmark_column_map: 'ColMap_',
-    benchmark_foreign_key: 'ForeignKey_',
-    benchmark_primary_key: 'PrimaryKey_',
-    benchmark_how_lineage: 'HowLineage_',
-    aggregate: cmd_abbrv[args.problem] if args.problem in cmd_abbrv else ''
-    }
+    cmd_abbrv = {'column': 'ColMap_',
+                 'foreign': 'ForeignKey_',
+                 'primary': 'PrimaryKey_',
+                 'how': 'HowLineage_'
+                 }
+    cmd_str = {benchmark_column_map: 'ColMap_',
+               benchmark_foreign_key: 'ForeignKey_',
+               benchmark_primary_key: 'PrimaryKey_',
+               benchmark_how_lineage: 'HowLineage_',
+               aggregate: cmd_abbrv[args.problem] if args.problem in cmd_abbrv else ''
+               }
     csv_name = "st_" + args.ds_name + ".csv" if args.ds_name else args.csv
     # st is for recognition in the aggregation step
 

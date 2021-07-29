@@ -32,9 +32,9 @@ class Transformer:
         df = df.fillna(0.0)
         X, y = df.drop([field], axis=1), df[field]
         self.columns = [{"source_col": {"table_name": table, "col_name": col_name},
-                        "row_map": {},
-                        "aggregation": ""
-                        } for col_name in X.columns]
+                         "row_map": {},
+                         "aggregation": ""
+                         } for col_name in X.columns]
         X, y = X.values, y.values
 
         X_new, columns_new = self._get_counts(table)
@@ -71,9 +71,9 @@ class Transformer:
 
             X.append(parent_table["_tmp_"].fillna(0.0).values)
             columns.append({"source_col": {"table_name": fk['table'], "col_name": fk['field']},
-                        "row_map": fk,
-                        "aggregation": "datatracer.how_lineage.entries_count"
-                        })
+                            "row_map": fk,
+                            "aggregation": "datatracer.how_lineage.entries_count"
+                            })
 
         return np.array(X).transpose(), columns
 
@@ -110,10 +110,11 @@ class Transformer:
                 for old_name, col_name in zip(old_column_names, child_counts.columns):
                     if parent_table[col_name].dtype.kind == "f":
                         X.append(parent_table[col_name].fillna(0.0).values)
-                        columns.append({"source_col": {"table_name": fk['table'], "col_name": old_name},
-                        "row_map": fk,
-                        "aggregation": op_str
-                        })
+                        columns.append({"source_col": {"table_name": fk['table'],
+                                                       "col_name": old_name},
+                                        "row_map": fk,
+                                        "aggregation": op_str
+                                        })
 
         return np.array(X).transpose(), columns
 
@@ -123,5 +124,5 @@ class Transformer:
         to the `X` matrix produced by the last call to `forward`. It returns a
         mapping from fields to importance scores.
         """
-        return [(column, importance) for column, importance in zip(self.columns, feature_importances)]
-
+        return [(column, importance)
+                for column, importance in zip(self.columns, feature_importances)]

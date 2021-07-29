@@ -1,12 +1,12 @@
 import time
-from time import ctime, time
+from time import time
 
 import dask
 import pandas as pd
 from dask.diagnostics import ProgressBar
 
-import datatracer
 from datatracer import DataTracer, load_datasets
+
 
 def transform_single_column(tables, column_info):
     aggregation = column_info['aggregation']
@@ -17,7 +17,8 @@ def transform_single_column(tables, column_info):
         return transformer(tables, fk, column_name)
     else:
         return tables[column_info['source_col']['table_name']][column_name].fillna(0.0).values
-    
+
+
 def produce_target_column(tables, map_info):
     transformation = map_info['transformation']
     if transformation:
@@ -29,17 +30,22 @@ def produce_target_column(tables, map_info):
     else:
         return None
 
+
 def approx_equal(num, target, add_margin, multi_margin):
     if target >= 0:
-        return (num <= target * (1 + multi_margin) + add_margin) and (num >= target * (1 - multi_margin) - add_margin)
+        return (num <= target * (1 + multi_margin) + add_margin) and (num >=
+                                                                      target * (1 - multi_margin) - add_margin)
     else:
-        return (num <= target * (1 - multi_margin) + add_margin) and (num >= target * (1 + multi_margin) - add_margin)
-    
+        return (num <= target * (1 - multi_margin) + add_margin) and (num >=
+                                                                      target * (1 + multi_margin) - add_margin)
+
+
 def approx_equal_arrays(num, target, add_margin, multi_margin):
     for n, t in zip(num, target):
         if not approx_equal(n, t, add_margin, multi_margin):
             return False
     return True
+
 
 @dask.delayed
 def evaluate_single_lineage(constraint, tracer, tables):
@@ -53,9 +59,10 @@ def evaluate_single_lineage(constraint, tracer, tables):
     try:
         start = time()
         ret_dict = tracer.solve(tables, target_table=field["table"], target_field=field["field"])
-        y_pred = {(col['source_col']['table_name'], col['source_col']['col_name']) for col in ret_dict['lineage_columns']}
+        y_pred = {(col['source_col']['table_name'], col['source_col']['col_name'])
+                  for col in ret_dict['lineage_columns']}
         end = time()
-    except:
+    except BaseException:
         return {
             "table": field["table"],
             "field": field["field"],
@@ -75,12 +82,13 @@ def evaluate_single_lineage(constraint, tracer, tables):
     else:
         precision = 0
     return {
-            "table": field["table"],
-            "field": field["field"],
-            "precision": precision,
-            "inference_time": end-start,
-            "status": "OK",
+        "table": field["table"],
+        "field": field["field"],
+        "precision": precision,
+        "inference_time": end - start,
+        "status": "OK",
     }
+
 
 @dask.delayed
 def how_lineage(solver, target, datasets):
@@ -113,7 +121,7 @@ def how_lineage(solver, target, datasets):
 def benchmark_how_lineage(data_dir, dataset_name=None, solver="datatracer.how_lineage.basic"):
     """Benchmark the how lineage solver.
 
-    This uses leave-one-out validation and evaluates the performance of the 
+    This uses leave-one-out validation and evaluates the performance of the
     solver on the specified datasets.
 
     Args:
