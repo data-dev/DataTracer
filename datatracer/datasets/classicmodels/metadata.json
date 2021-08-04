@@ -56,7 +56,8 @@
           "name": "creditLimit",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "customers"
     },
     {
       "name": "employees",
@@ -94,7 +95,8 @@
           "name": "jobTitle",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "employees"
     },
     {
       "name": "offices",
@@ -136,7 +138,8 @@
           "name": "territory",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "offices"
     },
     {
       "name": "orderdetails",
@@ -165,7 +168,8 @@
           "name": "orderLineNumber",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "orderdetails"
     },
     {
       "name": "orders",
@@ -199,7 +203,8 @@
           "name": "customerNumber",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "orders"
     },
     {
       "name": "payments",
@@ -224,7 +229,8 @@
           "name": "amount",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "payments"
     },
     {
       "name": "productlines",
@@ -246,7 +252,8 @@
           "name": "image",
           "data_type": "other"
         }
-      ]
+      ],
+      "id": "productlines"
     },
     {
       "name": "products",
@@ -288,7 +295,8 @@
           "name": "MSRP",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "products"
     }
   ],
   "foreign_keys": [

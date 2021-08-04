@@ -80,7 +80,7 @@ class DataTracer:
         self._mlpipeline = self._get_mlpipeline()
         self._mlpipeline.fit(dict_of_databases=datasets, tables={})
 
-    def solve(self, tables, **kwargs):
+    def solve(self, tables=None, **kwargs):
         """Solve the data lineage problem.
 
         The underlaying pipeline is executed and the outputs are returned.

@@ -6,7 +6,7 @@ import pandas as pd
 users, posts = [], []
 for user_id in range(1000):
     user = {}
-    user["id"] = user_id
+    user["id"] = str(user_id)
     user["age"] = randint(18, 100)
     user["birthyear"] = 2020 - user["age"]
     user["height"] = randint(150, 200)

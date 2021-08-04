@@ -12,7 +12,8 @@
           "name": "arg2",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "alkphos"
     },
     {
       "name": "bupa",
@@ -26,7 +27,8 @@
           "name": "arg2",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "bupa"
     },
     {
       "name": "bupa_name",
@@ -36,7 +38,8 @@
           "name": "arg1",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "bupa_name"
     },
     {
       "name": "bupa_type",
@@ -46,7 +49,8 @@
           "name": "arg1",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "bupa_type"
     },
     {
       "name": "drinks",
@@ -60,7 +64,8 @@
           "name": "arg2",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "drinks"
     },
     {
       "name": "gammagt",
@@ -74,7 +79,8 @@
           "name": "arg2",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "gammagt"
     },
     {
       "name": "mcv",
@@ -88,7 +94,8 @@
           "name": "arg2",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "mcv"
     },
     {
       "name": "sgot",
@@ -102,7 +109,8 @@
           "name": "arg2",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "sgot"
     },
     {
       "name": "sgpt",
@@ -116,7 +124,8 @@
           "name": "arg2",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "sgpt"
     }
   ],
   "foreign_keys": [

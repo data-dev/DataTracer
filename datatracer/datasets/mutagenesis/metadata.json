@@ -24,7 +24,8 @@
           "name": "charge",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "atom"
     },
     {
       "name": "bond",
@@ -45,7 +46,8 @@
           "name": "type",
           "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "bond"
     },
     {
       "name": "molecule",
@@ -75,7 +77,8 @@
           "name": "mutagenic",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "molecule"
     }
   ],
   "foreign_keys": [

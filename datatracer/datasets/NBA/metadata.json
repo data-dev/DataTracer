@@ -9,93 +9,94 @@
       "fields": [
         {
           "name": "GameId",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "TeamId",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "PlayerId",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Minutes",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "FieldGoalsMade",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "FieldGoalAttempts",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "3PointsMade",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "3PointAttempts",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "FreeThrowsMade",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "FreeThrowAttempts",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "PlusMinus",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "OffensiveRebounds",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "DefensiveRebounds",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "TotalRebounds",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Assists",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "PersonalFouls",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Steals",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Turnovers",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "BlockedShots",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "BlocksAgainst",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Points",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Starter",
-          "data_type": "number"
+          "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "Actions"
     },
     {
       "name": "Game",
@@ -103,19 +104,19 @@
       "fields": [
         {
           "name": "GameId",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Team1Id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "Team2Id",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "ResultOfTeam1",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "URL",
@@ -125,7 +126,8 @@
           "name": "Date",
           "data_type": "datetime"
         }
-      ]
+      ],
+      "id": "Game"
     },
     {
       "name": "Player",
@@ -133,13 +135,14 @@
       "fields": [
         {
           "name": "PlayerId",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "PlayerName",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "Player"
     },
     {
       "name": "Team",
@@ -147,13 +150,14 @@
       "fields": [
         {
           "name": "TeamId",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "TeamName",
           "data_type": "text"
         }
-      ]
+      ],
+      "id": "Team"
     },
     {
       "name": "joined_drafted_all_players_original",
@@ -161,103 +165,103 @@
       "fields": [
         {
           "name": "ID",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "age",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_g",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "mp",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_fg",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "fga",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "3p",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "3pa",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_ft",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "fta",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "orb",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_trb",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_ast",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_stl",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_blk",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_tov",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_pf",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "draft_pts",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "fg_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "3p_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "ft_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "mp_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "pts_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "trb_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "ast_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "season",
@@ -265,11 +269,11 @@
         },
         {
           "name": "weight",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "height",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "position",
@@ -285,15 +289,15 @@
         },
         {
           "name": "draft_year",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "pk",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "amature_honor",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "college",
@@ -301,25 +305,26 @@
         },
         {
           "name": "raw_data",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "career_g",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "career_per",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "career_ws",
-          "data_type": "number"
+          "data_type": "numerical"
         },
         {
           "name": "career_ws48",
-          "data_type": "number"
+          "data_type": "numerical"
         }
-      ]
+      ],
+      "id": "joined_drafted_all_players_original"
     }
   ],
   "foreign_keys": [
