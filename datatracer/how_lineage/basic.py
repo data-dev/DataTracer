@@ -2,11 +2,10 @@ import logging
 import time
 from itertools import combinations
 
-import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
-from datatracer.column_map.base import ColumnMapSolver
-from datatracer.column_map.transformer import Transformer
+from datatracer.how_lineage.base import HowLineageSolver
+from datatracer.how_lineage.transformer import Transformer
 
 LOGGER = logging.getLogger(__name__)
 
@@ -64,37 +63,25 @@ def detect_restricted_reg(X, y, add_margin=1e-4, mult_margin=1e-4, max_feature=5
             indicies = list(combo)
             if approx_equal(dot_prods[indicies].sum(), y2, add_margin, mult_margin):
                 if check_sum(indicies, X, y, add_margin, mult_margin):
-                    weights = [0] * length
-                    for ind in indicies:
-                        weights[ind] = 1
-                    return "sum", weights
+                    return "sum", indicies
             if (num_feature > 1) and approx_equal(
                     dot_prods[indicies].sum() / num_feature, y2, add_margin, mult_margin):
                 if check_avg(indicies, X, y, add_margin, mult_margin):
-                    weights = [0] * length
-                    for ind in indicies:
-                        weights[ind] = 1.0 / num_feature
-                    return "avg", weights
+                    return "avg", indicies
             if num_feature == 2:
                 if approx_equal(dot_prods[indicies[0]] - dot_prods[indicies[1]],
                                 y2, add_margin, mult_margin):
                     if check_diff(indicies, X, y, add_margin, mult_margin):
-                        weights = [0] * length
-                        weights[indicies[0]] = 1
-                        weights[indicies[1]] = -1
-                        return "diff", weights
+                        return "diff", indicies
                 if approx_equal(dot_prods[indicies[1]] - dot_prods[indicies[0]],
                                 y2, add_margin, mult_margin):
                     if check_diff(indicies[::-1], X, y, add_margin, mult_margin):
-                        weights = [0] * length
-                        weights[indicies[0]] = -1
-                        weights[indicies[1]] = 1
-                        return "diff", weights
+                        return "diff", indicies[::-1]
     return "None", None
 
 
-class BasicColumnMapSolver(ColumnMapSolver):
-    """Basic Solver for the data lineage problem of column dependency."""
+class BasicHowLineageSolver(HowLineageSolver):
+    """Basic Solver for the data lineage problem of how lineage."""
 
     def __init__(self, threshold=0.1, *args, **kwargs):
         self._model_args = args
@@ -141,28 +128,34 @@ class BasicColumnMapSolver(ColumnMapSolver):
 
         X, y = transformer.forward(target_table, target_field)
         if len(X.shape) != 2:  # invalid X shape
-            return {}
+            print("Encountered invalid X shape in how-lineage detection.\
+                    Please check if any table is empty or if foreign keys have been provided.")
+            return {"lineage_columns": [],
+                    "transformation": ""}
         elif X.shape[0] == 0 or X.shape[1] == 0:  # empty dimension
-            return {}
+            print("Encountered invalid X shape in how-lineage detection.\
+                    Please check if any table is empty or if foreign keys have been provided.")
+            return {"lineage_columns": [],
+                    "transformation": ""}
 
         try:
-            restricted_linear_type, weights = detect_restricted_reg(X, y)
-            if restricted_linear_type != "None":
-                importances = self._convert_linear_importances(np.array(weights))
-            else:
-                importances = self._get_importances(X, y)
-        except BaseException:
-            importances = self._get_importances(X, y)
+            restricted_linear_type, indicies = detect_restricted_reg(X, y)
+            if restricted_linear_type == "None":
+                print("Failed to detect any basic linear maps in how-lineage detection.")
+                return {"lineage_columns": [],
+                        "transformation": ""}
+        except BaseException as e:
+            print("Encountered an error in how-lineage detection, though very likely a\
+                  standard timeout. Error message is as below.")
+            print(e)
+            return {"lineage_columns": [],
+                    "transformation": ""}
 
-        ret_dict = transformer.backward(importances)
-        flag = True
-        while flag:
-            flag = False
-            new_rets = ret_dict.copy()
-            total_score = sum(ret_dict.values())
-            for field, score in ret_dict.items():
-                if score < total_score * self._threshold / len(ret_dict):
-                    del new_rets[field]
-                    flag = True
-            ret_dict = new_rets
-        return ret_dict
+        lineage = [transformer.columns[idx] for idx in indicies]
+
+        linear_map_dict = {"sum": "datatracer.how_lineage.columns_sum",
+                           "diff": "datatracer.how_lineage.columns_diff",
+                           "avg": "datatracer.how_lineage.columns_avg"}
+
+        return {"lineage_columns": lineage,
+                "transformation": linear_map_dict[restricted_linear_type]}

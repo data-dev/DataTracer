@@ -12,6 +12,7 @@ with open('HISTORY.md', encoding='utf-8') as history_file:
     history = history_file.read()
 
 install_requires = [
+    'boto3>=1.13,<2',
     'pandas>=0.23.4,<0.25',
     'scikit-learn>=0.20.0,<0.21',
     'numpy<1.17,>=1.15.2',
@@ -20,7 +21,7 @@ install_requires = [
     'falcon>=2.0.0,<3',
     'hug>=2.6.1,<3',
     'pyyaml>=5.3.1,<6',
-    'tqdm>=4.46.1,<5',
+    'tqdm>=4,<5',
 ]
 
 setup_requires = [
@@ -62,6 +63,10 @@ development_requires = [
     # Advanced testing
     'coverage>=4.5.1,<6',
     'tox>=2.9.1,<4',
+
+    # benchmarking
+    'dask>=2.15,<3',
+    'distributed>=2.15,<3',
 ]
 
 setup(
@@ -84,7 +89,8 @@ setup(
             'pipelines=datatracer:MLBLOCKS_PIPELINES'
         ],
         'console_scripts': [
-            'datatracer=datatracer.__main__:main'
+            'datatracer=datatracer.__main__:main',
+            'datatracer-benchmark=benchmark.benchmark:main'
         ],
     },
     extras_require={
@@ -100,7 +106,7 @@ setup(
     keywords='datatracer data-tracer Data Tracer',
     name='datatracer',
     packages=find_packages(include=['datatracer', 'datatracer.*']),
-    python_requires='>=3.5,<3.8',
+    python_requires='>=3.5',
     setup_requires=setup_requires,
     test_suite='tests',
     tests_require=tests_require,
