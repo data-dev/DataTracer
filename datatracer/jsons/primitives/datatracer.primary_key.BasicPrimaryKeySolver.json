@@ -6,7 +6,7 @@
         "method": "fit",
         "args": [
             {
-                "name": "list_of_databases",
+                "name": "dict_of_databases",
                 "type": "list"
             }
         ]
