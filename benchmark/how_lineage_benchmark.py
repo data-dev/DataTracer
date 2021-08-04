@@ -5,7 +5,7 @@ import dask
 import pandas as pd
 from dask.diagnostics import ProgressBar
 
-from datatracer import DataTracer, load_datasets
+import datatracer
 
 
 def transform_single_column(tables, column_info):
@@ -107,7 +107,7 @@ def how_lineage(solver, target, datasets):
     if not metadata.data.get("constraints"):
         return {}  # Skip dataset, no constraints found.
 
-    tracer = DataTracer(solver)
+    tracer = datatracer.DataTracer(solver)
     tracer.fit(datasets)
 
     list_of_metrics = []
@@ -132,7 +132,7 @@ def benchmark_how_lineage(data_dir, dataset_name=None, solver="datatracer.how_li
     Returns:
         A DataFrame containing the benchmark resuls.
     """
-    datasets = load_datasets(data_dir)
+    datasets = datatracer.load_datasets(data_dir)
     dataset_names = list(datasets.keys())
     if dataset_name is not None:
         if dataset_name in dataset_names:
