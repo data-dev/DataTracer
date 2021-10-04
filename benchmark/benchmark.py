@@ -179,7 +179,7 @@ def main():
     cmd_abbrv = {'column': 'ColMap_',
                  'foreign': 'ForeignKey_',
                  'primary': 'PrimaryKey_',
-                 'primary_composite': 'CompositePrimaryKey_'
+                 'primary_composite': 'CompositePrimaryKey_',
                  'how': 'HowLineage_'
                  }
     cmd_str = {benchmark_column_map: 'ColMap_',

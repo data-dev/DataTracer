@@ -9,7 +9,7 @@ from datatracer import DataTracer, load_datasets
 
 
 @dask.delayed
-def primary_key_composite(solver, target, datasets):
+def primary_key_composite(solver=None, target=None, datasets=None):
     """Benchmark the composite primary key solver on the target dataset.
 
     Args:
@@ -164,7 +164,7 @@ def benchmark_primary_key_composite(data_dir, dataset_name=None, solver="datatra
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
     for dataset_name in dataset_names:
-        dataset_to_metrics[dataset_name] = benchmark_primary_key_composite(
+        dataset_to_metrics[dataset_name] = primary_key_composite(
             solver=solver, target=dataset_name, datasets=datasets)
 
     with ProgressBar():
