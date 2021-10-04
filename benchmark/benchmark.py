@@ -13,6 +13,7 @@ from column_map_benchmark import benchmark_column_map
 from foreign_key_benchmark import benchmark_foreign_key
 from how_lineage_benchmark import benchmark_how_lineage
 from primary_key_benchmark import benchmark_primary_key
+from primary_key_composite_benchmark import benchmark_primary_key_composite
 
 BUCKET_NAME = 'tracer-data'
 DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
@@ -63,7 +64,9 @@ def start_with(target, source):
 def aggregate(cmd_name):
     cmd_abbrv = {'column': 'ColMap_st',
                  'foreign': 'ForeignKey_st',
-                 'primary': 'PrimaryKey_st'
+                 'primary': 'PrimaryKey_st',
+                 'primary_composite': 'CompositePrimayKey_st',
+                 'how': 'HowLineage_st'
                  }
     if cmd_name not in cmd_abbrv:
         print("Invalid command name!")
@@ -124,6 +127,13 @@ def _get_parser():
     subparser.set_defaults(command=benchmark_primary_key)
 
     subparser = command.add_parser(
+        'primary_composite',
+        parents=[shared_args],
+        help='Composite Primary key benchmark.'
+    )
+    subparser.set_defaults(command=benchmark_primary_key_composite)
+
+    subparser = command.add_parser(
         'foreign',
         parents=[shared_args],
         help='Foreign key benchmark.'
@@ -169,12 +179,14 @@ def main():
     cmd_abbrv = {'column': 'ColMap_',
                  'foreign': 'ForeignKey_',
                  'primary': 'PrimaryKey_',
+                 'primary_composite': 'CompositePrimaryKey_'
                  'how': 'HowLineage_'
                  }
     cmd_str = {benchmark_column_map: 'ColMap_',
                benchmark_foreign_key: 'ForeignKey_',
                benchmark_primary_key: 'PrimaryKey_',
                benchmark_how_lineage: 'HowLineage_',
+               benchmark_primary_key_composite: 'CompositePrimaryKey_',
                aggregate: cmd_abbrv[args.problem] if args.problem in cmd_abbrv else ''
                }
     csv_name = "st_" + args.ds_name + ".csv" if args.ds_name else args.csv

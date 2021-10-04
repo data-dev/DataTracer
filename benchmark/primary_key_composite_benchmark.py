@@ -10,7 +10,7 @@ from datatracer import DataTracer, load_datasets
 
 @dask.delayed
 def primary_key_composite(solver, target, datasets):
-    """Benchmark the primary key solver on the target dataset.
+    """Benchmark the composite primary key solver on the target dataset.
 
     Args:
         solver: The name of the primary key pipeline.
@@ -44,6 +44,12 @@ def primary_key_composite(solver, target, datasets):
     composite_correct = 0
     composite_wrong_composite = 0
     composite_wrong_single = 0
+    composite_total = 0
+
+    single_correct = 0
+    single_wrong_single = 0
+    single_wrong_composite = 0
+    single_total = 0
 
     try:
         start = time()
@@ -55,7 +61,10 @@ def primary_key_composite(solver, target, datasets):
             "inference_time": 0.0,
             "composite_correct": float("NaN"),
             "composite_wrong_composite": float("NaN"),
-            "composite_gives_single": float("NaN"),
+            "composite_wrong_single": float("NaN"),
+            "single_correct": float("NaN"),
+            "single_wrong_single": float("NaN"),
+            "single_wrong_composite": float("NaN"),
             "status": "ERROR"
         }
     for table_name, primary_key in y_true.items():
@@ -66,12 +75,25 @@ def primary_key_composite(solver, target, datasets):
         
         #compute statistics for composite (i.e. > 1) primary keys
         if len(primary_key) > 1:
-            if ans == primary_key:
-                composite_correct += 1
-            elif len(ans) > 1:
-                composite_wrong_composite += 1
-            else:
-                composite_wrong_single += 1
+            composite_total += 1
+            if ans is not None:
+                if ans == primary_key:
+                    composite_correct += 1
+                elif len(ans) > 1:
+                    composite_wrong_composite += 1
+                else:
+                    composite_wrong_single += 1
+        else:
+            #compute statistics for single primary keys
+            single_total += 1
+            if ans is not None:
+                if ans == primary_key:
+                    single_correct += 1
+                elif len(ans) == 1:
+                    single_wrong_single += 1
+                else:
+                    single_wrong_composite += 1
+        
 
     if len(y_true) == 0: #no table to benchmark
         return {
@@ -79,33 +101,47 @@ def primary_key_composite(solver, target, datasets):
             "inference_time": end - start,
             "composite_correct": float("NaN"),
             "composite_wrong_composite": float("NaN"),
-            "composite_gives_single": float("NaN"),
+            "composite_wrong_single": float("NaN"),
+            "single_correct": float("NaN"),
+            "single_wrong_single": float("NaN"),
+            "single_wrong_composite": float("NaN"),
             "status": "OK"
         }
     precision = correct / len(y_true)
-    total_composite = composite_correct + composite_wrong_composite + composite_wrong_single
-    if total_composite == 0:
+    if composite_total == 0:
         composite_correct = float("NaN")
         composite_wrong_composite = float("NaN")
         composite_wrong_single = float("NaN")
     else:
-        composite_correct /= total_composite
-        composite_wrong_composite /= total_composite
-        composite_wrong_single /= total_composite
+        composite_correct /= composite_total
+        composite_wrong_composite /= composite_total
+        composite_wrong_single /= composite_total
 
-    f1 = 2 * precision * recall / (precision + recall)
+    if single_total == 0:
+        single_correct = float("NaN")
+        single_wrong_single = float("NaN")
+        single_wrong_composite = float("NaN")
+    else:
+        single_correct /= single_total
+        single_wrong_single /= single_total
+        single_wrong_composite /= single_total
+
 
     return {
         "precision": precision,
-        "recall": recall,
-        "f1": f1,
         "inference_time": end - start,
+        "composite_correct": composite_correct,
+        "composite_wrong_composite": composite_wrong_composite,
+        "composite_wrong_single": composite_wrong_single,
+        "single_correct": single_correct,
+        "single_wrong_single": single_wrong_single,
+        "single_wrong_composite": single_wrong_composite,
         "status": "OK"
     }
 
 
-def benchmark_primary_key(data_dir, dataset_name=None, solver="datatracer.primary_key.basic"):
-    """Benchmark the primary key solver.
+def benchmark_primary_key_composite(data_dir, dataset_name=None, solver="datatracer.primary_key_composite.basic"):
+    """Benchmark the composite primary key solver.
 
     This uses leave-one-out validation and evaluates the performance of the
     solver on the specified datasets.
@@ -128,7 +164,7 @@ def benchmark_primary_key(data_dir, dataset_name=None, solver="datatracer.primar
     datasets = dask.delayed(datasets)
     dataset_to_metrics = {}
     for dataset_name in dataset_names:
-        dataset_to_metrics[dataset_name] = primary_key(
+        dataset_to_metrics[dataset_name] = benchmark_primary_key_composite(
             solver=solver, target=dataset_name, datasets=datasets)
 
     with ProgressBar():
