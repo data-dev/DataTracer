@@ -138,7 +138,7 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
                 table_df = tables[table["name"]]
                 single_col_features = self.singleColFeatures(table_df)
 
-                uccs = self.findUCC(table_df, max_col=2)
+                uccs = self.findUCC(table_df, max_col=5)
                 if len(pk) > 0: #in the case that we do have primary key
                     uccs.add(pk)
                 for ucc in uccs:
@@ -152,7 +152,7 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
 
     def _find_primary_key(self, table):
         single_col_features = self.singleColFeatures(table)
-        uccs = self.findUCC(table, max_col=2)
+        uccs = self.findUCC(table, max_col=5)
         best_score = -float('inf')
         primary_key = None
         
