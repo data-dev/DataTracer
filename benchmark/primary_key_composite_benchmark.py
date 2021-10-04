@@ -31,6 +31,8 @@ def primary_key_composite(solver=None, target=None, datasets=None):
         if "primary_key" not in table: #we only benchmark tables with primary keys
             continue
         elif not isinstance(table["primary_key"], str):
+            if len(table["primary_key"]) == 0:
+                continue
             y_true[table["name"]] = tuple(sorted(table["primary_key"]))
         else:
             y_true[table["name"]] = (table["primary_key"], )
@@ -68,7 +70,10 @@ def primary_key_composite(solver=None, target=None, datasets=None):
             "status": "ERROR"
         }
     for table_name, primary_key in y_true.items():
-        ans = tuple(sorted(y_pred.get(table_name)))
+        if y_pred.get(table_name) is None:
+            ans = tuple()
+        else:
+            ans = tuple(sorted(y_pred.get(table_name)))
         
         if ans == primary_key:
             correct += 1
@@ -76,23 +81,21 @@ def primary_key_composite(solver=None, target=None, datasets=None):
         #compute statistics for composite (i.e. > 1) primary keys
         if len(primary_key) > 1:
             composite_total += 1
-            if ans is not None:
-                if ans == primary_key:
-                    composite_correct += 1
-                elif len(ans) > 1:
-                    composite_wrong_composite += 1
-                else:
-                    composite_wrong_single += 1
+            if ans == primary_key:
+                composite_correct += 1
+            elif len(ans) > 1:
+                composite_wrong_composite += 1
+            elif len(ans) == 1:
+                composite_wrong_single += 1
         else:
             #compute statistics for single primary keys
             single_total += 1
-            if ans is not None:
-                if ans == primary_key:
-                    single_correct += 1
-                elif len(ans) == 1:
-                    single_wrong_single += 1
-                else:
-                    single_wrong_composite += 1
+            if ans == primary_key:
+                single_correct += 1
+            elif len(ans) == 1:
+                single_wrong_single += 1
+            elif len(ans) > 1:
+                single_wrong_composite += 1
         
 
     if len(y_true) == 0: #no table to benchmark
