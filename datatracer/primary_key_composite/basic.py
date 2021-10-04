@@ -1,4 +1,5 @@
 """Basic Primary Key Solver module."""
+import time
 
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -13,13 +14,18 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
         self._model_args = args
         self._model_kwargs = kwargs
 
-    def checkUcc(self, table, columns):
+    def checkUcc(self, table, columns, end_time=float('inf')):
         """
         Theck if a specific column combination is a UCC.
         """
         values_set = set()
+        sub_table = table[columns]
         for i in range(len(table)): #brute-force check of the uniqueness of the row values
-            val = tuple(table[columns].iloc[i])
+            if i % 100000 == 0:
+                if time.time() > end_time:
+                    return False
+
+            val = tuple(sub_table.iloc[i])
             if val in values_set:
                 return False
             values_set.add(val)
@@ -36,13 +42,15 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
                 return False
         return True
 
-    def findUCC(self, table, max_col=5):
+    def findUCC(self, table, max_col=5, time_out=3600):
         """
         Find all minimal UCCs of a table, with the number of columns in the UCC being at
         most max_col.
 
         Returns: a set of UCCs, where an UCC is expressed in the form of a sorted tuple
         """
+        end_time = time.time() + time_out
+
         uccs = set() #collection of all minimal UCCs
         
         #Algo: keep a set of non-unique column combinations. For each, we try adding a non-unique
@@ -66,6 +74,9 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
                 break
             for comb in non_ucc_current:
                 for col in non_unique_columns:
+                    if time.time() > end_time:
+                        return uccs
+
                     if col in comb: #The column must not be already in the column combination
                         continue
                     
@@ -77,7 +88,7 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
                     if new_comb in non_ucc_next: #Make sure this potential ucc isn't visited before
                         continue 
 
-                    if self.checkUcc(table, list(new_comb)):
+                    if self.checkUcc(table, list(new_comb), end_time=end_time):
                         uccs.add(new_comb)
                     else:
                         non_ucc_next.add(new_comb)
@@ -124,6 +135,7 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
                 as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []
+
         iterator = tqdm(dict_of_databases.items())
         for database_name, (metadata, tables) in iterator:
             iterator.set_description("Extracting features from %s" % database_name)
@@ -138,7 +150,7 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
                 table_df = tables[table["name"]]
                 single_col_features = self.singleColFeatures(table_df)
 
-                uccs = self.findUCC(table_df, max_col=2)
+                uccs = self.findUCC(table_df, max_col=2, time_out=600)
                 if len(pk) > 0: #in the case that we do have primary key
                     uccs.add(pk)
                 for ucc in uccs:
@@ -152,7 +164,7 @@ class BasicCompositePrimaryKeySolver(CompositePrimaryKeySolver):
 
     def _find_primary_key(self, table):
         single_col_features = self.singleColFeatures(table)
-        uccs = self.findUCC(table, max_col=2)
+        uccs = self.findUCC(table, max_col=2, time_out=1000)
         best_score = -float('inf')
         primary_key = None
         
