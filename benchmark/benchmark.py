@@ -65,7 +65,7 @@ def aggregate(cmd_name):
     cmd_abbrv = {'column': 'ColMap_st',
                  'foreign': 'ForeignKey_st',
                  'primary': 'PrimaryKey_st',
-                 'primary_composite': 'CompositePrimayKey_st',
+                 'primary_composite': 'CompositePrimaryKey_st',
                  'how': 'HowLineage_st'
                  }
     if cmd_name not in cmd_abbrv:
