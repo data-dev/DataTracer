@@ -14,6 +14,7 @@ from foreign_key_benchmark import benchmark_foreign_key
 from how_lineage_benchmark import benchmark_how_lineage
 from primary_key_benchmark import benchmark_primary_key
 from primary_key_composite_benchmark import benchmark_primary_key_composite
+from foreign_key_composite_benchmark import benchmark_foreign_key_composite
 
 BUCKET_NAME = 'tracer-data'
 DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
@@ -66,6 +67,7 @@ def aggregate(cmd_name):
                  'foreign': 'ForeignKey_st',
                  'primary': 'PrimaryKey_st',
                  'primary_composite': 'CompositePrimaryKey_st',
+                 'foreign_composite': 'CompositeForeignKey_st',
                  'how': 'HowLineage_st'
                  }
     if cmd_name not in cmd_abbrv:
@@ -134,6 +136,13 @@ def _get_parser():
     subparser.set_defaults(command=benchmark_primary_key_composite)
 
     subparser = command.add_parser(
+        'foreign_composite',
+        parents=[shared_args],
+        help='Composite Foreign key benchmark.'
+    )
+    subparser.set_defaults(command=benchmark_foreign_key_composite)
+
+    subparser = command.add_parser(
         'foreign',
         parents=[shared_args],
         help='Foreign key benchmark.'
@@ -180,6 +189,7 @@ def main():
                  'foreign': 'ForeignKey_',
                  'primary': 'PrimaryKey_',
                  'primary_composite': 'CompositePrimaryKey_',
+                 'foreign_composite': 'CompositeForeignKey_',
                  'how': 'HowLineage_'
                  }
     cmd_str = {benchmark_column_map: 'ColMap_',
@@ -187,6 +197,7 @@ def main():
                benchmark_primary_key: 'PrimaryKey_',
                benchmark_how_lineage: 'HowLineage_',
                benchmark_primary_key_composite: 'CompositePrimaryKey_',
+               benchmark_foreign_key_composite: 'CompositeForeignKey_',
                aggregate: cmd_abbrv[args.problem] if args.problem in cmd_abbrv else ''
                }
     csv_name = "st_" + args.ds_name + ".csv" if args.ds_name else args.csv
