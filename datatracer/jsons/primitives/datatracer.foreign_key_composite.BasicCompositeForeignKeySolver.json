@@ -2,6 +2,15 @@
     "name": "datatracer.foreign_key_composite.BasicCompositeForeignKeySolver",
     "description": "Detect the foreign keys of a Table.",
     "primitive": "datatracer.foreign_key_composite.BasicCompositeForeignKeySolver",
+    "fit": {
+        "method": "fit",
+        "args": [
+            {
+                "name": "dict_of_databases",
+                "type": "list"
+            }
+        ]
+    },
     "produce": {
         "method": "solve",
         "args": [

@@ -3,6 +3,7 @@ from itertools import permutations
 
 from sklearn.ensemble import RandomForestClassifier
 from tqdm import tqdm
+import numpy as np
 
 from datatracer.foreign_key_composite.base import CompositeForeignKeySolver
 
@@ -27,7 +28,7 @@ class BasicCompositeForeignKeySolver(CompositeForeignKeySolver):
         table = tables[fk[0]]
         ref_table = tables[fk[2]]
         features = [np.array(self._feature_vector_single_col(ref_table[ref_field], table[field])) for field, ref_field in zip(fk[1], fk[3])]
-        return sum(features)/len(features)
+        return list(sum(features)/len(features))
 
     def _feature_vector_single_col(self, parent_col, child_col):
         parent_set, child_set = set(parent_col.unique()), set(child_col.unique())
@@ -140,6 +141,8 @@ class BasicCompositeForeignKeySolver(CompositeForeignKeySolver):
                 for candidate_fk in self.findInd(tables, t1, t2, ref_fields):
                     X.append(self._feature_vector(tables, candidate_fk))
                     y.append(1.0 if candidate_fk in fks else 0.0)
+        X = np.array(X)
+        y = np.array(y)
 
         self.model = RandomForestClassifier(*self._model_args, **self._model_kwargs)
         self.model.fit(X, y)
@@ -193,8 +196,10 @@ class BasicCompositeForeignKeySolver(CompositeForeignKeySolver):
             else:
                 ref_fields = (primary_keys[t2], )
 
+            if len(ref_fields) == 0:
+                continue
+
             for candidate_fk in self.findInd(tables, t1, t2, ref_fields):
-                print(candidate_fk)
                 X.append(self._feature_vector(tables, candidate_fk))
                 foreign_keys.append(candidate_fk)
 
