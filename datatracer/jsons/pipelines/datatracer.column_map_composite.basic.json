@@ -1,0 +1,7 @@
+{
+    "primitives": [
+        "datatracer.primary_key_composite.BasicCompositePrimaryKeySolver",
+        "datatracer.foreign_key_composite.BasicCompositeForeignKeySolver",
+        "datatracer.column_map_composite.BasicCompositeColumnMapSolver"
+    ]
+}
