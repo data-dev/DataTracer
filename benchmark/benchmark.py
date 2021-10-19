@@ -15,6 +15,7 @@ from how_lineage_benchmark import benchmark_how_lineage
 from primary_key_benchmark import benchmark_primary_key
 from primary_key_composite_benchmark import benchmark_primary_key_composite
 from foreign_key_composite_benchmark import benchmark_foreign_key_composite
+from column_map_composite_benchmark import benchmark_composite_column_map
 
 BUCKET_NAME = 'tracer-data'
 DATA_URL = 'http://{}.s3.amazonaws.com/'.format(BUCKET_NAME)
@@ -68,6 +69,7 @@ def aggregate(cmd_name):
                  'primary': 'PrimaryKey_st',
                  'primary_composite': 'CompositePrimaryKey_st',
                  'foreign_composite': 'CompositeForeignKey_st',
+                 'column_composite': 'CompositeColMap_st',
                  'how': 'HowLineage_st'
                  }
     if cmd_name not in cmd_abbrv:
@@ -157,6 +159,13 @@ def _get_parser():
     subparser.set_defaults(command=benchmark_column_map)
 
     subparser = command.add_parser(
+        'column_composite',
+        parents=[shared_args],
+        help='Composite column map benchmark.'
+    )
+    subparser.set_defaults(command=benchmark_composite_column_map)
+
+    subparser = command.add_parser(
         'how',
         parents=[shared_args],
         help='How lineage benchmark.'
@@ -190,6 +199,7 @@ def main():
                  'primary': 'PrimaryKey_',
                  'primary_composite': 'CompositePrimaryKey_',
                  'foreign_composite': 'CompositeForeignKey_',
+                 'column_composite': 'CompositeColMap_',
                  'how': 'HowLineage_'
                  }
     cmd_str = {benchmark_column_map: 'ColMap_',
@@ -198,6 +208,7 @@ def main():
                benchmark_how_lineage: 'HowLineage_',
                benchmark_primary_key_composite: 'CompositePrimaryKey_',
                benchmark_foreign_key_composite: 'CompositeForeignKey_',
+               benchmark_composite_column_map: 'CompositeColMap_',
                aggregate: cmd_abbrv[args.problem] if args.problem in cmd_abbrv else ''
                }
     csv_name = "st_" + args.ds_name + ".csv" if args.ds_name else args.csv
