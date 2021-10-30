@@ -2,6 +2,7 @@ from collections import Counter
 from itertools import permutations
 
 from sklearn.ensemble import RandomForestClassifier
+from scipy.stats import wasserstein_distance
 from tqdm import tqdm
 import numpy as np
 
@@ -30,13 +31,21 @@ class BasicCompositeForeignKeySolver(CompositeForeignKeySolver):
         features = [np.array(self._feature_vector_single_col(ref_table[ref_field], table[field])) for field, ref_field in zip(fk[1], fk[3])]
         return list(sum(features)/len(features))
 
+    def _earth_moving_dist(self, parent_col, child_col):
+        if str(parent_col.dtype) in {'int64', 'float64'} and str(child_col.dtype) in {'int64', 'float64'}:
+            min_parent = np.min(parent_col)
+            max_parent = np.max(parent_col)
+            normalize_parent = (parent_col - min_parent) / (max_parent - min_parent + 1e-5)
+            normalize_child = (child_col - min_parent) / (max_parent - min_parent + 1e-5)
+            return wasserstein_distance(normalize_parent, normalize_child)
+        return 0
+
+
     def _feature_vector_single_col(self, parent_col, child_col):
         parent_set, child_set = set(parent_col.unique()), set(child_col.unique())
         len_intersect = len(parent_set.intersection(child_set))
         return [
-            len_intersect / (len(child_set) + 1e-5),
-            len_intersect / (len(parent_set) + 1e-5),
-            len_intersect / (max(len(child_set), len(parent_set)) + 1e-5),
+            len(child_set) / (len(parent_set) + 1e-5),
             1.0 if parent_col.name == child_col.name else 0.0,
             self._diff(parent_col.name, child_col.name),
             1.0 if child_set.issubset(parent_set) else 0.0,
@@ -55,6 +64,8 @@ class BasicCompositeForeignKeySolver(CompositeForeignKeySolver):
             1.0 if "_id" in child_col.name else 0.0,
             1.0 if child_col.dtype == "int64" else 0.0,
             1.0 if child_col.dtype == "object" else 0.0,
+            1.0 if str(parent_col.dtype) in {'int64', 'float64'} and str(child_col.dtype) in {'int64', 'float64'} else 0.0,
+            self._earth_moving_dist(parent_col, child_col)
         ]
 
     def findInd(self, dataset, table, ref_table, ref_keys):
