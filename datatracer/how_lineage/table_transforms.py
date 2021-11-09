@@ -4,11 +4,11 @@ def transform(tables, fk, col_name, op):
     child_table["_dummy_"] = 0.0
     if len(child_table.columns) <= 1:
         raise ValueError("Invalid lineage table/transformation combo!")
-    result_col = op(child_table.groupby(fk["field"]))[col_name]
+    result_col = op(child_table.groupby(fk["field"]))[col_name].rename('_target_')
     parent_table = parent_table.set_index(fk["ref_field"])
     parent_table = parent_table.join(result_col).reset_index()
 
-    return parent_table[col_name].fillna(0.0).values
+    return parent_table['_target_'].fillna(0.0).values
 
 
 def entries_count(tables, fk, col_name):
