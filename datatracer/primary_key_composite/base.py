@@ -1,7 +1,7 @@
-"""Foreign Key Solving base class."""
+"""Primary Key Solving base class."""
 
 
-class ForeignKeySolver():
+class CompositePrimaryKeySolver():
 
     def fit(self, dict_of_databases):
         """Fit this solver.
@@ -13,22 +13,19 @@ class ForeignKeySolver():
                 as input and ``pandas.DataFrames`` as values.
         """
 
-    def solve(self, tables, primary_keys=None):
-        """Solve the foreign key detection problem.
+    def solve(self, tables):
+        """Solve the primary key detection problem.
 
-        The output is a list of foreign key specifications, in order from the most likely
-        to the least likely.
+        The output is a dictionary contiaining table names as keys, and the
+        name of the field that is most likely to be the primary key as values.
 
         Args:
             tables (dict):
                 Dict containing table names as input and ``pandas.DataFrames``
                 as values.
-            primary_keys (dict):
-                (Optional). Dictionary of table primary keys, as returned by the Primary
-                Key Solvers. This parameter is optional and not all the subclasses need it.
 
         Returns:
             dict:
-                List of foreign key specifications, sorted by likelyhood.
+                Dict containing table names as keys and list of field names as values.
         """
         raise NotImplementedError()

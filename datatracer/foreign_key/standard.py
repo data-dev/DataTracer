@@ -9,7 +9,7 @@ from datatracer.foreign_key.base import ForeignKeySolver
 
 class StandardForeignKeySolver(ForeignKeySolver):
 
-    def __init__(self, threshold=0.9, add_details=False, *args, **kwargs):
+    def __init__(self, threshold=[i / 20 for i in range(20)], add_details=False, *args, **kwargs):
         self._threshold = threshold
         self._add_details = add_details
         self._model_args = args
@@ -50,24 +50,41 @@ class StandardForeignKeySolver(ForeignKeySolver):
             1.0 if child_col.dtype == "object" else 0.0,
         ]
 
-    def fit(self, list_of_databases):
+    def fit(self, dict_of_databases):
         """Fit this solver.
 
         Args:
-            list_of_databases (list):
-                List of tuples containing ``MetaData`` instnces and table dictinaries,
-                which contain table names as input and ``pandas.DataFrames`` as values.
+            dict_of_databases (dict):
+                Map from database names to tuples containing ``MetaData``
+                instances and table dictionaries, which contain table names
+                as input and ``pandas.DataFrames`` as values.
         """
         X, y = [], []
-        for metadata, tables in tqdm(list_of_databases, "extracting features"):
-            fks = set()
-            for fk in metadata.get_foreign_keys():
-                if isinstance(fk["field"], str):
-                    fks.add((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
+        iterator = tqdm(dict_of_databases.items())
+        for database_name, (metadata, tables) in iterator:
+            iterator.set_description("Extracting features from %s" % database_name)
+            fks = metadata.get_foreign_keys()
+            tables_info = {table_info['name']: table_info for table_info in metadata.get_tables()}
+            fks_new = []
+            for fk in fks:
+                if isinstance(fk["field"], list):
+                    for field, ref_field in zip(fk["field"], fk["ref_field"]):
+                        fks_new.append((fk["table"], field, fk["ref_table"], ref_field))
+                else:
+                    fks_new.append((fk["table"], fk["field"], fk["ref_table"], fk["ref_field"]))
+            fks = set(fks_new)
 
             for t1, t2 in permutations(tables.keys(), r=2):
-                for c1 in tables[t1].columns:
-                    for c2 in tables[t2].columns:
+                table = tables_info[t2]
+                if "primary_key" not in table:
+                    t2_columns = tables[t2].columns
+                elif not isinstance(table["primary_key"], str):
+                    t2_columns = table["primary_key"]
+                else:
+                    t2_columns = [table["primary_key"]]
+
+                for c2 in t2_columns:
+                    for c1 in tables[t1].columns:
                         if tables[t1][c1].dtype.kind != tables[t2][c2].dtype.kind:
                             continue
 
@@ -80,6 +97,26 @@ class StandardForeignKeySolver(ForeignKeySolver):
 
         self.model = RandomForestClassifier(*self._model_args, **self._model_kwargs)
         self.model.fit(X, y)
+
+        if isinstance(self._threshold, list):
+            best_f1 = -float('inf')
+            best_threshold = None
+            pred_y = self.model.predict(X)
+            len_true = sum(y)
+            for threshold in self._threshold:
+                filtered_y = (pred_y >= threshold).astype(float)
+                intersect = sum(filtered_y * y)
+                len_pred = sum(filtered_y)
+                if intersect * len_true * len_pred == 0:
+                    f1 = 0
+                else:
+                    precision = intersect / len_pred
+                    recall = intersect / len_true
+                    f1 = 2.0 * precision * recall / (precision + recall)
+                if f1 > best_f1:
+                    best_f1 = f1
+                    best_threshold = threshold
+            self._threshold = best_threshold
 
     def solve(self, tables, primary_keys=None):
         """Solve the foreign key detection problem.
@@ -101,7 +138,13 @@ class StandardForeignKeySolver(ForeignKeySolver):
         X, foreign_keys = [], []
         for t1, t2 in permutations(tables.keys(), r=2):
             for c1 in tables[t1].columns:
-                for c2 in tables[t2].columns:
+                if (primary_keys is None) or (t2 not in primary_keys):
+                    t2_columns = tables[t2].columns
+                elif not isinstance(primary_keys[t2], str):
+                    t2_columns = primary_keys[t2]
+                else:
+                    t2_columns = [primary_keys[t2]]
+                for c2 in t2_columns:
                     if tables[t1][c1].dtype.kind != tables[t2][c2].dtype.kind:
                         continue
 

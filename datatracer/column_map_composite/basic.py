@@ -5,8 +5,8 @@ from itertools import combinations
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
-from datatracer.column_map.base import ColumnMapSolver
-from datatracer.column_map.transformer import Transformer
+from datatracer.column_map_composite.base import CompositeColumnMapSolver
+from datatracer.column_map_composite.transformer import Transformer
 
 LOGGER = logging.getLogger(__name__)
 
@@ -93,7 +93,7 @@ def detect_restricted_reg(X, y, add_margin=1e-4, mult_margin=1e-4, max_feature=5
     return "None", None
 
 
-class BasicColumnMapSolver(ColumnMapSolver):
+class BasicCompositeColumnMapSolver(CompositeColumnMapSolver):
     """Basic Solver for the data lineage problem of column dependency."""
 
     def __init__(self, threshold=0.1, *args, **kwargs):

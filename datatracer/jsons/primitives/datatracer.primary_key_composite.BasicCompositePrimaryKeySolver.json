@@ -1,7 +1,7 @@
 {
-    "name": "datatracer.foreign_key.StandardForeignKeySolver",
-    "description": "Detect the foreign keys of a Table.",
-    "primitive": "datatracer.foreign_key.StandardForeignKeySolver",
+    "name": "datatracer.primary_key_composite.BasicCompositePrimaryKeySolver",
+    "description": "Detect the primary key of a Table.",
+    "primitive": "datatracer.primary_key_composite.BasicCompositePrimaryKeySolver",
     "fit": {
         "method": "fit",
         "args": [
@@ -17,17 +17,12 @@
             {
                 "name": "tables",
                 "type": "dict"
-            },
-            {
-                "name": "primary_keys",
-                "default": null,
-                "type": "dict"
             }
         ],
         "output": [
             {
-                "name": "foreign_keys",
-                "type": "list"
+                "name": "primary_keys",
+                "type": "dict"
             }
         ]
     },
@@ -48,11 +43,6 @@
             "class_weight": {
                 "type": "iterable",
                 "default": null
-            },
-            "add_details": {
-                "type": "bool",
-                "description": "whether to add the foreign details such as the score obtained",
-                "default": false
             }
         },
         "tunable": {

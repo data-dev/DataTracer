@@ -1,7 +1,7 @@
-"""Column Mapping base class."""
+"""Composite Column Mapping base class."""
 
 
-class ColumnMapSolver:
+class CompositeColumnMapSolver:
     """Base Solver for the data lineage problem of column dependency."""
 
     def fit(self, dict_of_databases):

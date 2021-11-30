@@ -31,7 +31,10 @@ class Transformer:
         df = df.select_dtypes("number")
         df = df.fillna(0.0)
         X, y = df.drop([field], axis=1), df[field]
-        self.columns = [(table, col_name) for col_name in X.columns]
+        self.columns = [{"source_col": {"table_name": table, "col_name": col_name},
+                         "row_map": {},
+                         "aggregation": ""
+                         } for col_name in X.columns]
         X, y = X.values, y.values
 
         X_new, columns_new = self._get_counts(table)
@@ -67,7 +70,10 @@ class Transformer:
             parent_table = parent_table.join(child_counts).reset_index()
 
             X.append(parent_table["_tmp_"].fillna(0.0).values)
-            columns.append((fk["table"], fk["field"]))
+            columns.append({"source_col": {"table_name": fk['table'], "col_name": fk['field']},
+                            "row_map": fk,
+                            "aggregation": "datatracer.how_lineage.entries_count"
+                            })
 
         return np.array(X).transpose(), columns
 
@@ -80,11 +86,11 @@ class Transformer:
             if fk["ref_table"] != table:
                 continue
 
-            for op, op_name in [
-                (lambda x: x.sum(), "SUM"),
-                (lambda x: x.max(), "MAX"),
-                (lambda x: x.min(), "MIN"),
-                (lambda x: x.std(), "STD"),
+            for op, op_name, op_str in [
+                (lambda x: x.sum(), "SUM", "datatracer.how_lineage.entries_sum"),
+                (lambda x: x.max(), "MAX", "datatracer.how_lineage.entries_max"),
+                (lambda x: x.min(), "MIN", "datatracer.how_lineage.entries_min"),
+                (lambda x: x.std(), "STD", "datatracer.how_lineage.entries_std"),
             ]:
                 # Count the number of rows for each key.
                 child_table = self.tables[fk["table"]].copy()
@@ -104,7 +110,11 @@ class Transformer:
                 for old_name, col_name in zip(old_column_names, child_counts.columns):
                     if parent_table[col_name].dtype.kind == "f":
                         X.append(parent_table[col_name].fillna(0.0).values)
-                        columns.append((fk["table"], old_name))
+                        columns.append({"source_col": {"table_name": fk['table'],
+                                                       "col_name": old_name},
+                                        "row_map": fk,
+                                        "aggregation": op_str
+                                        })
 
         return np.array(X).transpose(), columns
 
@@ -114,11 +124,5 @@ class Transformer:
         to the `X` matrix produced by the last call to `forward`. It returns a
         mapping from fields to importance scores.
         """
-        obj = {}
-        for column, importance in zip(self.columns, feature_importances):
-            if column in obj:
-                obj[column] += importance
-            else:
-                obj[column] = importance
-
-        return obj
+        return [(column, importance)
+                for column, importance in zip(self.columns, feature_importances)]

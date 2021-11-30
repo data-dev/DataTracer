@@ -1,8 +1,8 @@
 """Column Mapping base class."""
 
 
-class ColumnMapSolver:
-    """Base Solver for the data lineage problem of column dependency."""
+class HowLineageSolver:
+    """Base Solver for the data lineage problem of how lineage."""
 
     def fit(self, dict_of_databases):
         """Fit this solver.

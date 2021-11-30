@@ -1,7 +1,7 @@
-"""Foreign Key Solving base class."""
+"""Composite Foreign Key Solving base class."""
 
 
-class ForeignKeySolver():
+class CompositeForeignKeySolver():
 
     def fit(self, dict_of_databases):
         """Fit this solver.

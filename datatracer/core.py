@@ -12,6 +12,8 @@ import pickle
 from mlblocks import MLPipeline
 
 PRETRAINED_DIR = os.path.join(os.path.dirname(__file__), 'pretrained')
+PIPELINE_DIR = os.path.join(os.path.dirname(__file__), 'jsons/pipelines')
+PRIMITIVE_DIR = os.path.join(os.path.dirname(__file__), 'jsons/primitives')
 
 
 class DataTracer:
@@ -33,9 +35,27 @@ class DataTracer:
 
     def _get_mlpipeline(self):
         pipeline = self._pipeline
-        if isinstance(pipeline, str) and os.path.isfile(pipeline):
-            with open(pipeline) as json_file:
-                pipeline = json.load(json_file)
+        if isinstance(pipeline, str):
+            if os.path.isfile(pipeline):
+                with open(pipeline) as json_file:
+                    pipeline = json.load(json_file)
+            elif os.path.isfile(os.path.join(PIPELINE_DIR, pipeline + '.json')):
+                with open(os.path.join(PIPELINE_DIR, pipeline + '.json')) as json_file:
+                    pipeline = json.load(json_file)
+
+        if isinstance(pipeline, dict):
+            if 'primitives' in pipeline:
+                for idx in range(len(pipeline['primitives'])):
+                    primitive = pipeline['primitives'][idx]
+                    if isinstance(primitive, str):
+                        if os.path.isfile(primitive):
+                            with open(primitive) as json_file:
+                                primitive = json.load(json_file)
+                        elif os.path.isfile(os.path.join(PRIMITIVE_DIR, primitive + '.json')):
+                            with open(os.path.join(PRIMITIVE_DIR, primitive + '.json'))\
+                                    as json_file:
+                                primitive = json.load(json_file)
+                    pipeline['primitives'][idx] = primitive
 
         mlpipeline = MLPipeline(pipeline)
         if self._hyperparameters:
@@ -52,15 +72,13 @@ class DataTracer:
         """Fit the pipeline to the given data.
 
         Args:
-            datasets (list or dict):
-                List or dict of tuples containing a MetaData instance and a dict
-                with the tables of the dataset loaded as DataFrames.
+            datasets (dict):
+                Dict mapping dataset names to tuples containing a MetaData
+                instance and a dict with the tables of the dataset loaded
+                as DataFrames.
         """
-        if isinstance(datasets, dict):
-            datasets = list(datasets.values())
-
         self._mlpipeline = self._get_mlpipeline()
-        self._mlpipeline.fit(list_of_databases=datasets, tables={})
+        self._mlpipeline.fit(dict_of_databases=datasets, tables={})
 
     def solve(self, tables=None, **kwargs):
         """Solve the data lineage problem.

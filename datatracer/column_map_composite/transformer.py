@@ -51,19 +51,21 @@ class Transformer:
         Get the foreign keys where the given table is the parent.
         """
         X, columns = [], []
+        parent_table = self.tables[table].copy()
         for fk in self.foreign_keys:
             if fk["ref_table"] != table:
                 continue
 
             # Count the number of rows for each key.
             child_table = self.tables[fk["table"]].copy()
+            child_table['_key_'] = child_table[fk["field"]].astype(str).agg("-".join, axis = 1)
             child_table["_dummy_"] = 0.0
-            child_counts = child_table.groupby(fk["field"]).count().iloc[:, 0:1]
+            child_counts = child_table.groupby('_key_').count().iloc[:, 0:1]
             child_counts.columns = ["_tmp_"]
 
             # Merge the counts into the parent table
-            parent_table = self.tables[table]
-            parent_table = parent_table.set_index(fk["ref_field"])
+            parent_table['_primary_key_'] = parent_table[fk["ref_field"]].astype(str).agg("-".join, axis = 1)
+            parent_table = parent_table.set_index('_primary_key_')
             parent_table = parent_table.join(child_counts).reset_index()
 
             X.append(parent_table["_tmp_"].fillna(0.0).values)
@@ -80,6 +82,14 @@ class Transformer:
             if fk["ref_table"] != table:
                 continue
 
+            child_table = self.tables[fk["table"]].copy()
+            if len(child_table.columns) <= 1:
+                continue
+            child_table['_key_'] = child_table[fk["field"]].astype(str).agg("-".join, axis = 1)
+
+            parent_table = self.tables[table].copy()
+            parent_table['_primary_key_'] = parent_table[fk["ref_field"]].astype(str).agg("-".join, axis = 1)
+
             for op, op_name in [
                 (lambda x: x.sum(), "SUM"),
                 (lambda x: x.max(), "MAX"),
@@ -87,18 +97,14 @@ class Transformer:
                 (lambda x: x.std(), "STD"),
             ]:
                 # Count the number of rows for each key.
-                child_table = self.tables[fk["table"]].copy()
-                if len(child_table.columns) <= 1:
-                    continue
 
-                child_counts = op(child_table.groupby(fk["field"]))
+                child_counts = op(child_table.groupby('_key_'))
                 old_column_names = list(child_counts.columns)
                 child_counts.columns = ["%s(%s)" % (op_name, col_name)
                                         for col_name in old_column_names]
 
                 # Merge the counts into the parent table
-                parent_table = self.tables[table]
-                parent_table = parent_table.set_index(fk["ref_field"])
+                parent_table = parent_table.set_index("_primary_key_")
                 parent_table = parent_table.join(child_counts).reset_index()
 
                 for old_name, col_name in zip(old_column_names, child_counts.columns):
@@ -116,9 +122,16 @@ class Transformer:
         """
         obj = {}
         for column, importance in zip(self.columns, feature_importances):
-            if column in obj:
-                obj[column] += importance
+            if isinstance(column, list):
+                for col in column:
+                    if col in obj:
+                        obj[col] += importance/len(column)
+                    else:
+                        obj[col] = importance/len(column)
             else:
-                obj[column] = importance
+                if column in obj:
+                    obj[column] += importance
+                else:
+                    obj[column] = importance
 
         return obj
